@@ -4,6 +4,11 @@ using UnityEngine.UI;
 public class ButtonListener : MonoBehaviour
 {
     public Image targetImage;
+
+    void Awake()
+    {
+        this.targetImage = GetComponent<Image>();
+    }
     public void OnButtonClick()
     {
         if (targetImage != null)

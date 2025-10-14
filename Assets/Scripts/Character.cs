@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Character : MonoBehaviour, IDamageable
+public class Character : MonoBehaviour, IBattleable
 {
     struct StatusEffect
     {
@@ -21,11 +21,20 @@ public class Character : MonoBehaviour, IDamageable
 
     public Slider HealthSlider;
 
-    public virtual void OnDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         CurrHp -= amount;
         HealthSlider.value = CurrHp;
         print($"{name} 데미지 받음");
+
+        if(CurrHp <= 0)
+        {
+            Die();
+        }
+    }
+    public virtual void Die()
+    {
+
     }
     public void Awake()
     {
@@ -41,5 +50,6 @@ public class Character : MonoBehaviour, IDamageable
 
     public void Update()
     {
+        
     }
 }
