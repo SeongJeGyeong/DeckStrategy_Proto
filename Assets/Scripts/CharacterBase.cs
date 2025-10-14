@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character Base", menuName = "Character Status Base", order = int.MaxValue)]
+[CreateAssetMenu(fileName = "Character Base", menuName = "Scriptable/Character Status Base", order = int.MaxValue)]
 public class CharacterBase : ScriptableObject
 {
     public float MaxHp;
@@ -11,4 +11,5 @@ public class CharacterBase : ScriptableObject
     public float Atk;
     public float Def;
     public float Spd;
+    public Material Color;
 }
