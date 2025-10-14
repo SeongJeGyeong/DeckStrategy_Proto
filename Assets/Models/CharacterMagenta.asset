@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6404ddc976388ec49ac2ef132ce4236a, type: 3}
-  m_Name: character4
+  m_Script: {fileID: 11500000, guid: b5c6b97e404b0e244812819b9e1f2c3b, type: 3}
+  m_Name: CharacterMagenta
   m_EditorClassIdentifier: 
-  MaxHp: 300
-  Level: 10
-  Name: Test4
-  type: 2
-  Atk: 50
-  Def: 50
-  Spd: 50
-  Color: {fileID: 2100000, guid: 54430805822075342a438bde39012b4a, type: 2}
+  material: {fileID: 2100000, guid: 54430805822075342a438bde39012b4a, type: 2}

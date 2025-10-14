@@ -19,3 +19,4 @@ MonoBehaviour:
   Atk: 10
   Def: 10
   Spd: 10
+  Color: {fileID: 2100000, guid: e7d707756d841b74ca0ad3eaf9c5b321, type: 2}

@@ -3,21 +3,19 @@ using UnityEngine.UI;
 
 public class SelectedButton : MonoBehaviour
 {
-    [SerializeField]
-    private Button button;
+    public Button button;
     [SerializeField]
     private CanvasGroup canvasGroup;
 
-    private bool isSelected = false;
+    public bool isSelected = false;
     private float targetAlpha;
 
     private void Awake()
     {
         canvasGroup.alpha = 0f;
-        button.onClick.AddListener(OnButtonClicked);
     }
 
-    private void OnButtonClicked()
+    public void ButtonClicked()
     {
         Debug.Log("clicked");
         isSelected = !isSelected;
