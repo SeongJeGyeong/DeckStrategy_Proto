@@ -1,31 +1,32 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Character : MonoBehaviour, IBattleable
 {
-    struct StatusEffect
+    public struct StatusEffect
     {
         string Name;
         int Stack;
         int RemainsTurn;
     }
 
-    [SerializeField]
-    CharacterBase characterBase;
-
+    public CharacterBase characterBase;
     private float CurrHp;
     private float SkillGauge;
     private int SequenceNumber;
 
-    public Slider HealthSlider;
+    public List<StatusEffect> ActiveStatusEffects;
+    StatusEffect testeffect;
+    public event Action<float> OnDamaged;
 
     public virtual void TakeDamage(float amount)
     {
         CurrHp -= amount;
-        HealthSlider.value = CurrHp;
         print($"{name} 데미지 받음");
+        OnDamaged?.Invoke(CurrHp);
 
         if(CurrHp <= 0)
         {
@@ -39,17 +40,11 @@ public class Character : MonoBehaviour, IBattleable
     public void Awake()
     {
         CurrHp = characterBase.MaxHp;
-    }
-
-    private void OnEnable()
-    {
-        HealthSlider.gameObject.SetActive(true);
-        HealthSlider.maxValue = characterBase.MaxHp;
-        HealthSlider.value = CurrHp;
+        testeffect = new StatusEffect();
     }
 
     public void Update()
     {
-        
+
     }
 }

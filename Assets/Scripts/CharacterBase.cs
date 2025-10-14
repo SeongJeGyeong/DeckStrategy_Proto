@@ -11,6 +11,4 @@ public class CharacterBase : ScriptableObject
     public float Atk;
     public float Def;
     public float Spd;
-
-
 }
