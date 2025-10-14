@@ -1,14 +1,24 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Character : MonoBehaviour, IDamageable
 {
-    private float MaxHp;
+    struct StatusEffect
+    {
+        string Name;
+        int Stack;
+        int RemainsTurn;
+    }
+
+    [SerializeField]
+    CharacterBase characterBase;
+
     private float CurrHp;
-    private Int32 Level;
-    private string name;
-    private AttributeType type;
+    private float SkillGauge;
+    private int SequenceNumber;
+
     public Slider HealthSlider;
 
     public virtual void OnDamage(float amount)
@@ -19,17 +29,13 @@ public class Character : MonoBehaviour, IDamageable
     }
     public void Awake()
     {
-        MaxHp = 100;
-        CurrHp = 100;
-        Level = 100;
-        name = "Mario";
-        type = AttributeType.ROCK;
+        CurrHp = characterBase.MaxHp;
     }
 
     private void OnEnable()
     {
         HealthSlider.gameObject.SetActive(true);
-        HealthSlider.maxValue = MaxHp;
+        HealthSlider.maxValue = characterBase.MaxHp;
         HealthSlider.value = CurrHp;
     }
 
