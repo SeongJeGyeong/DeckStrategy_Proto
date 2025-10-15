@@ -7,15 +7,19 @@ public class LineupSlot : MonoBehaviour
     Transform slotTransform;
     public bool isPlaced = false;
 
+    GameObject model;
+
     void Start()
     {
-        CharacterModelPrefab.SetActive(false);
+        slotTransform = this.transform;
+        model = Instantiate(CharacterModelPrefab, slotTransform);
+        model.SetActive(false);
     }
 
-    public void SetSelectedCharacter(Color color, bool selected)
+    public void SetSelectedCharacter(Material material, bool selected)
     {
         isPlaced = selected;
-        CharacterModelPrefab.GetComponent<MeshRenderer>().material.color = color;
-        CharacterModelPrefab.SetActive(selected);
+        model.GetComponent<MeshRenderer>().material = material;
+        model.SetActive(selected);
     }
 }

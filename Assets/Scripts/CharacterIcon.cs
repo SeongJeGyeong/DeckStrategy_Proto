@@ -37,7 +37,7 @@ public class CharacterIcon : MonoBehaviour
         if(selectedButton.isSelected)
         {
             selectedButton.ButtonClicked();
-            formationSystem.ReleaseCharacter(slotNumber);
+            formationSystem.ReleaseCharacter(portrait.material, slotNumber);
             slotNumber = 0;
             return;
         }

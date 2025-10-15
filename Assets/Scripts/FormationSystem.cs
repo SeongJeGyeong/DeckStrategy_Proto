@@ -27,7 +27,7 @@ public class FormationSystem : MonoBehaviour
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
-                slot.SetSelectedCharacter(material.color, true);
+                slot.SetSelectedCharacter(material, true);
                 return i+1;
             }
         }
@@ -35,9 +35,9 @@ public class FormationSystem : MonoBehaviour
         return 0;
     }
 
-    public void ReleaseCharacter(int slotNumber)
+    public void ReleaseCharacter(Material material, int slotNumber)
     {
         LineupSlot slot = slots[slotNumber-1].GetComponent<LineupSlot>();
-        slot.SetSelectedCharacter(Color.white, false);
+        slot.SetSelectedCharacter(material, false);
     }
 }
