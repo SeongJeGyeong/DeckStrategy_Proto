@@ -29,7 +29,7 @@ public class CharacterIcon : MonoBehaviour
     public void SetData(CharacterBase characterBase)
     {
         level.text = "Lv." + characterBase.Level.ToString();
-        portrait.material = characterBase.characterModelData.material;
+        //portrait.material = characterBase.characterModelData.material;
     }
 
     private void OnButtonClicked()
