@@ -12,8 +12,8 @@ public class CharacterUI : MonoBehaviour
     private void Start()
     {
         Character = GetComponent<Character>();
-        HealthSlider.maxValue = Character.characterBase.MaxHp;
-        HealthSlider.value = Character.characterBase.MaxHp;
+        HealthSlider.maxValue = Character.characterBase.characterData.maxHp;
+        HealthSlider.value = Character.characterBase.characterData.maxHp;
 
         //GaugeSlider.maxValue;
         //GaugeSlider.value;

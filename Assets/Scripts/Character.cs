@@ -39,7 +39,7 @@ public class Character : MonoBehaviour, IBattleable
     }
     public void Awake()
     {
-        CurrHp = characterBase.MaxHp;
+        CurrHp = characterBase.characterData.maxHp;
         testeffect = new StatusEffect();
     }
 

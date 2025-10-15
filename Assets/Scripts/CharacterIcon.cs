@@ -26,10 +26,10 @@ public class CharacterIcon : MonoBehaviour
         selectedButton.button.onClick.AddListener(OnButtonClicked);
     }
 
-    public void SetData(CharacterBase characterData)
+    public void SetData(CharacterBase characterBase)
     {
-        level.text = "Lv." + characterData.Level.ToString();
-        portrait.material = characterData.Color;
+        level.text = "Lv." + characterBase.Level.ToString();
+        portrait.material = characterBase.characterModelData.material;
     }
 
     private void OnButtonClicked()

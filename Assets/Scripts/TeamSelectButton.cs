@@ -9,7 +9,7 @@ public class TeamSelectButton : MonoBehaviour
     [SerializeField]
     private UnityEngine.UI.Toggle toggle;
 
-    void Awake()
+    void Start()
     {
         toggle.onValueChanged.AddListener(OnToggleChanged);
     }
