@@ -606,3 +606,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 2304534183836950312}
   canvasGroup: {fileID: 819291905849919248}
+  isSelected: 0

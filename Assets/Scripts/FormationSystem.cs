@@ -4,30 +4,27 @@ using UnityEngine.UIElements;
 
 public class FormationSystem : MonoBehaviour
 {
-    public GameObject[] slots;
+    public GameObject[] slots = new GameObject[5];
+    private Team[] teams = new Team[8];
+
+    private int selectedTeamIndex = 0;
 
     [SerializeField]
-    private ScrollView characterListView;
+    private Transform characterListContent;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public int PlaceCharacter(Material material)
+    public int PlaceCharacter(Color color)
     {
         for(int i = 0; i < slots.Length; ++i)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
-                slot.SetSelectedCharacter(material, true);
+                slot.SetSelectedCharacter(color, true);
                 return i+1;
             }
         }
@@ -35,9 +32,51 @@ public class FormationSystem : MonoBehaviour
         return 0;
     }
 
-    public void ReleaseCharacter(Material material, int slotNumber)
+    public void PlaceTeam(int teamIndex)
+    {
+        selectedTeamIndex = teamIndex;
+        if (teams[teamIndex] == null)
+        {
+            for (int i = 0; i < slots.Length; ++i)
+            {
+                ReleaseCharacter(Color.white, i+1);
+            }
+            ResetCharacterList();
+            return;
+        }
+
+        CharacterBase[] characters = teams[teamIndex].characters;
+        for (int i = 0; i < slots.Length; ++i)
+        {
+            if(characters[i] == null)
+            {
+                ReleaseCharacter(Color.white, i+1);
+            }
+            else
+            {
+                LineupSlot slot = slots[i].GetComponent<LineupSlot>();
+                slot.SetSelectedCharacter(characters[i].characterModelData.material.color, true);
+            }
+        }
+
+        ResetCharacterList();
+    }
+
+    public void ReleaseCharacter(Color color, int slotNumber)
     {
         LineupSlot slot = slots[slotNumber-1].GetComponent<LineupSlot>();
-        slot.SetSelectedCharacter(material, false);
+        slot.SetSelectedCharacter(color, false);
+    }
+
+    private void ResetCharacterList()
+    {
+        CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
+        foreach (var icon in icons)
+        {
+            if (icon.selectedButton.isSelected)
+            {
+                icon.selectedButton.ButtonClicked();
+            }
+        }
     }
 }

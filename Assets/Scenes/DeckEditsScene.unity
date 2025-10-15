@@ -557,9 +557,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Battle
-
-'
+  m_text: Save
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -949,6 +947,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 504369310}
+  formationSystem: {fileID: 0}
+  teamIndex: 1
 --- !u!114 &504369310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2067,7 +2067,7 @@ GameObject:
   - component: {fileID: 998386343}
   - component: {fileID: 998386342}
   m_Layer: 5
-  m_Name: BattleStart
+  m_Name: TeamSave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2228,6 +2228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1018181417}
+  formationSystem: {fileID: 0}
+  teamIndex: 3
 --- !u!114 &1018181417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,6 +2369,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1049738305}
+  formationSystem: {fileID: 0}
+  teamIndex: 7
 --- !u!114 &1049738305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3039,6 +3043,7 @@ MonoBehaviour:
   - {fileID: 40700518}
   - {fileID: 1462758778}
   - {fileID: 895510914}
+  characterListContent: {fileID: 1197695711}
 --- !u!1 &1366979377
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,6 +3170,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 422655e76d58f0a4594d66a0ba57a752, type: 2}
   - {fileID: 11400000, guid: 1c4bb0b329b2ad946a703e0af15c2b80, type: 2}
   - {fileID: 11400000, guid: f276ebce0acc6e849993bccb5d6e34be, type: 2}
+  - {fileID: 11400000, guid: 039a1cfd1ecea7d4599ab28c959a1e57, type: 2}
+  - {fileID: 11400000, guid: 98fe68fc62414b542bcce11f06166f67, type: 2}
   iconPrefab: {fileID: 3685334297540631434, guid: 884a7daff396ea24e8fd66da1a0bb15f, type: 3}
   contentParent: {fileID: 1197695711}
 --- !u!1 &1383354219
@@ -3306,6 +3313,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1383354224}
+  formationSystem: {fileID: 0}
+  teamIndex: 0
 --- !u!1 &1462758778
 GameObject:
   m_ObjectHideFlags: 0
@@ -3666,6 +3675,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1620561177}
+  formationSystem: {fileID: 0}
+  teamIndex: 2
 --- !u!114 &1620561177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3941,6 +3952,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1663620705}
+  formationSystem: {fileID: 0}
+  teamIndex: 4
 --- !u!114 &1663620705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4319,6 +4332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1855830694}
+  formationSystem: {fileID: 0}
+  teamIndex: 6
 --- !u!114 &1855830694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4458,6 +4473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 1879723639}
+  formationSystem: {fileID: 0}
+  teamIndex: 5
 --- !u!114 &1879723639
 MonoBehaviour:
   m_ObjectHideFlags: 0

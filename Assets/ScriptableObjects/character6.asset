@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6404ddc976388ec49ac2ef132ce4236a, type: 3}
-  m_Name: character1
+  m_Name: character6
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 7c660992d2675e641bd520034a1338ee, type: 2}
-  Level: 1
-  characterModelData: {fileID: 11400000, guid: a42dd7c8cf616744ea9a2a34d91ca136, type: 2}
+  characterData: {fileID: 11400000, guid: 070e5507e37da8d4e8e40c729c3a7b52, type: 2}
+  Level: 7
+  characterModelData: {fileID: 11400000, guid: 7d791a58f0093c5449694bba601762d2, type: 2}

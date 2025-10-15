@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class Team : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public CharacterBase[] characters = new CharacterBase[5];
+    public int teamIndex;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

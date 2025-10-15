@@ -12,11 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6404ddc976388ec49ac2ef132ce4236a, type: 3}
   m_Name: character2
   m_EditorClassIdentifier: 
-  MaxHp: 200
+  characterData: {fileID: 11400000, guid: 9ef03e3e9e0fc424eb655ff555daa130, type: 2}
   Level: 2
-  Name: Test2
-  type: 0
-  Atk: 30
-  Def: 20
-  Spd: 10
-  Color: {fileID: 2100000, guid: a0095c08923cd6f4b8799092ae5dd2e7, type: 2}
+  characterModelData: {fileID: 11400000, guid: 7d791a58f0093c5449694bba601762d2, type: 2}
