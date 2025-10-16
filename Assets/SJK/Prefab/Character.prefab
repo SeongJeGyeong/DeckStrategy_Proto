@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8360712176441705612}
   - component: {fileID: 8012126299649209398}
   - component: {fileID: 3410943731210983682}
+  - component: {fileID: 3463669732968689085}
+  - component: {fileID: 1554742973101158675}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -29,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 424380117016867217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.05, y: 2.528, z: 12.45}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -123,8 +125,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73e0bcd169fd3f489290c9d5debd3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthComp: {fileID: 0}
   characterBase: {fileID: 11400000, guid: 869de6a19cd83ec4d86c1c22ad364bca, type: 2}
+  healthComp: {fileID: 3463669732968689085}
+  statusComp: {fileID: 1554742973101158675}
+--- !u!114 &3463669732968689085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424380117016867217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eaed9cbbb5ac544c81e8b660c333020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1554742973101158675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424380117016867217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a301aeba0067141b982b8b9514f7d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1020034592959903672
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5507826051747008282}
-  - component: {fileID: 8265025471104744697}
+  - component: {fileID: 4151299277759665658}
   m_Layer: 0
   m_Name: CharacterUI
   m_TagString: Untagged
@@ -157,7 +184,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2087995541367171994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8265025471104744697
+--- !u!114 &4151299277759665658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,12 +193,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1020034592959903672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a55924bab7d45541ae4ee61989b13ae, type: 3}
+  m_Script: {fileID: 11500000, guid: bfaedd523276a644b81f19b27adfdcdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthSlider: {fileID: 8739258349274492104}
-  GaugeSlider: {fileID: 8894667236415731723}
-  StatusEffectImage: []
+  owner: {fileID: 3410943731210983682}
+  canvas: {fileID: 1334454309745151717}
+  healthSlider: {fileID: 8739258349274492104}
+  gaugeSlider: {fileID: 8894667236415731723}
+  spritePairs:
+  - Name: Burn
+    Sprite: {fileID: 21300000, guid: c7f9169d3f6486d4db06d01c66192d65, type: 3}
 --- !u!1 &1218344192496688670
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,81 +605,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &6424876598776373170
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2546815856965736517}
-  - component: {fileID: 3063284281705846462}
-  - component: {fileID: 7132278188871420243}
-  m_Layer: 5
-  m_Name: Effect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2546815856965736517
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6424876598776373170}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8369581693023467389}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31.7, y: 12.8}
-  m_SizeDelta: {x: 15, y: 15}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3063284281705846462
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6424876598776373170}
-  m_CullTransparentMesh: 1
---- !u!114 &7132278188871420243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6424876598776373170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8199389329305004315
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +636,6 @@ RectTransform:
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2546815856965736517}
   - {fileID: 976992284598616509}
   - {fileID: 74654976275967521}
   m_Father: {fileID: 2087995541367171994}
@@ -688,7 +643,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.14, y: 0.88}
-  m_SizeDelta: {x: 961, y: 507}
+  m_SizeDelta: {x: 150, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1334454309745151717
 Canvas:
