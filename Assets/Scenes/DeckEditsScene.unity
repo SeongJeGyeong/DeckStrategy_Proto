@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 66e5578c6ed038c418229e3bc87ffb26, type: 3}
+  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
   isPlaced: 0
 --- !u!1 &173719823
 GameObject:
@@ -1473,7 +1473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 66e5578c6ed038c418229e3bc87ffb26, type: 3}
+  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
   isPlaced: 0
 --- !u!1 &750121789
 GameObject:
@@ -1916,7 +1916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 66e5578c6ed038c418229e3bc87ffb26, type: 3}
+  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
   isPlaced: 0
 --- !u!1 &980129906
 GameObject:
@@ -2643,7 +2643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 66e5578c6ed038c418229e3bc87ffb26, type: 3}
+  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
   isPlaced: 0
 --- !u!1 &1081687712
 GameObject:
@@ -3192,7 +3192,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f276ebce0acc6e849993bccb5d6e34be, type: 2}
   - {fileID: 11400000, guid: 039a1cfd1ecea7d4599ab28c959a1e57, type: 2}
   - {fileID: 11400000, guid: 98fe68fc62414b542bcce11f06166f67, type: 2}
-  iconPrefab: {fileID: 3685334297540631434, guid: 884a7daff396ea24e8fd66da1a0bb15f, type: 3}
+  iconPrefab: {fileID: 3685334297540631434, guid: 2f1e4281c278cce49b1a38ef305add21, type: 3}
   contentParent: {fileID: 1197695711}
 --- !u!1 &1383354219
 GameObject:
@@ -3501,7 +3501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 66e5578c6ed038c418229e3bc87ffb26, type: 3}
+  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
   isPlaced: 0
 --- !u!1 &1469113309
 GameObject:

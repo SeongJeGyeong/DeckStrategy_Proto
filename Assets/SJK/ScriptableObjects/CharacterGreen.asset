@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5c6b97e404b0e244812819b9e1f2c3b, type: 3}
-  m_Name: CharacterCyan
+  m_Name: CharacterGreen
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: baef9cdc84d3ad04d99f1f48bd46b941, type: 2}
+  ID: 0
+  material: {fileID: 2100000, guid: 18a068735877e354ab8a85675aa700de, type: 2}
