@@ -79,4 +79,12 @@ public class FormationSystem : MonoBehaviour
             }
         }
     }
+
+    public void SaveTeam(int teamIndex)
+    {
+        for (int i = 0; i < slots.Length; ++i)
+        {
+
+        }
+    }
 }

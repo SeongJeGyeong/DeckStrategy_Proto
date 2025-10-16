@@ -2188,6 +2188,7 @@ GameObject:
   - component: {fileID: 1018181418}
   - component: {fileID: 1018181417}
   - component: {fileID: 1018181416}
+  - component: {fileID: 1018181420}
   m_Layer: 5
   m_Name: Team4
   m_TagString: Untagged
@@ -2316,6 +2317,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018181414}
   m_CullTransparentMesh: 1
+--- !u!114 &1018181420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018181414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4176b6ae6c7fdcd4393c6f43312a2d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  teamIndex: 0
 --- !u!1 &1049738302
 GameObject:
   m_ObjectHideFlags: 0
