@@ -5,30 +5,31 @@ using TMPro;
 public class CharacterSlotUI : MonoBehaviour
 {
     [Header("UI Components")]
-    [SerializeField] private Image icon;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private Slider contributionBar;
+    [SerializeField] private Image image;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text contributionText;
 
-    [Header("Settings")]
-    [SerializeField] private int maxContribution;
-
-    [Header("Data")]
-    [SerializeField] private CombatData combatData;
-
-    private void Start()
+    public void SetData(CharacterBase characterBase)
     {
-        if (combatData != null)
+        if (characterBase == null)
         {
-            SetData(combatData.Icon, combatData.name, combatData.Contribution);
+            Debug.LogWarning($"{gameObject.name}: CharacterBase가 비어있습니다!");
+            return;
         }
+
+        var data = characterBase.characterData;
+        var model = characterBase.characterModelData;
+
+        // 이미지 적용
+        if (image != null && model != null)
+            image.material = model.material;
+
+        // 이름 적용
+        if (nameText != null && data != null)
+            nameText.text = data.characterName;
+
+        // 공격력(기여도) 적용
+        if (contributionText != null && data != null)
+            contributionText.text = $"공격력: {data.attack}";
     }
-
-    public void SetData(Sprite img, string charName, float contributionPercent)
-    {
-        if (icon) icon.sprite = img;
-        if (nameText) nameText.text = charName;
-        if (contributionBar) contributionBar.value = contributionPercent;
-    }
-
-
 }
