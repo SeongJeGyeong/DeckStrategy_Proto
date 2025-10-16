@@ -28,14 +28,6 @@ public class Result_CharacterDisplay : MonoBehaviour
             GameObject cap = Instantiate(capsulePrefab, characterParent);
             cap.name = characters[i].name;
             cap.transform.localPosition = new Vector3(i * spacing, 0, 0);
-
-            // Capsule 위에 기여도 텍스트 표시
-            TextMesh tm = cap.AddComponent<TextMesh>();
-            tm.text = $"기여도: {characters[i].contribution}";
-            tm.characterSize = 0.2f;
-            tm.anchor = TextAnchor.UpperCenter;
-            tm.alignment = TextAlignment.Center;
-            tm.transform.localPosition += new Vector3(0, 1.5f, 0); // Capsule 위
         }
     }
 }
