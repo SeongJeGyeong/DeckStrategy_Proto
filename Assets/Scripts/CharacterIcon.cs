@@ -46,6 +46,7 @@ public class CharacterIcon : MonoBehaviour
         }
 
         characterId = characterBase.characterData.ID;
+        //portrait.material = characterBase.characterModelData.material;
     }
 
     private void OnButtonClicked()
