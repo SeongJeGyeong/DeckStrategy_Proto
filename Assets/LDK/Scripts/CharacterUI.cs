@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 using static Character;
 
@@ -16,22 +15,24 @@ public struct StatusSpritePair
 
 public class CharacterUI : MonoBehaviour
 {
-
     [SerializeField] private Character owner;
     [SerializeField] private Canvas canvas;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
+    [SerializeField] private Button damageButton;
+    [SerializeField] private Button effectButton;
+
     [SerializeField] private List<StatusSpritePair> spritePairs;
-    //[SerializeField] private ObjectPool<Image> iconPool;
 
     private Dictionary<string, Sprite> statusSprites;
     private Dictionary<string, Image> activeIcons;
 
+    [SerializeField] private RectTransform iconRoot;
+
     private void Awake()
     {
         statusSprites = new Dictionary<string, Sprite>();
-
         foreach (var pair in spritePairs)
         {
             if (!statusSprites.ContainsKey(pair.Name))
@@ -43,17 +44,54 @@ public class CharacterUI : MonoBehaviour
         healthSlider.maxValue = owner.characterBase.characterData.maxHp;
         healthSlider.value = owner.characterBase.characterData.maxHp;
 
-        gaugeSlider.maxValue = owner.MaxSkillGauge;
-        gaugeSlider.value = owner.MaxSkillGauge;
+        gaugeSlider.maxValue = owner.maxSkillGauge;
+        gaugeSlider.value = owner.maxSkillGauge;
 
         owner.HealthComp.OnDamaged += HealthUpdate;
 
         owner.StatusComp.OnEffectAdded += OnEffectAdded;
         owner.StatusComp.OnEffectRemoved += OnEffectRemoved;
+
+        if(!iconRoot)
+        {
+            var go = new GameObject("IconRoot", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(ContentSizeFitter));
+            iconRoot = go.GetComponent<RectTransform>();
+            iconRoot.SetParent(canvas.transform, false);
+            iconRoot.anchorMin = new Vector2(0, 1);
+            iconRoot.anchorMax = new Vector2(0, 1);
+            iconRoot.pivot = new Vector2(0, 1);
+            iconRoot.anchoredPosition = new Vector2(-40f, 8f); // 머리 위 기준 좌표(원래 쓰던 값)
+
+            var h = go.GetComponent<HorizontalLayoutGroup>();
+            h.spacing = 2f;                    // 아이콘 간 간격
+            h.childAlignment = TextAnchor.UpperLeft;
+            h.childForceExpandWidth = false;
+            h.childForceExpandHeight = false;
+
+            var fitter = go.GetComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
     }
     private void Start()
     {
+        if (!damageButton)
+            damageButton = GetComponentInChildren<Button>(true); // 자식에서 버튼 찾기
 
+        if (damageButton)
+        {
+            damageButton.onClick.RemoveAllListeners();
+            damageButton.onClick.AddListener(OnClick_Damage);
+        }
+
+        if (!effectButton)
+            effectButton = GetComponentInChildren<Button>(true);
+
+        if (effectButton)
+        {
+            effectButton.onClick.RemoveAllListeners();
+            effectButton.onClick.AddListener(OnClick_Effect);
+        }
     }
 
     private void HealthUpdate(float CurrHp)
@@ -66,38 +104,49 @@ public class CharacterUI : MonoBehaviour
     }
     private void OnEffectAdded(StatusEffect effect)
     {
-        if (activeIcons.ContainsKey(effect.Name))
-            return;
+        //if (activeIcons.ContainsKey(effect.Name))
+        //    return;
 
-        GameObject go = new GameObject("StatusIcon", typeof(Image));
+        GameObject go = new GameObject($"StatusIcon_{effect.Name}", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        RectTransform rt = go.GetComponent<RectTransform>();
+        rt.SetParent(iconRoot, false);
+        rt.sizeDelta = new Vector2(10, 5);
+
         Image icon = go.GetComponent<Image>();
-
-        icon.gameObject.SetActive(true);
-        icon.transform.SetParent(canvas.transform, false);
-        icon.rectTransform.transform.localScale = new Vector3(0.17f,0.17f,0.17f);
-        icon.rectTransform.localPosition = new Vector3(-40.0f, 8.0f, 0);
+        icon.preserveAspect = true;
         icon.color = Color.white;
+        icon.rectTransform.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
         {
             icon.sprite = sprite;
         }
-        else { icon.sprite = null; }
 
-        icon.enabled = true;
         activeIcons.TryAdd(effect.Name,icon);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(iconRoot);
     }
     private void OnEffectRemoved(StatusEffect effect)
     {
         if (!activeIcons.TryGetValue(effect.Name, out Image icon))
             return;
 
-        icon.sprite = null;
-        icon.color = new Color(1, 1, 1, 1);
-        Transform.Destroy(icon.transform);
-        icon.gameObject.SetActive(false);
-        icon.enabled = false;
-
+        Destroy(icon.gameObject);
         activeIcons.Remove(effect.Name);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(iconRoot);
+    }
+    public void OnClick_Damage()
+    {
+        owner.HealthComp.TakeDamage(5);
+    }
+    public void OnClick_Effect()
+    {
+        StatusEffect effect = new StatusEffect();
+        effect.Name = "Burn";
+        effect.Stack = 3;
+        effect.RemainsTurn = 3;
+        effect.statusEffect = new BurnEffect();
+        owner.StatusComp.AddEffect(effect);
     }
 }
