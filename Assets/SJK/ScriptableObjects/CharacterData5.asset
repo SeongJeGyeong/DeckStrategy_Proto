@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b1e4672fa619d4b884c0e6e07b8bd1, type: 3}
   m_Name: CharacterData5
   m_EditorClassIdentifier: 
-  ID: 1
+  ID: 5
   maxHp: 111
   characterName: test5
   type: 2
