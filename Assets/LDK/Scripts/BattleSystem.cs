@@ -8,7 +8,6 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private Team team;
     public GameObject[] slots = new GameObject[6];
 
-    [SerializeField] private Button endButton;
 
     private void Start()
     {

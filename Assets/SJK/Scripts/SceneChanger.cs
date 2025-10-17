@@ -17,4 +17,9 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
     }
+
+    public void ChangeToResult()
+    {
+        SceneManager.LoadScene("ResultScene");
+    }
 }

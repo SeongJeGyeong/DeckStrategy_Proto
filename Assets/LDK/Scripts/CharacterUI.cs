@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using static Character;
+using static UnityEngine.GraphicsBuffer;
 
 [System.Serializable]
 public struct StatusSpritePair
@@ -15,8 +17,8 @@ public struct StatusSpritePair
 
 public class CharacterUI : MonoBehaviour
 {
-    [SerializeField] private Character owner;
-    [SerializeField] private Canvas canvas;
+    private Character owner;
+    //[SerializeField] private Canvas canvas;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
@@ -30,17 +32,18 @@ public class CharacterUI : MonoBehaviour
 
     [SerializeField] private RectTransform iconRoot;
 
-    private void Awake()
+    private Camera mainCamera;
+    private RectTransform rectTransform;
+    private Transform target;
+    [SerializeField]
+    private Vector3 offset = new Vector3(0, 2f, 0);
+
+
+    public void Init(GameObject character)
     {
-        statusSprites = new Dictionary<string, Sprite>();
-        foreach (var pair in spritePairs)
-        {
-            if (!statusSprites.ContainsKey(pair.Name))
-                statusSprites.Add(pair.Name, pair.Sprite);
-        }
+        owner = character.GetComponent<Character>();
 
         activeIcons = new Dictionary<string, Image>();
-
         healthSlider.maxValue = owner.characterBase.characterData.maxHp;
         healthSlider.value = owner.characterBase.characterData.maxHp;
 
@@ -51,27 +54,18 @@ public class CharacterUI : MonoBehaviour
 
         owner.StatusComp.OnEffectAdded += OnEffectAdded;
         owner.StatusComp.OnEffectRemoved += OnEffectRemoved;
-
-        if(!iconRoot)
+    }
+    private void Awake()
+    {
+        statusSprites = new Dictionary<string, Sprite>();
+        foreach (var pair in spritePairs)
         {
-            var go = new GameObject("IconRoot", typeof(RectTransform), typeof(HorizontalLayoutGroup), typeof(ContentSizeFitter));
-            iconRoot = go.GetComponent<RectTransform>();
-            iconRoot.SetParent(canvas.transform, false);
-            iconRoot.anchorMin = new Vector2(0, 1);
-            iconRoot.anchorMax = new Vector2(0, 1);
-            iconRoot.pivot = new Vector2(0, 1);
-            iconRoot.anchoredPosition = new Vector2(-40f, 8f); // 머리 위 기준 좌표(원래 쓰던 값)
-
-            var h = go.GetComponent<HorizontalLayoutGroup>();
-            h.spacing = 2f;                    // 아이콘 간 간격
-            h.childAlignment = TextAnchor.UpperLeft;
-            h.childForceExpandWidth = false;
-            h.childForceExpandHeight = false;
-
-            var fitter = go.GetComponent<ContentSizeFitter>();
-            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            if (!statusSprites.ContainsKey(pair.Name))
+                statusSprites.Add(pair.Name, pair.Sprite);
         }
+
+        mainCamera = Camera.main;
+        rectTransform = GetComponent<RectTransform>();
     }
     private void Start()
     {
@@ -100,31 +94,30 @@ public class CharacterUI : MonoBehaviour
     }
     private void GaugeUpdate(float CurrGauge)
     {
-        healthSlider.value = CurrGauge;
+        gaugeSlider.value = CurrGauge;
     }
     private void OnEffectAdded(StatusEffect effect)
     {
         //if (activeIcons.ContainsKey(effect.Name))
         //    return;
+        //@TODO 패널에 붙여야 UI 레이아웃 작동할거임
 
-        GameObject go = new GameObject($"StatusIcon_{effect.Name}", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-        RectTransform rt = go.GetComponent<RectTransform>();
-        rt.SetParent(iconRoot, false);
-        rt.sizeDelta = new Vector2(10, 5);
-
+        GameObject go = new GameObject("StatusIcon", typeof(Image));
         Image icon = go.GetComponent<Image>();
-        icon.preserveAspect = true;
+
+        icon.gameObject.SetActive(true);
+        icon.transform.SetParent(rectTransform, false);
+        icon.rectTransform.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
         icon.color = Color.white;
-        icon.rectTransform.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
         {
             icon.sprite = sprite;
         }
+        else { icon.sprite = null; }
 
-        activeIcons.TryAdd(effect.Name,icon);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(iconRoot);
+        icon.enabled = true;
+        activeIcons.TryAdd(effect.Name, icon);
     }
     private void OnEffectRemoved(StatusEffect effect)
     {
@@ -133,8 +126,6 @@ public class CharacterUI : MonoBehaviour
 
         Destroy(icon.gameObject);
         activeIcons.Remove(effect.Name);
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(iconRoot);
     }
     public void OnClick_Damage()
     {
@@ -147,6 +138,28 @@ public class CharacterUI : MonoBehaviour
         effect.Stack = 3;
         effect.RemainsTurn = 3;
         effect.statusEffect = new BurnEffect();
+
         owner.StatusComp.AddEffect(effect);
+    }
+
+    private void LateUpdate()
+    {
+        if (target == null) return;
+        Vector3 worldPos = target.position + offset;
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPos);
+
+        rectTransform.position = screenPos;
+    }
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        gameObject.SetActive(true);
+        LineupSlot slot = target.GetComponent<LineupSlot>();
+    }
+
+    public void ReleaseTarget()
+    {
+        gameObject.SetActive(false);
+        target = null;
     }
 }
