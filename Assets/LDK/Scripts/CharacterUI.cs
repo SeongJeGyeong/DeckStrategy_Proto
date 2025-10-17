@@ -53,18 +53,7 @@ public class CharacterUI : MonoBehaviour
     }
     private void Start()
     {
-        //activeIcons = new Dictionary<string, Image>();
 
-        //healthSlider.maxValue = owner.characterBase.characterData.maxHp;
-        //healthSlider.value = owner.characterBase.characterData.maxHp;
-
-        //gaugeSlider.maxValue = owner.MaxSkillGauge;
-        //gaugeSlider.value = owner.MaxSkillGauge;
-
-        //owner.HealthComp.OnDamaged += HealthUpdate;
-
-        //owner.StatusComp.OnEffectAdded += OnEffectAdded;
-        //owner.StatusComp.OnEffectRemoved += OnEffectRemoved; //임시로 awake로 옮김
     }
 
     private void HealthUpdate(float CurrHp)
@@ -85,8 +74,8 @@ public class CharacterUI : MonoBehaviour
 
         icon.gameObject.SetActive(true);
         icon.transform.SetParent(canvas.transform, false);
-        icon.rectTransform.transform.localScale = new Vector3(0.2f,0.2f,0.2f);
-        icon.rectTransform.localPosition = new Vector3(-10, 3.0f, 0);
+        icon.rectTransform.transform.localScale = new Vector3(0.17f,0.17f,0.17f);
+        icon.rectTransform.localPosition = new Vector3(-40.0f, 8.0f, 0);
         icon.color = Color.white;
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
