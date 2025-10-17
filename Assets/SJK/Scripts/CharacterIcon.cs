@@ -13,7 +13,7 @@ public class CharacterIcon : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI level;
 
-    private int characterId;
+    public CharacterBase characterBase { get; private set; }
 
     public SelectedButton selectedButton;
 
@@ -27,8 +27,10 @@ public class CharacterIcon : MonoBehaviour
         selectedButton.button.onClick.AddListener(OnButtonClicked);
     }
 
-    public void SetData(CharacterBase characterBase)
+    public void SetData(CharacterBase charBase)
     {
+        characterBase = charBase;
+
         level.text = "Lv." + characterBase.Level.ToString();
         portrait.color = characterBase.characterModelData.material.color;
 
@@ -44,9 +46,6 @@ public class CharacterIcon : MonoBehaviour
         {
             attributeIcon.color = Color.blue;
         }
-
-        characterId = characterBase.characterData.ID;
-        //portrait.material = characterBase.characterModelData.material;
     }
 
     private void OnButtonClicked()
@@ -54,12 +53,12 @@ public class CharacterIcon : MonoBehaviour
         if(selectedButton.isSelected)
         {
             selectedButton.ButtonClicked();
-            formationSystem.ReleaseCharacter(portrait.color, slotNumber);
+            formationSystem.ReleaseCharacter(slotNumber);
             slotNumber = 0;
             return;
         }
 
-        slotNumber = formationSystem.PlaceCharacter(portrait.color);
+        slotNumber = formationSystem.PlaceCharacter(characterBase);
         if (slotNumber != 0)
         {
             selectedButton.ButtonClicked();

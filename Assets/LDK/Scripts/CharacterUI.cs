@@ -7,38 +7,53 @@ using UnityEngine.Pool;
 using UnityEngine.UI;
 using static Character;
 
+[System.Serializable]
+public struct StatusSpritePair
+{
+    public string Name;
+    public Sprite Sprite;
+}
+
 public class CharacterUI : MonoBehaviour
 {
-    [SerializeField] private Character owner;
 
-    [SerializeField] private Transform statusContainer;
-    [SerializeField] private Image statusiconPrefab;
+    [SerializeField] private Character owner;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
-    [SerializeField] private List<Sprite> statusSprites;
+    [SerializeField] private List<StatusSpritePair> spritePairs;
+    //[SerializeField] private ObjectPool<Image> iconPool;
 
-    private ObjectPool<Image> iconPool;
-    private readonly Dictionary<string, Image> activeIcons = new();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Dictionary<string, Sprite> statusSprites;
+    private Dictionary<string, Image> activeIcons;
 
     private void Awake()
     {
+        statusSprites = new Dictionary<string, Sprite>();
 
-    }
-    private void Start()
-    {
- 
+        foreach (var pair in spritePairs)
+        {
+            if (!statusSprites.ContainsKey(pair.Name))
+                statusSprites.Add(pair.Name, pair.Sprite);
+        }
+
+        activeIcons = new Dictionary<string, Image>();
+
         healthSlider.maxValue = owner.characterBase.characterData.maxHp;
         healthSlider.value = owner.characterBase.characterData.maxHp;
 
         gaugeSlider.maxValue = owner.MaxSkillGauge;
         gaugeSlider.value = owner.MaxSkillGauge;
 
-        owner.healthComp.OnDamaged += HealthUpdate;
+        owner.HealthComp.OnDamaged += HealthUpdate;
 
-        owner.statusComp.OnEffectAdded += OnEffectAdded;
-        owner.statusComp.OnEffectRemoved += OnEffectRemoved;
+        owner.StatusComp.OnEffectAdded += OnEffectAdded;
+        owner.StatusComp.OnEffectRemoved += OnEffectRemoved;
+    }
+    private void Start()
+    {
+
     }
 
     private void HealthUpdate(float CurrHp)
@@ -51,10 +66,38 @@ public class CharacterUI : MonoBehaviour
     }
     private void OnEffectAdded(StatusEffect effect)
     {
-        //@TODO 이벤트 받으면 이미지 + 스프라이트 띄워야함
+        if (activeIcons.ContainsKey(effect.Name))
+            return;
+
+        GameObject go = new GameObject("StatusIcon", typeof(Image));
+        Image icon = go.GetComponent<Image>();
+
+        icon.gameObject.SetActive(true);
+        icon.transform.SetParent(canvas.transform, false);
+        icon.rectTransform.transform.localScale = new Vector3(0.17f,0.17f,0.17f);
+        icon.rectTransform.localPosition = new Vector3(-40.0f, 8.0f, 0);
+        icon.color = Color.white;
+
+        if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
+        {
+            icon.sprite = sprite;
+        }
+        else { icon.sprite = null; }
+
+        icon.enabled = true;
+        activeIcons.TryAdd(effect.Name,icon);
     }
     private void OnEffectRemoved(StatusEffect effect)
     {
+        if (!activeIcons.TryGetValue(effect.Name, out Image icon))
+            return;
 
+        icon.sprite = null;
+        icon.color = new Color(1, 1, 1, 1);
+        Transform.Destroy(icon.transform);
+        icon.gameObject.SetActive(false);
+        icon.enabled = false;
+
+        activeIcons.Remove(effect.Name);
     }
 }
