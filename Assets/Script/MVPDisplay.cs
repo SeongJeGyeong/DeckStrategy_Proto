@@ -1,33 +1,43 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MVPDisplay : MonoBehaviour
 {
-    [SerializeField] private Image sourceImage; // UI Image1
-    private Renderer capsuleRenderer;
+    [Header("씬의 MVP1 오브젝트")]
+    [SerializeField] private GameObject mvp1Object; // MVP1 오브젝트
 
     void Start()
     {
-        capsuleRenderer = GetComponent<Renderer>();
+        StartCoroutine(UpdateFromMVP1NextFrame());
+    }
 
-        if (sourceImage != null)
+    private System.Collections.IEnumerator UpdateFromMVP1NextFrame()
+    {
+        yield return null; // 한 프레임 대기 → MVP1 SetData가 끝난 뒤
+
+        if (mvp1Object == null)
         {
-            // UI Image에서 사용하던 Material 가져오기
-            Material sourceMat = sourceImage.material;
-
-            if (sourceMat != null)
-            {
-                // 그대로 캡슐에 적용
-                capsuleRenderer.material = sourceMat;
-            }
-            else
-            {
-                Debug.LogWarning("Source Image Material이 비어있습니다!");
-            }
+            Debug.LogWarning("MVP1 오브젝트가 지정되지 않았습니다!");
+            yield break;
         }
-        else
+
+        // MVP1의 Image 가져오기
+        Image mvpImage = mvp1Object.GetComponentInChildren<Image>();
+        if (mvpImage != null)
         {
-            Debug.LogWarning("Source Image가 지정되지 않았습니다!");
+            var displayImage = GetComponentInChildren<Image>();
+            if (displayImage != null)
+                displayImage.material = mvpImage.material;
+        }
+
+        // MVP1의 이름 Text 가져오기
+        TMP_Text mvpName = mvp1Object.GetComponentInChildren<TMP_Text>();
+        if (mvpName != null)
+        {
+            var displayName = GetComponentInChildren<TMP_Text>();
+            if (displayName != null)
+                displayName.text = mvpName.text;
         }
     }
 }
