@@ -15,8 +15,11 @@ public class Character : MonoBehaviour
     }
 
     public CharacterBase characterBase;
-    public HealthComponent healthComp;
-    public StatusComponent statusComp;
+    [SerializeField] private HealthComponent healthComp;
+    [SerializeField] private StatusComponent statusComp;
+    public HealthComponent HealthComp => healthComp;
+    public StatusComponent StatusComp => statusComp;
+
     public float MaxSkillGauge { get; private set; }
     private int SequenceNumber;
 
@@ -24,20 +27,17 @@ public class Character : MonoBehaviour
 
     public void Start()
     {
-        healthComp = GetComponent<HealthComponent>();
-        statusComp = GetComponent<StatusComponent>();
-
         testeffect = new StatusEffect();
         testeffect.statusEffect = new BurnEffect();
         testeffect.Stack = 1;
         testeffect.RemainsTurn = 1;
-        testeffect.Name = "burn";
+        testeffect.Name = "Burn";
 
-        statusComp.AddEffect(testeffect);
+        StatusComp.AddEffect(testeffect);
     }
 
     public void Update()
     {
-        statusComp.TickAll();
+        StatusComp.TickAll();
     }
 }

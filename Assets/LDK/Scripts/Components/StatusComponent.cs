@@ -14,7 +14,7 @@ public interface IStatusEffect
 public class BurnEffect : IStatusEffect
 {
     public void Apply(Character C) => Debug.Log("화상 시작");
-    public void Tick(Character C) => C.healthComp.TakeDamage(5);
+    public void Tick(Character C) => C.HealthComp.TakeDamage(5);
     public void Remove(Character C) => Debug.Log("화상 끝");
 }
 public class StatusComponent : MonoBehaviour
@@ -24,7 +24,7 @@ public class StatusComponent : MonoBehaviour
     public event Action<StatusEffect> OnEffectAdded;
     public event Action<StatusEffect> OnEffectRemoved;
 
-    private readonly List<StatusEffect> _effects = new();
+    private readonly Dictionary<string,StatusEffect> _effects = new();
 
     private void Start()
     {
@@ -32,17 +32,26 @@ public class StatusComponent : MonoBehaviour
     }
     public void AddEffect(StatusEffect effect)
     {
-        _effects.Add(effect);
+        if (_effects.TryGetValue(effect.Name, out StatusEffect getEffect))
+        {
+            getEffect.Stack += effect.Stack;  // 내부 값 수정
+            _effects[effect.Name] = getEffect;  // 다시 저장
+        }
+        else 
+        {
+            _effects.Add(effect.Name,effect);
+        }
+
         effect.statusEffect.Apply(owner);
         OnEffectAdded?.Invoke(effect);
     }
     public void TickAll()
     {
-        foreach (StatusEffect effect in _effects) effect.statusEffect.Tick(owner);
+        foreach (StatusEffect effect in _effects.Values) effect.statusEffect.Tick(owner);
     }
     public void RemoveEffect(StatusEffect effect)
     {
-        _effects.Remove(effect);
+        _effects.Remove(effect.Name);
         effect.statusEffect.Remove(owner);
         OnEffectRemoved?.Invoke(effect);
     }

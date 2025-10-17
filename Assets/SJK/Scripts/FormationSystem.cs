@@ -7,7 +7,7 @@ public class FormationSystem : MonoBehaviour
     public GameObject[] slots = new GameObject[5];
     private Team[] teams = new Team[8];
 
-    private int selectedTeamIndex = 0;
+    public int selectedTeamIndex = 0;
 
     [SerializeField]
     private Transform characterListContent;
@@ -17,14 +17,14 @@ public class FormationSystem : MonoBehaviour
 
     }
 
-    public int PlaceCharacter(Color color)
+    public int PlaceCharacter(CharacterBase characterBase)
     {
         for(int i = 0; i < slots.Length; ++i)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
-                slot.SetSelectedCharacter(color, true);
+                slot.SetSelectedCharacter(characterBase);
                 return i+1;
             }
         }
@@ -35,13 +35,14 @@ public class FormationSystem : MonoBehaviour
     public void PlaceTeam(int teamIndex)
     {
         selectedTeamIndex = teamIndex;
+        ResetCharacterList();
+
         if (teams[teamIndex] == null)
         {
             for (int i = 0; i < slots.Length; ++i)
             {
-                ReleaseCharacter(Color.white, i+1);
+                ReleaseCharacter(i+1);
             }
-            ResetCharacterList();
             return;
         }
 
@@ -50,22 +51,29 @@ public class FormationSystem : MonoBehaviour
         {
             if(characters[i] == null)
             {
-                ReleaseCharacter(Color.white, i+1);
+                ReleaseCharacter(i+1);
             }
             else
             {
                 LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-                slot.SetSelectedCharacter(characters[i].characterModelData.material.color, true);
+                slot.SetSelectedCharacter(characters[i]);
+                CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
+                foreach (var icon in icons)
+                {
+                    if (icon.characterBase.characterData.ID == slot.characterBase.characterData.ID)
+                    {
+                        icon.selectedButton.ButtonClicked();
+                        break;
+                    }
+                }
             }
         }
-
-        ResetCharacterList();
     }
 
-    public void ReleaseCharacter(Color color, int slotNumber)
+    public void ReleaseCharacter(int slotNumber)
     {
         LineupSlot slot = slots[slotNumber-1].GetComponent<LineupSlot>();
-        slot.SetSelectedCharacter(color, false);
+        slot.DeselectCharacter();
     }
 
     private void ResetCharacterList()
@@ -80,11 +88,13 @@ public class FormationSystem : MonoBehaviour
         }
     }
 
-    public void SaveTeam(int teamIndex)
+    public void SaveTeam()
     {
         for (int i = 0; i < slots.Length; ++i)
         {
-
+            LineupSlot slot = slots[i].GetComponent<LineupSlot>();
+            if (teams[selectedTeamIndex] == null) teams[selectedTeamIndex] = new Team();
+            teams[selectedTeamIndex].characters[i] = slot.characterBase;
         }
     }
 }
