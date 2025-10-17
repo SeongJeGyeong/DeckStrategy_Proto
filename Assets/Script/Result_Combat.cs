@@ -1,45 +1,26 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
-using System.Collections.Generic;
 
 public class Result_Combat : MonoBehaviour
 {
-    [Header("UI References")]
-    [SerializeField] private Image mvpBackground;
-    [SerializeField] private Transform characterListParent;
-    [SerializeField] private GameObject characterSlotPrefab;
+    [Header("MVP 슬롯들")]
+    [SerializeField] private CharacterSlotUI[] mvpSlots;
 
-    [Header("Combat Data List (ScriptableObjects)")]
-    [SerializeField] private List<CombatData> combatDatas = new List<CombatData>();
+    [Header("결과 데이터 (전투 결과에서 받아온 캐릭터들)")]
+    [SerializeField] private CharacterBase[] mvpCharacters; 
 
-    private void Start()
+    void Start()
     {
-        DisplayResults();
+        ApplyResults();
     }
 
-    private void DisplayResults()
+    public void ApplyResults()
     {
-        if (combatDatas == null || combatDatas.Count == 0) return;
+        int count = Mathf.Min(mvpSlots.Length, mvpCharacters.Length);
 
-        // 기여도 순 정렬
-        var sorted = combatDatas.OrderByDescending(c => c.Contribution).ToList();
-        float mvpValue = sorted[0].Contribution;
-
-        // MVP 배경 설정
-        if (mvpBackground && sorted[0].Icon)
+        for (int i = 0; i < count; i++)
         {
-            mvpBackground.sprite = sorted[0].Icon;
-            mvpBackground.color = new Color(1, 1, 1, 0.25f);
-        }
-
-        // 슬롯 생성
-        foreach (var data in sorted)
-        {
-            GameObject slot = Instantiate(characterSlotPrefab, characterListParent);
-            var ui = slot.GetComponent<CharacterSlotUI>();
-            float percent = (data.Contribution / mvpValue) * 100f;
-            ui.SetData(data.Icon, data.CharacterName, percent);
+            if (mvpSlots[i] != null)
+                mvpSlots[i].SetData(mvpCharacters[i]);
         }
     }
 }
