@@ -1,5 +1,10 @@
 using UnityEngine;
-public enum AttributeType
+
+namespace Utils.Enums
 {
-    ROCK, PAPER, SCISSORS
+    public enum AttributeType
+    {
+        ROCK, PAPER, SCISSORS
+    }
+
 }
