@@ -3,7 +3,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+using Utils.Enums;
 
 public class ObjectFollowUI : MonoBehaviour
 {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils.Enums;
 
 [CreateAssetMenu(fileName = "Character Data", menuName = "Scriptable/Character Data", order = int.MaxValue)]
 public class CharacterData : ScriptableObject
@@ -8,6 +9,7 @@ public class CharacterData : ScriptableObject
     public float maxHp;
     public string characterName;
     public AttributeType type;
+    public RangeType rangeType;
     public float attack;
     public float defense;
     public float speed;
