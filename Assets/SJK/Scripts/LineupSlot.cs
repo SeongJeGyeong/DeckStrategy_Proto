@@ -7,6 +7,10 @@ public class LineupSlot : MonoBehaviour
     GameObject CharacterModelPrefab;
     [SerializeField]
     ObjectFollowUI followUIPrefab;
+
+    [SerializeField]
+    CharacterUI characterPrefab;
+
     [SerializeField]
     Canvas characterUICanvas;
 
@@ -17,7 +21,7 @@ public class LineupSlot : MonoBehaviour
 
     GameObject model;
     ObjectFollowUI characterFollowUI;
-
+    CharacterUI chracterBattleUI;
 
     void Awake()
     {
@@ -25,10 +29,19 @@ public class LineupSlot : MonoBehaviour
         slotTransform = this.transform;
         model = Instantiate(CharacterModelPrefab, slotTransform);
         model.SetActive(false);
-
-        characterFollowUI = Instantiate(followUIPrefab, characterUICanvas.transform);
-        characterFollowUI.SetTarget(model.transform);
-        characterFollowUI.gameObject.SetActive(false);
+        if(characterPrefab != null)
+        {
+            chracterBattleUI = Instantiate(characterPrefab, characterUICanvas.transform);
+            chracterBattleUI.Init(model);
+            chracterBattleUI.SetTarget(model.transform);
+            chracterBattleUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            characterFollowUI = Instantiate(followUIPrefab, characterUICanvas.transform);
+            characterFollowUI.SetTarget(model.transform);
+            characterFollowUI.gameObject.SetActive(false);
+        }
     }
 
     public void SetSelectedCharacter(CharacterBase charBase)
@@ -41,6 +54,10 @@ public class LineupSlot : MonoBehaviour
         {
             characterFollowUI.SetCharacterInfo(characterBase.characterData.type, characterBase.Level);
             characterFollowUI.gameObject.SetActive(true);
+        }
+        if(chracterBattleUI != null)
+        {
+
         }
     }
 
