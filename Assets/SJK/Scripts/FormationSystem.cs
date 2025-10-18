@@ -72,6 +72,7 @@ public class FormationSystem : MonoBehaviour
 
     public void ReleaseCharacter(int slotNumber)
     {
+        Debug.Log(slotNumber.ToString());
         LineupSlot slot = slots[slotNumber-1].GetComponent<LineupSlot>();
         slot.DeselectCharacter();
     }

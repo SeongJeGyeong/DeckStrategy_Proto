@@ -17,7 +17,6 @@ public class SelectedButton : MonoBehaviour
 
     public void ButtonClicked()
     {
-        Debug.Log("clicked");
         isSelected = !isSelected;
         canvasGroup.alpha = isSelected ? 1f : 0f;
     }

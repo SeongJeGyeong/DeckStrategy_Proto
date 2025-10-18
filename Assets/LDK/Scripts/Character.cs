@@ -20,24 +20,22 @@ public class Character : MonoBehaviour
     public HealthComponent HealthComp => healthComp;
     public StatusComponent StatusComp => statusComp;
 
-    public float MaxSkillGauge { get; private set; }
-    private int SequenceNumber;
+    public float maxSkillGauge { get; private set; }
+    private int sequenceNumber;
 
     StatusEffect testeffect;
 
     public void Start()
     {
-        testeffect = new StatusEffect();
-        testeffect.statusEffect = new BurnEffect();
-        testeffect.Stack = 1;
-        testeffect.RemainsTurn = 1;
-        testeffect.Name = "Burn";
-
-        StatusComp.AddEffect(testeffect);
+        
     }
 
     public void Update()
     {
         StatusComp.TickAll();
+    }
+    public void SetCharacterBase(CharacterBase character)
+    {
+        characterBase = character;
     }
 }
