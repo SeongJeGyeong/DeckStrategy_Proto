@@ -32,7 +32,7 @@ public class Character : MonoBehaviour
 
     public void Update()
     {
-        StatusComp.TickAll();
+        StatusComp.TurnAll();
     }
     public void SetCharacterBase(CharacterBase character)
     {

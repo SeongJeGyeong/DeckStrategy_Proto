@@ -7,14 +7,14 @@ using static Character;
 public interface IStatusEffect
 {
     void Apply(Character target);
-    void Tick(Character target);
+    void Turn(Character target);
     void Remove(Character target);
 }
 
 public class BurnEffect : IStatusEffect
 {
     public void Apply(Character C) => Debug.Log("화상 시작");
-    public void Tick(Character C) => C.HealthComp.TakeDamage(5);
+    public void Turn(Character C) => C.HealthComp.TakeDamage(5);
     public void Remove(Character C) => Debug.Log("화상 끝");
 }
 public class StatusComponent : MonoBehaviour
@@ -45,9 +45,9 @@ public class StatusComponent : MonoBehaviour
         effect.statusEffect.Apply(owner);
         OnEffectAdded?.Invoke(effect);
     }
-    public void TickAll()
+    public void TurnAll()
     {
-        foreach (StatusEffect effect in _effects.Values) effect.statusEffect.Tick(owner);
+        foreach (StatusEffect effect in _effects.Values) effect.statusEffect.Turn(owner);
     }
     public void RemoveEffect(StatusEffect effect)
     {
