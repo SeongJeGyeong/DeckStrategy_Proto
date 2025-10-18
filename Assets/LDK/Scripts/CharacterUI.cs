@@ -19,27 +19,28 @@ public class CharacterUI : MonoBehaviour
 {
     private Character owner;
     //[SerializeField] private Canvas canvas;
+    [SerializeField] private RectTransform Panel;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
     [SerializeField] private Button damageButton;
     [SerializeField] private Button effectButton;
 
+
     [SerializeField] private List<StatusSpritePair> spritePairs;
 
     private Dictionary<string, Sprite> statusSprites;
     private Dictionary<string, Image> activeIcons;
 
-    [SerializeField] private RectTransform iconRoot;
-
     private Camera mainCamera;
     private RectTransform rectTransform;
     private Transform target;
+
     [SerializeField]
     private Vector3 offset = new Vector3(0, 2f, 0);
 
 
-    public void Init(GameObject character)
+    public void Init(Character character)
     {
         owner = character.GetComponent<Character>();
 
@@ -100,14 +101,13 @@ public class CharacterUI : MonoBehaviour
     {
         //if (activeIcons.ContainsKey(effect.Name))
         //    return;
-        //@TODO 패널에 붙여야 UI 레이아웃 작동할거임
 
         GameObject go = new GameObject("StatusIcon", typeof(Image));
         Image icon = go.GetComponent<Image>();
 
         icon.gameObject.SetActive(true);
-        icon.transform.SetParent(rectTransform, false);
-        icon.rectTransform.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
+        icon.transform.SetParent(Panel, false);
+        icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
