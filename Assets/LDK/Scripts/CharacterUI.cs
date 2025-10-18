@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 using static Character;
+using static UnityEngine.GraphicsBuffer;
 
 [System.Serializable]
 public struct StatusSpritePair
@@ -16,44 +17,75 @@ public struct StatusSpritePair
 
 public class CharacterUI : MonoBehaviour
 {
-
-    [SerializeField] private Character owner;
-    [SerializeField] private Canvas canvas;
+    private Character owner;
+    //[SerializeField] private Canvas canvas;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
+    [SerializeField] private Button damageButton;
+    [SerializeField] private Button effectButton;
+
     [SerializeField] private List<StatusSpritePair> spritePairs;
-    //[SerializeField] private ObjectPool<Image> iconPool;
 
     private Dictionary<string, Sprite> statusSprites;
     private Dictionary<string, Image> activeIcons;
 
-    private void Awake()
-    {
-        statusSprites = new Dictionary<string, Sprite>();
+    [SerializeField] private RectTransform iconRoot;
 
-        foreach (var pair in spritePairs)
-        {
-            if (!statusSprites.ContainsKey(pair.Name))
-                statusSprites.Add(pair.Name, pair.Sprite);
-        }
+    private Camera mainCamera;
+    private RectTransform rectTransform;
+    private Transform target;
+    [SerializeField]
+    private Vector3 offset = new Vector3(0, 2f, 0);
+
+
+    public void Init(GameObject character)
+    {
+        owner = character.GetComponent<Character>();
 
         activeIcons = new Dictionary<string, Image>();
-
         healthSlider.maxValue = owner.characterBase.characterData.maxHp;
         healthSlider.value = owner.characterBase.characterData.maxHp;
 
-        gaugeSlider.maxValue = owner.MaxSkillGauge;
-        gaugeSlider.value = owner.MaxSkillGauge;
+        gaugeSlider.maxValue = owner.maxSkillGauge;
+        gaugeSlider.value = owner.maxSkillGauge;
 
         owner.HealthComp.OnDamaged += HealthUpdate;
 
         owner.StatusComp.OnEffectAdded += OnEffectAdded;
         owner.StatusComp.OnEffectRemoved += OnEffectRemoved;
     }
+    private void Awake()
+    {
+        statusSprites = new Dictionary<string, Sprite>();
+        foreach (var pair in spritePairs)
+        {
+            if (!statusSprites.ContainsKey(pair.Name))
+                statusSprites.Add(pair.Name, pair.Sprite);
+        }
+
+        mainCamera = Camera.main;
+        rectTransform = GetComponent<RectTransform>();
+    }
     private void Start()
     {
+        if (!damageButton)
+            damageButton = GetComponentInChildren<Button>(true); // 자식에서 버튼 찾기
 
+        if (damageButton)
+        {
+            damageButton.onClick.RemoveAllListeners();
+            damageButton.onClick.AddListener(OnClick_Damage);
+        }
+
+        if (!effectButton)
+            effectButton = GetComponentInChildren<Button>(true);
+
+        if (effectButton)
+        {
+            effectButton.onClick.RemoveAllListeners();
+            effectButton.onClick.AddListener(OnClick_Effect);
+        }
     }
 
     private void HealthUpdate(float CurrHp)
@@ -62,20 +94,20 @@ public class CharacterUI : MonoBehaviour
     }
     private void GaugeUpdate(float CurrGauge)
     {
-        healthSlider.value = CurrGauge;
+        gaugeSlider.value = CurrGauge;
     }
     private void OnEffectAdded(StatusEffect effect)
     {
-        if (activeIcons.ContainsKey(effect.Name))
-            return;
+        //if (activeIcons.ContainsKey(effect.Name))
+        //    return;
+        //@TODO 패널에 붙여야 UI 레이아웃 작동할거임
 
         GameObject go = new GameObject("StatusIcon", typeof(Image));
         Image icon = go.GetComponent<Image>();
 
         icon.gameObject.SetActive(true);
-        icon.transform.SetParent(canvas.transform, false);
-        icon.rectTransform.transform.localScale = new Vector3(0.17f,0.17f,0.17f);
-        icon.rectTransform.localPosition = new Vector3(-40.0f, 8.0f, 0);
+        icon.transform.SetParent(rectTransform, false);
+        icon.rectTransform.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
         icon.color = Color.white;
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
@@ -85,19 +117,49 @@ public class CharacterUI : MonoBehaviour
         else { icon.sprite = null; }
 
         icon.enabled = true;
-        activeIcons.TryAdd(effect.Name,icon);
+        activeIcons.TryAdd(effect.Name, icon);
     }
     private void OnEffectRemoved(StatusEffect effect)
     {
         if (!activeIcons.TryGetValue(effect.Name, out Image icon))
             return;
 
-        icon.sprite = null;
-        icon.color = new Color(1, 1, 1, 1);
-        Transform.Destroy(icon.transform);
-        icon.gameObject.SetActive(false);
-        icon.enabled = false;
-
+        Destroy(icon.gameObject);
         activeIcons.Remove(effect.Name);
+    }
+    public void OnClick_Damage()
+    {
+        owner.HealthComp.TakeDamage(5);
+    }
+    public void OnClick_Effect()
+    {
+        StatusEffect effect = new StatusEffect();
+        effect.Name = "Burn";
+        effect.Stack = 3;
+        effect.RemainsTurn = 3;
+        effect.statusEffect = new BurnEffect();
+
+        owner.StatusComp.AddEffect(effect);
+    }
+
+    private void LateUpdate()
+    {
+        if (target == null) return;
+        Vector3 worldPos = target.position + offset;
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPos);
+
+        rectTransform.position = screenPos;
+    }
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        gameObject.SetActive(true);
+        LineupSlot slot = target.GetComponent<LineupSlot>();
+    }
+
+    public void ReleaseTarget()
+    {
+        gameObject.SetActive(false);
+        target = null;
     }
 }
