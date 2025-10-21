@@ -24,7 +24,7 @@ public class FormationSystem : MonoBehaviour
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
-                slot.SetSelectedCharacter(characterBase);
+                slot.SetSelectedCharacter(characterBase, false);
                 return i+1;
             }
         }
@@ -56,11 +56,11 @@ public class FormationSystem : MonoBehaviour
             else
             {
                 LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-                slot.SetSelectedCharacter(characters[i]);
+                slot.SetSelectedCharacter(characters[i], false);
                 CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
                 foreach (var icon in icons)
                 {
-                    if (icon.characterBase.characterData.ID == slot.characterBase.characterData.ID)
+                    if (icon.characterBase.characterData.ID == slot.model.characterBase.characterData.ID)
                     {
                         icon.selectedButton.ButtonClicked();
                         break;
@@ -95,7 +95,7 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (teams[selectedTeamIndex] == null) teams[selectedTeamIndex] = new Team();
-            teams[selectedTeamIndex].characters[i] = slot.characterBase;
+            teams[selectedTeamIndex].characters[i] = slot.model.characterBase;
         }
     }
 }

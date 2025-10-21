@@ -25,7 +25,7 @@ public class CharacterUI : MonoBehaviour
 
     [SerializeField] private Button damageButton;
     [SerializeField] private Button effectButton;
-
+    [SerializeField] private Button attackButton;
 
     [SerializeField] private List<StatusSpritePair> spritePairs;
 
@@ -42,6 +42,8 @@ public class CharacterUI : MonoBehaviour
 
     public void Init(Character character)
     {
+        Debug.Log("Init");
+
         owner = character.GetComponent<Character>();
 
         activeIcons = new Dictionary<string, Image>();
@@ -70,8 +72,8 @@ public class CharacterUI : MonoBehaviour
     }
     private void Start()
     {
-        if (!damageButton)
-            damageButton = GetComponentInChildren<Button>(true); // 자식에서 버튼 찾기
+        //if (!damageButton)
+        //    damageButton = GetComponentInChildren<Button>(true); // 자식에서 버튼 찾기
 
         if (damageButton)
         {
@@ -79,13 +81,22 @@ public class CharacterUI : MonoBehaviour
             damageButton.onClick.AddListener(OnClick_Damage);
         }
 
-        if (!effectButton)
-            effectButton = GetComponentInChildren<Button>(true);
+        //if (!effectButton)
+        //    effectButton = GetComponentInChildren<Button>(true);
 
         if (effectButton)
         {
             effectButton.onClick.RemoveAllListeners();
             effectButton.onClick.AddListener(OnClick_Effect);
+        }
+
+        //if (!attackButton)
+        //    attackButton = GetComponentInChildren<Button>(true);
+
+        if (attackButton)
+        {
+            attackButton.onClick.RemoveAllListeners();
+            attackButton.onClick.AddListener(OnClick_Attack);
         }
     }
 
@@ -140,6 +151,10 @@ public class CharacterUI : MonoBehaviour
         effect.statusEffect = new BurnEffect();
 
         owner.StatusComp.AddEffect(effect);
+    }
+    public void OnClick_Attack()
+    {
+        owner.AtackComp.Attack();
     }
 
     private void LateUpdate()
