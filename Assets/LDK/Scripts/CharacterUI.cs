@@ -54,7 +54,7 @@ public class CharacterUI : MonoBehaviour
         owner.HealthComp.OnDamaged += HealthUpdate;
 
         owner.StatusComp.OnEffectAdded += OnEffectAdded;
-        owner.StatusComp.OnEffectRemoved += OnEffectRemoved;
+        owner.StatusComp.OnEffectRemoved += OnEffectRemoved; 
     }
     private void Awake()
     {
