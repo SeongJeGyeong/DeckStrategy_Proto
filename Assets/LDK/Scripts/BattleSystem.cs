@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private Team team;
+    [SerializeField] private RectTransform panel;
     public GameObject[] slots = new GameObject[6];
 
-    private Dictionary<int, Character> battleSequence = new Dictionary<int, Character>(); //순서 int 별로 캐릭터를 저장해두고
-    // map은 key를 바탕으로 정렬이 되는데 DIctionary도 그렇다면 foreach로 한명씩 빼서 attack수행
+    private List<Character> battleSequence = new List<Character>();
+    private List<Image> sequenceImage = new List<Image>();
+
+    [SerializeField]
+    private GameObject iconPrefab;
 
     private void Start()
     {
@@ -18,15 +23,30 @@ public class BattleSystem : MonoBehaviour
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             CharacterBase characterBase = team.characters[i];
             slot.SetSelectedCharacter(characterBase);
+            battleSequence.Add(slot.model);
         }
     }
 
-    private void SetCharacterSeqeunce()
+    public void Resort()
     {
+        battleSequence.Clear();
+        sequenceImage.Clear();
+
         for (int i = 0; i < slots.Length; i++)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-            //slot.model.characterBase.characterData.speed //speed 값 빼서 어케하지..
+            battleSequence.Add(slot.model);
+        }
+
+        battleSequence.Sort((x,y)=>x.characterBase.characterData.speed.CompareTo(y.characterBase.characterData.speed));
+        battleSequence.Reverse();
+
+        for(int i = 0; i < battleSequence.Count; i++)
+        {
+            var Icon = Instantiate(iconPrefab, panel);
+            var portrait = Icon.transform.Find("Portrait")?.GetComponent<UnityEngine.UI.Image>();
+            var mat = battleSequence[i].characterBase.characterModelData.material;
+            portrait.color = mat.color;
         }
     }
 }
