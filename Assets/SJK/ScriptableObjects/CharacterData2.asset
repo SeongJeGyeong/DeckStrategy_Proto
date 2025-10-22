@@ -16,6 +16,7 @@ MonoBehaviour:
   maxHp: 200
   characterName: test2
   type: 0
+  rangeType: 1
   attack: 50
   defense: 10
   speed: 30

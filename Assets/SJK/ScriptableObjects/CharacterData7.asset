@@ -16,6 +16,7 @@ MonoBehaviour:
   maxHp: 700
   characterName: test7
   type: 2
+  rangeType: 1
   attack: 77
   defense: 77
   speed: 77

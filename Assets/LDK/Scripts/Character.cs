@@ -1,8 +1,10 @@
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.Enums;
 
 public class Character : MonoBehaviour
 {
@@ -17,13 +19,18 @@ public class Character : MonoBehaviour
     public CharacterBase characterBase;
     [SerializeField] private HealthComponent healthComp;
     [SerializeField] private StatusComponent statusComp;
+    [SerializeField] private AttackComponent attackComp;
+
     public HealthComponent HealthComp => healthComp;
     public StatusComponent StatusComp => statusComp;
+    public AttackComponent AtackComp => attackComp;
 
     public float maxSkillGauge { get; private set; }
     private int sequenceNumber;
 
     StatusEffect testeffect;
+
+    public bool isEnemy = false;
 
     public void Start()
     {
@@ -33,9 +40,5 @@ public class Character : MonoBehaviour
     public void Update()
     {
         StatusComp.TurnAll();
-    }
-    public void SetCharacterBase(CharacterBase character)
-    {
-        characterBase = character;
     }
 }

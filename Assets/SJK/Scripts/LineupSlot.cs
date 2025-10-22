@@ -15,7 +15,7 @@ public class LineupSlot : MonoBehaviour
     [SerializeField]
     Canvas characterUICanvas;
 
-    public CharacterBase characterBase { get; private set; }
+    //public CharacterBase characterBase { get; private set; }
 
     Transform slotTransform;
     public bool isPlaced = false;
@@ -24,6 +24,8 @@ public class LineupSlot : MonoBehaviour
     //GameObject model ¿øº» GmaeObject -> Character
     ObjectFollowUI characterFollowUI;
     CharacterUI chracterBattleUI;
+
+    public Transform AttackedPosition;
 
     void Awake()
     {
@@ -47,27 +49,27 @@ public class LineupSlot : MonoBehaviour
         }
     }
 
-    public void SetSelectedCharacter(CharacterBase charBase)
+    public void SetSelectedCharacter(CharacterBase charBase, bool isEnemy)
     {
         isPlaced = true;
-        characterBase = charBase;
+        model.isEnemy = isEnemy;
+        model.characterBase = charBase;
         model.GetComponent<MeshRenderer>().material.color = charBase.characterModelData.material.color;
         model.gameObject.SetActive(true);
         if(characterFollowUI != null)
         {
-            characterFollowUI.SetCharacterInfo(characterBase.characterData.type, characterBase.Level);
+            characterFollowUI.SetCharacterInfo(model.characterBase.characterData.type, model.characterBase.Level);
             characterFollowUI.gameObject.SetActive(true);
         }
         if(chracterBattleUI != null)
         {
-
         }
     }
 
     public void DeselectCharacter()
     {
         isPlaced = false;
-        characterBase = null;
+        model.characterBase = null;
         model.gameObject.SetActive(false);
         if (characterFollowUI != null)
         {

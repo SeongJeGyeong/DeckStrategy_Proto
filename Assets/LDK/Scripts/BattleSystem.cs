@@ -7,8 +7,10 @@ using static UnityEngine.Rendering.DebugUI;
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private Team team;
+    public GameObject[] friendlySlots = new GameObject[5];
+    public GameObject[] enemySlots = new GameObject[1];
+
     [SerializeField] private RectTransform panel;
-    public GameObject[] slots = new GameObject[6];
 
     private List<Character> battleSequence = new List<Character>();
     private List<Image> sequenceImage = new List<Image>();
@@ -18,16 +20,19 @@ public class BattleSystem : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < friendlySlots.Length; i++)
         {
-            LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-            CharacterBase characterBase = team.characters[i];
-            slot.SetSelectedCharacter(characterBase);
-            battleSequence.Add(slot.model);
+            LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
+            CharacterBase freindlyBase = team.characters[i];
+            friendlySlot.SetSelectedCharacter(freindlyBase, false);
         }
+
+        LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
+        CharacterBase enemyBase = team.characters[5];
+        enemySlot.SetSelectedCharacter(enemyBase, true);
     }
 
-    public void Resort()
+public void Resort()
     {
         battleSequence.Clear();
         sequenceImage.Clear();
@@ -48,5 +53,9 @@ public class BattleSystem : MonoBehaviour
             var mat = battleSequence[i].characterBase.characterModelData.material;
             portrait.color = mat.color;
         }
+    }
+    public void BattleStart()
+    {
+
     }
 }
