@@ -34,7 +34,7 @@ public class TurnSystem : MonoBehaviour
         foreach (var slotObj in slots)
         {
             LineupSlot slot = slotObj.GetComponent<LineupSlot>();
-            if (slot != null && slot.isPlaced && slot.characterBase != null)
+            if (slot != null && slot.isPlaced && slot.model.characterBase != null)
             {
                 activeSlots.Add(slot);
             }
@@ -47,10 +47,10 @@ public class TurnSystem : MonoBehaviour
         }
 
         // Speed 순으로 정렬 (내림차순)
-        activeSlots.Sort((a, b) => b.characterBase.characterData.speed.CompareTo(a.characterBase.characterData.speed));
+        activeSlots.Sort((a, b) => b.model.characterBase.characterData.speed.CompareTo(a.model.characterBase.characterData.speed));
 
         foreach (var slot in activeSlots)
-            turnOrder.Add(slot.characterBase);
+            turnOrder.Add(slot.model.characterBase);
 
         currentTurnIndex = 0;
         currentRound = 1;
