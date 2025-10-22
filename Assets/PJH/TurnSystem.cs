@@ -5,9 +5,9 @@ using TMPro;
 
 public class TurnSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject[] slots;     // 슬롯 6개 (LineupSlot이 붙은 오브젝트)
-    [SerializeField] private Button nextTurnButton;  // 버튼 (인스펙터 연결)
-    [SerializeField] private TextMeshProUGUI roundText;         // UI 표시용
+    [SerializeField] private GameObject[] slots;     
+    [SerializeField] private Button nextTurnButton;  
+    [SerializeField] private TextMeshProUGUI roundText;   
     [SerializeField] private TextMeshProUGUI turnText;
 
     private List<LineupSlot> activeSlots = new List<LineupSlot>();
@@ -30,7 +30,6 @@ public class TurnSystem : MonoBehaviour
         activeSlots.Clear();
         turnOrder.Clear();
 
-        // 슬롯에 캐릭터가 배치된 경우만 수집
         foreach (var slotObj in slots)
         {
             LineupSlot slot = slotObj.GetComponent<LineupSlot>();
@@ -48,7 +47,7 @@ public class TurnSystem : MonoBehaviour
 
         // Speed 순으로 정렬 (내림차순)
         activeSlots.Sort((a, b) => b.model.characterBase.characterData.speed.CompareTo(a.model.characterBase.characterData.speed));
-
+        
         foreach (var slot in activeSlots)
             turnOrder.Add(slot.model.characterBase);
 
@@ -67,7 +66,6 @@ public class TurnSystem : MonoBehaviour
         CharacterBase currentCharacter = turnOrder[currentTurnIndex];
         Debug.Log($" Round {currentRound} | Turn {currentTurnIndex + 1} : {currentCharacter.characterData.name} 행동!");
 
-        // 다음 턴 인덱스로
         currentTurnIndex++;
 
         // 모든 캐릭터가 턴을 마쳤으면 라운드 종료
