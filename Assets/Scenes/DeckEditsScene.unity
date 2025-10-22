@@ -285,10 +285,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
+  CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
+  AttackedPosition: {fileID: 0}
 --- !u!1 &173719823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,10 +1748,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
+  CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
+  AttackedPosition: {fileID: 0}
 --- !u!1 &750121789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,10 +2195,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
+  CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
+  AttackedPosition: {fileID: 0}
 --- !u!1 &980129906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2912,10 +2918,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
+  CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
+  AttackedPosition: {fileID: 0}
 --- !u!1 &1081687712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3328,6 +3336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe3df4136bb8ff4ba75ce1f9819c1fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamDataTable: {fileID: 11400000, guid: 2a968602addba7242a4cc2cecc06b032, type: 2}
   slots:
   - {fileID: 636051258}
   - {fileID: 1072193027}
@@ -3817,10 +3826,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterModelPrefab: {fileID: 3744291276223413926, guid: 806c24a8cc3cb3b4b9c920e4ba7fc9ae, type: 3}
+  CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
+  AttackedPosition: {fileID: 0}
 --- !u!1 &1469113309
 GameObject:
   m_ObjectHideFlags: 0
