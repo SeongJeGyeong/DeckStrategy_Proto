@@ -4,12 +4,13 @@ using UnityEngine.Events;
 public class LineupSlot : MonoBehaviour
 {
     [SerializeField]
-    GameObject CharacterModelPrefab;
+    Character CharacterModelPrefab; // LDK : Character로 수정
+    // GameObject CharacterModelPrefab; 원본
     [SerializeField]
     ObjectFollowUI followUIPrefab;
 
     [SerializeField]
-    CharacterUI characterPrefab;
+    CharacterUI characterUIPrefab;
 
     [SerializeField]
     Canvas characterUICanvas;
@@ -19,7 +20,8 @@ public class LineupSlot : MonoBehaviour
     Transform slotTransform;
     public bool isPlaced = false;
 
-    GameObject model;
+    public Character model { get; private set; } // LDK : BattleSystem에서 접근해서 사용하고싶어서 public으로 수정함
+    //GameObject model 원본 GmaeObject -> Character
     ObjectFollowUI characterFollowUI;
     CharacterUI chracterBattleUI;
 
@@ -28,10 +30,11 @@ public class LineupSlot : MonoBehaviour
         // 토글 버튼의 start가 LineupSlot의 Start보다 먼저 실행되어 모델을 생성하지 못할 수도 있기에 Awake에서 호출
         slotTransform = this.transform;
         model = Instantiate(CharacterModelPrefab, slotTransform);
-        model.SetActive(false);
-        if(characterPrefab != null)
+        model.gameObject.SetActive(false);
+
+        if(characterUIPrefab != null)
         {
-            chracterBattleUI = Instantiate(characterPrefab, characterUICanvas.transform);
+            chracterBattleUI = Instantiate(characterUIPrefab, characterUICanvas.transform);
             chracterBattleUI.Init(model);
             chracterBattleUI.SetTarget(model.transform);
             chracterBattleUI.gameObject.SetActive(true);
@@ -49,7 +52,7 @@ public class LineupSlot : MonoBehaviour
         isPlaced = true;
         characterBase = charBase;
         model.GetComponent<MeshRenderer>().material.color = charBase.characterModelData.material.color;
-        model.SetActive(true);
+        model.gameObject.SetActive(true);
         if(characterFollowUI != null)
         {
             characterFollowUI.SetCharacterInfo(characterBase.characterData.type, characterBase.Level);
@@ -65,7 +68,7 @@ public class LineupSlot : MonoBehaviour
     {
         isPlaced = false;
         characterBase = null;
-        model.SetActive(false);
+        model.gameObject.SetActive(false);
         if (characterFollowUI != null)
         {
             characterFollowUI.gameObject.SetActive(false);
