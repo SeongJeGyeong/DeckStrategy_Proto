@@ -10,7 +10,7 @@ public class SceneChanger : MonoBehaviour
 
     public void ChangeToBattle()
     {
-        SceneManager.LoadScene("BattleScene");
+        SceneManager.LoadScene("BattleScene_sjk");
     }
 
     public void ChangeToMain()

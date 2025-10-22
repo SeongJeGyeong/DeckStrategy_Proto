@@ -9,7 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private Team team;
+    [SerializeField] private UserData.Team team;
     public GameObject[] friendlySlots = new GameObject[5];
     public GameObject[] enemySlots = new GameObject[1];
 

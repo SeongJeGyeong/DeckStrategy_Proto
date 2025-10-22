@@ -20,7 +20,7 @@ public class CharacterIcon : MonoBehaviour
 
     private FormationSystem formationSystem;
 
-    private int slotNumber;
+    //private int slotNumber;
 
     private void Awake()
     {
@@ -51,17 +51,17 @@ public class CharacterIcon : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        if(selectedButton.isSelected)
+        if (selectedButton.isSelected)
         {
-            selectedButton.ButtonClicked();
-            formationSystem.ReleaseCharacter(slotNumber);
-            slotNumber = 0;
-            return;
+            if(formationSystem.selectedCount > 0)
+            {
+                formationSystem.ReleaseCharacter(characterBase.characterData.ID);
+                selectedButton.ButtonClicked();
+            }
         }
-
-        slotNumber = formationSystem.PlaceCharacter(characterBase);
-        if (slotNumber != 0)
+        else if(formationSystem.selectedCount < 5)
         {
+            formationSystem.PlaceCharacter(characterBase);
             selectedButton.ButtonClicked();
         }
     }
