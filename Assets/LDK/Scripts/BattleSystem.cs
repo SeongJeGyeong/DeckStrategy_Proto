@@ -32,7 +32,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
-        CharacterBase enemyBase = team.characters[5];
+        CharacterBase enemyBase = team.characters[4];
         enemySlot.SetSelectedCharacter(enemyBase, true);
         battleSequence.Add(enemySlot.model);
     }
