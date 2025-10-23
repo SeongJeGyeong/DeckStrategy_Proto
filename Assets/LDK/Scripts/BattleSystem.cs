@@ -15,7 +15,7 @@ public class BattleSystem : MonoBehaviour
     private UserData.Team enemyTeam;
 
     public GameObject[] friendlySlots = new GameObject[5];
-    public GameObject[] enemySlots = new GameObject[1];
+    public GameObject[] enemySlots = new GameObject[5];
 
     [SerializeField] private RectTransform characterSequenceList;
     private List<Character> battleSequence = new List<Character>();
@@ -35,9 +35,13 @@ public class BattleSystem : MonoBehaviour
 
     private void Start()
     {
-        LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
-        CharacterBase enemyBase = enemyTeam.characters[0];
-        enemySlot.SetSelectedCharacter(enemyBase, true);
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
+            if (enemyTeam.characters[i] == null) continue;
+            CharacterBase enemyBase = enemyTeam.characters[i];
+            enemySlot.SetSelectedCharacter(enemyBase, true);
+        }
     }
 
     private void SortBattleSequence()
@@ -49,9 +53,13 @@ public class BattleSystem : MonoBehaviour
             battleSequence.Add(friendlySlot.model);
         }
 
-        LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
-        CharacterBase enemyBase = enemyTeam.characters[4];
-        battleSequence.Add(enemySlot.model);
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
+            if (enemyTeam.characters[i] == null) continue;
+            CharacterBase enemyBase = enemyTeam.characters[i];
+            battleSequence.Add(enemySlot.model);
+        }
 
         for (int i = 0; i < battleSequence.Count; i++)
         {
@@ -123,7 +131,7 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                int random = enemySlots.Length - 1;
+                int random = UnityEngine.Random.Range(0, enemySlots.Length - 1);
                 character.AtackComp.targetIndex = random;
             }
             character.AtackComp.Attack();
@@ -136,6 +144,7 @@ public class BattleSystem : MonoBehaviour
                 Destroy(first.gameObject);
             }
         }
+        battleSequence.Clear();
         battleRoutin = null;
     }
 }

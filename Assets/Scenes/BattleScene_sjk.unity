@@ -3525,10 +3525,10 @@ MonoBehaviour:
   enemyTeam:
     characters:
     - {fileID: 11400000, guid: 98fe68fc62414b542bcce11f06166f67, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 039a1cfd1ecea7d4599ab28c959a1e57, type: 2}
+    - {fileID: 11400000, guid: 4ec2747cce8df5f4abb5f187230fdf91, type: 2}
+    - {fileID: 11400000, guid: 422655e76d58f0a4594d66a0ba57a752, type: 2}
+    - {fileID: 11400000, guid: f276ebce0acc6e849993bccb5d6e34be, type: 2}
   friendlySlots:
   - {fileID: 1462758778}
   - {fileID: 895510914}
@@ -3536,7 +3536,11 @@ MonoBehaviour:
   - {fileID: 1072193027}
   - {fileID: 636051258}
   enemySlots:
+  - {fileID: 589298277}
+  - {fileID: 1372342690}
+  - {fileID: 1743930045}
   - {fileID: 1285335459}
+  - {fileID: 595504551}
   characterSequenceList: {fileID: 443224478}
   iconPrefab: {fileID: 3685334297540631434, guid: b39a11e25687b7d4aa2a1d1bd620775f, type: 3}
   battleCanvas: {fileID: 487801059}
