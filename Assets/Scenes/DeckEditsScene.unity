@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
-  followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
-  followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
@@ -2196,7 +2196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
-  followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
@@ -2919,7 +2919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
-  followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0
@@ -3344,6 +3344,7 @@ MonoBehaviour:
   - {fileID: 1462758778}
   - {fileID: 895510914}
   selectedTeamIndex: 0
+  selectedCount: 0
   characterListContent: {fileID: 1197695711}
 --- !u!1 &1366979377
 GameObject:
@@ -3827,7 +3828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
-  followUIPrefab: {fileID: 5430266534933600219, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
   isPlaced: 0

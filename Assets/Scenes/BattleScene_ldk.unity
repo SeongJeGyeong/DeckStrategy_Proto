@@ -154,9 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 472272547}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 1156636945}
 --- !u!114 &62661553
@@ -834,9 +835,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 1850211545}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 354207509}
 --- !u!114 &350842713
@@ -1567,6 +1569,7 @@ MonoBehaviour:
   - {fileID: 350842711}
   panel: {fileID: 803141725}
   iconPrefab: {fileID: 3685334297540631434, guid: b39a11e25687b7d4aa2a1d1bd620775f, type: 3}
+  isBattleStart: 0
 --- !u!4 &888336117
 Transform:
   m_ObjectHideFlags: 0
@@ -1837,9 +1840,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 597131093}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 125882001}
 --- !u!114 &1122896302
@@ -2624,9 +2628,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 1597794441}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 653828430}
 --- !u!114 &1698903190
@@ -2797,9 +2802,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 1077603571}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 177635332}
 --- !u!114 &1770497721
@@ -2981,9 +2987,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterModelPrefab: {fileID: 526767605}
-  followUIPrefab: {fileID: 0}
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
   characterUIPrefab: {fileID: 334257082341293490, guid: 031afa8c1e13fd74dbf595ff3b026788, type: 3}
   characterUICanvas: {fileID: 257151347}
+  battleSystem: {fileID: 888336116}
   isPlaced: 0
   AttackedPosition: {fileID: 457956374}
 --- !u!114 &1943976140

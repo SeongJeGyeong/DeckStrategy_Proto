@@ -106,12 +106,5 @@ public class FormationSystem : MonoBehaviour
             if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
             teamDataTable.teams[selectedTeamIndex].characters[i] = slot.model.characterBase;
         }
-
-        //for (int i = 0; i < slots.Length; ++i)
-        //{
-        //    LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-        //    if (teams[selectedTeamIndex] == null) teams[selectedTeamIndex] = new UserData.Team();
-        //    teams[selectedTeamIndex].characters[i] = slot.model.characterBase;
-        //}
     }
 }

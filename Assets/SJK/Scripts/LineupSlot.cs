@@ -7,13 +7,16 @@ public class LineupSlot : MonoBehaviour
     Character CharacterModelPrefab; // LDK : Character로 수정
     // GameObject CharacterModelPrefab; 원본
     [SerializeField]
-    ObjectFollowUI followUIPrefab;
+    GameObject followUIPrefab;
 
-    [SerializeField]
-    CharacterUI characterUIPrefab;
+    //[SerializeField]
+    //CharacterUI characterUIPrefab;
 
     [SerializeField]
     Canvas characterUICanvas;
+
+    [SerializeField]
+    BattleSystem battleSystem;
 
     //public CharacterBase characterBase { get; private set; }
 
@@ -34,19 +37,15 @@ public class LineupSlot : MonoBehaviour
         model = Instantiate(CharacterModelPrefab, slotTransform);
         model.gameObject.SetActive(false);
 
-        if(characterUIPrefab != null)
-        {
-            chracterBattleUI = Instantiate(characterUIPrefab, characterUICanvas.transform);
-            chracterBattleUI.Init(model);
-            chracterBattleUI.SetTarget(model.transform);
-            chracterBattleUI.gameObject.SetActive(true);
-        }
-        else
-        {
-            characterFollowUI = Instantiate(followUIPrefab, characterUICanvas.transform);
-            characterFollowUI.SetTarget(model.transform);
-            characterFollowUI.gameObject.SetActive(false);
-        }
+        GameObject ui = Instantiate(followUIPrefab, characterUICanvas.transform);
+        characterFollowUI = ui.GetComponentInChildren<ObjectFollowUI>();
+        characterFollowUI.SetTarget(model.transform);
+        characterFollowUI.gameObject.SetActive(false);
+
+        chracterBattleUI = ui.GetComponentInChildren<CharacterUI>();
+        chracterBattleUI.Init(model);
+        chracterBattleUI.SetTarget(model.transform);
+        chracterBattleUI.gameObject.SetActive(false);
     }
 
     public void SetSelectedCharacter(CharacterBase charBase, bool isEnemy)
@@ -75,5 +74,11 @@ public class LineupSlot : MonoBehaviour
         {
             characterFollowUI.gameObject.SetActive(false);
         }
+    }
+
+    public void ActivateBattleUI()
+    {
+        chracterBattleUI.gameObject.SetActive(true);
+        characterFollowUI.gameObject.SetActive(false);
     }
 }

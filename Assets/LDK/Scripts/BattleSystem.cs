@@ -9,32 +9,58 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private UserData.Team team;
+    private UserData.Team friendlyTeam = new UserData.Team();
+
+    [SerializeField]
+    private UserData.Team enemyTeam;
+
     public GameObject[] friendlySlots = new GameObject[5];
     public GameObject[] enemySlots = new GameObject[1];
 
-    [SerializeField] private RectTransform panel;
+    [SerializeField] private RectTransform characterSequenceList;
     private List<Character> battleSequence = new List<Character>();
     private List<GameObject> sequenceImage = new List<GameObject>();
 
     [SerializeField]
     private GameObject iconPrefab;
 
+    [SerializeField]
+    private GameObject battleCanvas;
+    [SerializeField]
+    private GameObject formationCanvas;
+
     Coroutine battleRoutin;
+
+    public bool isBattleStart = false;
+
     private void Start()
+    {
+        LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
+        CharacterBase enemyBase = enemyTeam.characters[0];
+        enemySlot.SetSelectedCharacter(enemyBase, true);
+    }
+
+    private void SortBattleSequence()
     {
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            CharacterBase freindlyBase = team.characters[i];
-            friendlySlot.SetSelectedCharacter(freindlyBase, false);
+            CharacterBase freindlyBase = friendlyTeam.characters[i];
             battleSequence.Add(friendlySlot.model);
         }
 
         LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
-        CharacterBase enemyBase = team.characters[4];
-        enemySlot.SetSelectedCharacter(enemyBase, true);
+        CharacterBase enemyBase = enemyTeam.characters[4];
         battleSequence.Add(enemySlot.model);
+
+        for (int i = 0; i < battleSequence.Count; i++)
+        {
+            var Icon = Instantiate(iconPrefab, characterSequenceList);
+            var portrait = Icon.transform.Find("Portrait")?.GetComponent<UnityEngine.UI.Image>();
+            var color = battleSequence[i].characterBase.characterModelData.material.GetColor("_BaseColor");
+            portrait.color = color;
+            sequenceImage.Add(Icon);
+        }
     }
 
     public void Resort()
@@ -49,7 +75,7 @@ public class BattleSystem : MonoBehaviour
 
         for (int i = 0; i < battleSequence.Count; i++)
         {
-            var Icon = Instantiate(iconPrefab, panel);
+            var Icon = Instantiate(iconPrefab, characterSequenceList);
             var portrait = Icon.transform.Find("Portrait")?.GetComponent<UnityEngine.UI.Image>();
             var color = battleSequence[i].characterBase.characterModelData.material.GetColor("_BaseColor");
             portrait.color = color;
@@ -58,9 +84,30 @@ public class BattleSystem : MonoBehaviour
     }
     public void BattleStart()
     {
+        isBattleStart = true;
+        for (int i = 0; i < friendlySlots.Length; i++)
+        {
+            LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
+            friendlyTeam.characters[i] = friendlySlot.model.characterBase;
+            friendlySlot.ActivateBattleUI();
+        }
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
+            enemyTeam.characters[i] = enemySlot.model.characterBase;
+            enemySlot.ActivateBattleUI();
+        }
+
+        formationCanvas.SetActive(false);
+        battleCanvas.SetActive(true);
+    }
+
+    public void StartBattleSequence()
+    {
         if (battleRoutin != null)
             StopCoroutine(battleRoutin);
 
+        SortBattleSequence();
         battleRoutin = StartCoroutine(CoBattle());
     }
 
@@ -82,6 +129,12 @@ public class BattleSystem : MonoBehaviour
             character.AtackComp.Attack();
 
             yield return new WaitWhile(() => character.AtackComp != null && character.AtackComp.isAttacking);
+
+            if (characterSequenceList.childCount > 0)
+            {
+                Transform first = characterSequenceList.GetChild(0);
+                Destroy(first.gameObject);
+            }
         }
         battleRoutin = null;
     }

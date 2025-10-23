@@ -20,8 +20,6 @@ public class CharacterIcon : MonoBehaviour
 
     private FormationSystem formationSystem;
 
-    //private int slotNumber;
-
     private void Awake()
     {
         formationSystem = FindAnyObjectByType<FormationSystem>();
