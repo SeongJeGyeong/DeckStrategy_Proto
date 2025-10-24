@@ -38,6 +38,7 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
+    FormationSystem formationSystem;
 
     private void Start()
     {
@@ -49,14 +50,25 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    // ¹èÆ² ¼ø¼­ Á¤·Ä
+    private void AddSlot(int slotindex, CharacterBase characterBase)
+    {
+        friendlyTeam.characters[slotindex] = characterBase; //SetSelectedCharacter(characterBase, false);
+    }
+
+    private void ReleaseSlot(int slotindex)
+    {
+        friendlySlots[slotindex].DeselectCharacter();
+    }
+
+
+    // ï¿½ï¿½Æ² ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void SortBattleSequence()
     {
         battleSequence.Clear();
         sequenceImage.ForEach(Destroy);
         sequenceImage.Clear();
 
-        // ¾Æ±º µî·Ï
+        // ï¿½Æ±ï¿½ ï¿½ï¿½ï¿½
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
@@ -71,10 +83,10 @@ public class BattleSystem : MonoBehaviour
             battleSequence.Add(enemySlot.character);
         }
 
-        // ¼Óµµ¼ø Á¤·Ä (³»¸²Â÷¼ø)
+        // ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         battleSequence.Sort((a, b) => b.characterData.speed.CompareTo(a.characterData.speed));
 
-        // ¼ø¼­ ¾ÆÀÌÄÜ Ç¥½Ã
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
         foreach (var character in battleSequence)
         {
             var icon = Instantiate(iconPrefab, characterSequenceList);
@@ -90,15 +102,15 @@ public class BattleSystem : MonoBehaviour
 
     public void Resort()
     {
-        // ±âÁ¸ ¾ÆÀÌÄÜ Á¦°Å
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (var icon in sequenceImage)
             Destroy(icon);
         sequenceImage.Clear();
 
-        // ¼Óµµ¼ø ÀçÁ¤·Ä
+        // ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         battleSequence.Sort((x, y) => y.characterData.speed.CompareTo(x.characterData.speed));
 
-        // Àç»ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½
         foreach (var character in battleSequence)
         {
             var icon = Instantiate(iconPrefab, characterSequenceList);
@@ -116,7 +128,7 @@ public class BattleSystem : MonoBehaviour
     {
         isBattleStart = true;
 
-        // ÆÀ Á¤º¸ ÀúÀå
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
@@ -147,19 +159,19 @@ public class BattleSystem : MonoBehaviour
         UpdateUI();
     }
 
-    // ÅÏ ÁøÇà ¹öÆ°
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public void NextTurn()
     {
         if (!isBattleStart || battleSequence.Count == 0)
             return;
 
-        // ÇÑ ¶ó¿îµå°¡ ³¡³µ´Ù¸é »õ ¶ó¿îµå·Î
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         if (currentTurnIndex >= battleSequence.Count)
         {
             currentRound++;
-            // ¶ó¿îµå ³Ñ¾î°¡ÀÚ¸¶ÀÚ ÀçÁ¤·Ä ¹× UI Àç»ý¼º
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½
             Resort();
-            // ´Ù½Ã Ã¹ ¹øÂ° Ä³¸¯ÅÍºÎÅÍ ½ÃÀÛ
+            // ï¿½Ù½ï¿½ Ã¹ ï¿½ï¿½Â° Ä³ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             currentTurnIndex = 0;
 
             UpdateUI();
@@ -174,7 +186,7 @@ public class BattleSystem : MonoBehaviour
         }
         if (turnText != null)
             turnText.text = $"{currentChar.characterData.characterName} Turn";
-        // °ø°Ý Å¸°Ù ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (currentChar.isEnemy)
         {
             int targetIndex = Random.Range(0, friendlySlots.Length);
@@ -186,10 +198,10 @@ public class BattleSystem : MonoBehaviour
             currentChar.AtackComp.targetIndex = targetIndex;
         }
 
-        // Çàµ¿ ½ÇÇà
+        // ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½
         currentChar.AtackComp.Attack();
 
-        //  ÀÌ¹ø ÅÏ Ä³¸¯ÅÍ ¾ÆÀÌÄÜ Á¦°Å
+        //  ï¿½Ì¹ï¿½ ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
         {
             sequenceImage[currentTurnIndex].SetActive(false);
@@ -206,7 +218,7 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentTurnIndex < battleSequence.Count)
             {
-                // ÇöÀç ÅÏ Ä³¸¯ÅÍ ÀÌ¸§ Ç¥½Ã
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ Ç¥ï¿½ï¿½
                 var currentChar = battleSequence[currentTurnIndex];
                 if (currentChar != null && currentChar.characterData != null)
                     turnText.text = $"{currentChar.characterData.characterName} Turn";
@@ -215,7 +227,7 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                // ¸ðµç ÅÏÀÌ ³¡³­ °æ¿ì
+                // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 turnText.text = $"";
             }
         }
@@ -238,32 +250,32 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator CoNextRound()
     {
-        Debug.Log($" Round {currentRound} ½ÃÀÛ!");
+        Debug.Log($" Round {currentRound} ï¿½ï¿½ï¿½ï¿½!");
 
-        Resort(); // ¼Óµµ¼ø Á¤·Ä
+        Resort(); // ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         currentTurnIndex = 0;
 
-        // ÅÏ ¼ø¼­´ë·Î NextTurn È£Ãâ
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NextTurn È£ï¿½ï¿½
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
 
-            // °ø°ÝÀÌ ³¡³¯ ¶§±îÁö ´ë±â
-            Character c = battleSequence[currentTurnIndex - 1]; // NextTurn¿¡¼­ ÀÎµ¦½º Áõ°¡ÇÔ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            Character c = battleSequence[currentTurnIndex - 1]; // NextTurnï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (c != null && c.AtackComp != null)
                 yield return new WaitWhile(() => c.AtackComp.isAttacking);
 
-            // ÅÏ »çÀÌ ÅÒ (¿¬Ãâ¿ë)
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½)
             yield return new WaitForSeconds(0.2f);
         }
 
-        // ¶ó¿îµå Á¾·á Ã³¸®
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
         currentRound++;
         currentTurnIndex = 0;
         UpdateUI();
 
         Resort();
 
-        Debug.Log($" Round {currentRound - 1} Á¾·á");
+        Debug.Log($" Round {currentRound - 1} ï¿½ï¿½ï¿½ï¿½");
     }
 }
