@@ -26,7 +26,6 @@ public class CharacterUI : MonoBehaviour
 
     [SerializeField] private Button damageButton;
     [SerializeField] private Button effectButton;
-    [SerializeField] private Button attackButton;
 
     [SerializeField] private List<StatusSpritePair> spritePairs;
 
@@ -89,15 +88,6 @@ public class CharacterUI : MonoBehaviour
         {
             effectButton.onClick.RemoveAllListeners();
             effectButton.onClick.AddListener(OnClick_Effect);
-        }
-
-        //if (!attackButton)
-        //    attackButton = GetComponentInChildren<Button>(true);
-
-        if (attackButton)
-        {
-            attackButton.onClick.RemoveAllListeners();
-            attackButton.onClick.AddListener(OnClick_Attack);
         }
     }
 

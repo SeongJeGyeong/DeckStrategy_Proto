@@ -86,6 +86,7 @@ public class LineupSlot : MonoBehaviour
 
     public void ActivateBattleUI()
     {
+        chracterBattleUI.Init(character);
         chracterBattleUI.gameObject.SetActive(true);
         characterFollowUI.gameObject.SetActive(false);
     }

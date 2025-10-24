@@ -23,9 +23,9 @@ MonoBehaviour:
     - characterID: 7
       characterModelID: 7
       characterLevel: 8
-    - characterID: 3
-      characterModelID: 3
-      characterLevel: 10
+    - characterID: 1
+      characterModelID: 1
+      characterLevel: 1
     - characterID: 5
       characterModelID: 5
       characterLevel: 7
