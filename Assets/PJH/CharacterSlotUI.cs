@@ -9,27 +9,24 @@ public class CharacterSlotUI : MonoBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text contributionText;
 
-    public void SetData(CharacterBase characterBase)
+    public void SetData(CharacterData data, CharacterModelData modelData)
     {
-        if (characterBase == null)
+        if (data == null || modelData == null)
         {
-            Debug.LogWarning($"{gameObject.name}: CharacterBase가 비어있습니다!");
+            Debug.LogWarning($"{gameObject.name}: 데이터가 비어있습니다!");
             return;
         }
 
-        var data = characterBase.characterData;
-        var model = characterBase.characterModelData;
-
         // 이미지 적용
-        if (image != null && model != null)
-            image.material = model.material;
+        if (image != null)
+            image.material = modelData.material;
 
         // 이름 적용
-        if (nameText != null && data != null)
+        if (nameText != null)
             nameText.text = data.characterName;
 
         // 공격력(기여도) 적용
-        if (contributionText != null && data != null)
+        if (contributionText != null)
             contributionText.text = $"공격력: {data.attack}";
     }
 }

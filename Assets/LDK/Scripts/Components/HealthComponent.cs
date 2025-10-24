@@ -12,7 +12,7 @@ public class HealthComponent : MonoBehaviour, IBattleable
     private void Start()
     {
         owner = GetComponent<Character>();
-        currHp = owner.characterBase.characterData.maxHp;
+        currHp = owner.characterData.maxHp;
     }
     public virtual void TakeDamage(float amount)
     {

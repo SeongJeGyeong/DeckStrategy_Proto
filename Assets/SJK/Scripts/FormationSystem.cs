@@ -2,9 +2,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
+using static Result_CharacterDisplay;
 
 public class FormationSystem : MonoBehaviour
 {
+    [SerializeField]
+    DataCenter dataCenter;
+
     [SerializeField]
     private TeamDataTable teamDataTable;
 
@@ -35,19 +39,18 @@ public class FormationSystem : MonoBehaviour
         selectedCount = 0;
         if (teamDataTable.teams[teamIndex] == null) return;
 
-        CharacterBase[] characters = teamDataTable.teams[teamIndex].characters;
+        OwnedCharacterInfo[] characters = teamDataTable.teams[teamIndex].characters;
         for (int i = 0; i < slots.Length; ++i)
         {
-            if (characters[i] == null) return;
+            if (characters[i].characterID == 0) return;
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             slot.SetSelectedCharacter(characters[i], false);
             ++selectedCount;
             CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
             foreach (var icon in icons)
             {
-                if (icon.characterBase.characterData.ID == slot.model.characterBase.characterData.ID)
+                if (icon.characterInfo.characterID == characters[i].characterID)
                 {
-                    Debug.Log("PlaceID: " + slot.model.characterBase.characterData.ID);
                     icon.selectedButton.ButtonClicked();
                     break;
                 }
@@ -55,14 +58,14 @@ public class FormationSystem : MonoBehaviour
         }
     }
 
-    public void PlaceCharacter(CharacterBase characterBase)
+    public void PlaceCharacter(OwnedCharacterInfo info)
     {
         for (int i = 0; i < slots.Length; ++i)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
-                slot.SetSelectedCharacter(characterBase, false);
+                slot.SetSelectedCharacter(info, false);
                 ++selectedCount;
                 return;
             }
@@ -76,8 +79,8 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             // 캐릭터가 편성되지 않은 슬롯은 넘김
-            if (slot.model.characterBase == null) continue;
-            if (slot.model.characterBase.characterData.ID == characterID)
+            if (slot.character == null) continue;
+            if (slot.character.characterData.ID == characterID)
             {
                 slot.DeselectCharacter();
                 --selectedCount;
@@ -104,7 +107,7 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
-            teamDataTable.teams[selectedTeamIndex].characters[i] = slot.model.characterBase;
+            teamDataTable.teams[selectedTeamIndex].characters[i] = slot.characterInfo;
         }
     }
 }

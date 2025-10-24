@@ -14,8 +14,7 @@ public class BattleSystem : MonoBehaviour
     private UserData.Team enemyTeam;
     [SerializeField]
     public GameObject[] friendlySlots = new GameObject[5];
-    [SerializeField]
-    public GameObject[] enemySlots = new GameObject[1];
+    public GameObject[] enemySlots = new GameObject[5];
 
     [SerializeField]
     private RectTransform characterSequenceList;
@@ -42,10 +41,12 @@ public class BattleSystem : MonoBehaviour
 
     private void Start()
     {
-        // 테스트용 적 1명 세팅
-        LineupSlot enemySlot = enemySlots[0].GetComponent<LineupSlot>();
-        CharacterBase enemyBase = enemyTeam.characters[0];
-        enemySlot.SetSelectedCharacter(enemyBase, true);
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
+            if (enemyTeam.characters[i] == null) continue;
+            enemySlot.SetSelectedCharacter(enemyTeam.characters[i], true);
+        }
     }
 
     // 배틀 순서 정렬
@@ -59,20 +60,19 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (friendlySlot.model != null && friendlySlot.isPlaced)
-                battleSequence.Add(friendlySlot.model);
+            if (friendlySlot.character != null)
+                battleSequence.Add(friendlySlot.character);
         }
 
-        // 적 등록
         for (int i = 0; i < enemySlots.Length; i++)
         {
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
-            if (enemySlot.model != null && enemySlot.isPlaced)
-                battleSequence.Add(enemySlot.model);
+            if (enemyTeam.characters[i] == null) continue;
+            battleSequence.Add(enemySlot.character);
         }
 
         // 속도순 정렬 (내림차순)
-        battleSequence.Sort((a, b) => b.characterBase.characterData.speed.CompareTo(a.characterBase.characterData.speed));
+        battleSequence.Sort((a, b) => b.characterData.speed.CompareTo(a.characterData.speed));
 
         // 순서 아이콘 표시
         foreach (var character in battleSequence)
@@ -81,7 +81,7 @@ public class BattleSystem : MonoBehaviour
             var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
             if (portrait != null)
             {
-                Color c = character.characterBase.characterModelData.material.GetColor("_BaseColor");
+                Color c = character.characterModelData.material.GetColor("_BaseColor");
                 portrait.color = c;
             }
             sequenceImage.Add(icon);
@@ -96,7 +96,7 @@ public class BattleSystem : MonoBehaviour
         sequenceImage.Clear();
 
         // 속도순 재정렬
-        battleSequence.Sort((x, y) => y.characterBase.characterData.speed.CompareTo(x.characterBase.characterData.speed));
+        battleSequence.Sort((x, y) => y.characterData.speed.CompareTo(x.characterData.speed));
 
         // 재생성
         foreach (var character in battleSequence)
@@ -105,7 +105,7 @@ public class BattleSystem : MonoBehaviour
             var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
             if (portrait != null)
             {
-                var color = character.characterBase.characterModelData.material.GetColor("_BaseColor");
+                var color = character.characterModelData.material.GetColor("_BaseColor");
                 portrait.color = color;
             }
             sequenceImage.Add(icon);
@@ -120,9 +120,9 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (slot.model.characterBase != null) //model 말고 characterBase를 null 체크해야함
+            if (slot.character != null)
             {
-                friendlyTeam.characters[i] = slot.model.characterBase;
+                friendlyTeam.characters[i] = slot.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -130,9 +130,9 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < enemySlots.Length; i++)
         {
             var slot = enemySlots[i].GetComponent<LineupSlot>();
-            if (slot.model.characterBase != null)
+            if (slot.characterInfo != null)
             {
-                enemyTeam.characters[i] = slot.model.characterBase;
+                enemyTeam.characters[i] = slot.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -172,7 +172,8 @@ public class BattleSystem : MonoBehaviour
             currentTurnIndex++;
             return;
         }
-
+        if (turnText != null)
+            turnText.text = $"{currentChar.characterData.characterName} Turn";
         // 공격 타겟 설정
         if (currentChar.isEnemy)
         {
@@ -187,7 +188,6 @@ public class BattleSystem : MonoBehaviour
 
         // 행동 실행
         currentChar.AtackComp.Attack();
-        Debug.Log($"[Round {currentRound}] Turn {currentTurnIndex + 1} → {currentChar.characterBase.characterData.name} attacks!");
 
         //  이번 턴 캐릭터 아이콘 제거
         if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
@@ -195,12 +195,39 @@ public class BattleSystem : MonoBehaviour
             sequenceImage[currentTurnIndex].SetActive(false);
         }
 
-        currentTurnIndex++;
-        UpdateUI();
+        StartCoroutine(WaitForAttackEnd(currentChar));
+    }
+    private void UpdateUI()
+    {
+        if (roundText != null)
+            roundText.text = $"Round {currentRound}";
 
-        
+        if (turnText != null)
+        {
+            if (currentTurnIndex < battleSequence.Count)
+            {
+                // 현재 턴 캐릭터 이름 표시
+                var currentChar = battleSequence[currentTurnIndex];
+                if (currentChar != null && currentChar.characterData != null)
+                    turnText.text = $"{currentChar.characterData.characterName} Turn";
+                else
+                    turnText.text = $"---";
+            }
+            else
+            {
+                // 모든 턴이 끝난 경우
+                turnText.text = $"";
+            }
+        }
     }
 
+    private IEnumerator WaitForAttackEnd(Character currentChar)
+    {
+        yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
+
+        currentTurnIndex++;
+        UpdateUI();
+    }
     public void NextRound()
     {
         if (!isBattleStart || battleSequence.Count == 0)
@@ -238,29 +265,5 @@ public class BattleSystem : MonoBehaviour
         Resort();
 
         Debug.Log($" Round {currentRound - 1} 종료");
-    }
-
-    private void UpdateUI()
-    {
-        if (roundText != null)
-            roundText.text = $"Round {currentRound}";
-
-        if (turnText != null)
-        {
-            if (currentTurnIndex < battleSequence.Count)
-            {
-                // 현재 턴 캐릭터 이름 표시
-                var currentChar = battleSequence[currentTurnIndex];
-                if (currentChar != null && currentChar.characterBase != null)
-                    turnText.text = $"{currentChar.characterBase.characterData.characterName} Turn";
-                else
-                    turnText.text = $"---";
-            }
-            else
-            {
-                // 모든 턴이 끝난 경우
-                turnText.text = $"0 Turn";
-            }
-        }
     }
 }

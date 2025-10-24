@@ -37,7 +37,7 @@ public class AttackComponent : MonoBehaviour
     {
         if(isAttacking)
         {
-            if (owner.characterBase.characterData.rangeType == RangeType.Melee)
+            if (owner.characterData.rangeType == RangeType.Melee)
             {
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.5f);
                 if(transform.position == targetSlot.AttackedPosition.position)
@@ -77,7 +77,7 @@ public class AttackComponent : MonoBehaviour
             targetSlot = battleSystem.enemySlots[targetIndex].GetComponent<LineupSlot>();
         }
         targetPosition = targetSlot.AttackedPosition.position;
-        if(owner.characterBase.characterData.rangeType == RangeType.Range)
+        if(owner.characterData.rangeType == RangeType.Range)
         {
             bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }

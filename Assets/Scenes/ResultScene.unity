@@ -1541,6 +1541,53 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &523391680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 523391682}
+  - component: {fileID: 523391681}
+  m_Layer: 0
+  m_Name: DataCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &523391681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523391680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ec254000067f44cb8e36cf24563b3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownedCharacterTable: {fileID: 11400000, guid: 1a11f21ae57c3d34aa6847a855019259, type: 2}
+  characterDataTable: {fileID: 11400000, guid: ed07d8c7ee4d90840a2dafe10f2ca495, type: 2}
+  characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
+--- !u!4 &523391682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523391680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.0076938, y: 1.0364833, z: 1.605859}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &540059587
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,6 +2403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e8bef8d1891e74d9678b1d09b3b9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 523391681}
   mvpSlots:
   - {fileID: 1450344476}
   - {fileID: 1864389111}
@@ -2363,11 +2411,21 @@ MonoBehaviour:
   - {fileID: 245712906}
   - {fileID: 735201070}
   mvpCharacters:
-  - {fileID: 11400000, guid: f276ebce0acc6e849993bccb5d6e34be, type: 2}
-  - {fileID: 11400000, guid: 1c4bb0b329b2ad946a703e0af15c2b80, type: 2}
-  - {fileID: 11400000, guid: 422655e76d58f0a4594d66a0ba57a752, type: 2}
-  - {fileID: 11400000, guid: 4ec2747cce8df5f4abb5f187230fdf91, type: 2}
-  - {fileID: 11400000, guid: 869de6a19cd83ec4d86c1c22ad364bca, type: 2}
+  - characterID: 0
+    characterModelID: 0
+    characterLevel: 0
+  - characterID: 0
+    characterModelID: 0
+    characterLevel: 0
+  - characterID: 0
+    characterModelID: 0
+    characterLevel: 0
+  - characterID: 0
+    characterModelID: 0
+    characterLevel: 0
+  - characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &1072245209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,6 +3954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e8bef8d1891e74d9678b1d09b3b9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 0}
   mvpSlots: []
   mvpCharacters: []
 --- !u!4 &1718245637
@@ -4745,3 +4804,4 @@ SceneRoots:
   - {fileID: 406843096}
   - {fileID: 1225219093}
   - {fileID: 1026225524}
+  - {fileID: 523391682}

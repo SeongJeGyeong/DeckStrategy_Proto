@@ -285,12 +285,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 1091457045}
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
-  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
+  battleSystem: {fileID: 0}
   isPlaced: 0
   AttackedPosition: {fileID: 0}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &173719823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,12 +1753,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 1091457045}
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
-  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
+  battleSystem: {fileID: 0}
   isPlaced: 0
   AttackedPosition: {fileID: 0}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &750121789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,12 +2205,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 1091457045}
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
-  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
+  battleSystem: {fileID: 0}
   isPlaced: 0
   AttackedPosition: {fileID: 0}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &980129906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2918,12 +2933,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 1091457045}
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
-  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
+  battleSystem: {fileID: 0}
   isPlaced: 0
   AttackedPosition: {fileID: 0}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &1081687712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3000,6 +3020,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081687712}
   m_CullTransparentMesh: 1
+--- !u!1 &1091457043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091457044}
+  - component: {fileID: 1091457045}
+  m_Layer: 0
+  m_Name: DataCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091457044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091457043}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1170, y: 100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091457045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091457043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ec254000067f44cb8e36cf24563b3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownedCharacterTable: {fileID: 11400000, guid: 1a11f21ae57c3d34aa6847a855019259, type: 2}
+  characterDataTable: {fileID: 11400000, guid: ed07d8c7ee4d90840a2dafe10f2ca495, type: 2}
+  characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
 --- !u!1 &1096160792
 GameObject:
   m_ObjectHideFlags: 0
@@ -3336,6 +3403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe3df4136bb8ff4ba75ce1f9819c1fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 0}
   teamDataTable: {fileID: 11400000, guid: 2a968602addba7242a4cc2cecc06b032, type: 2}
   slots:
   - {fileID: 636051258}
@@ -3466,14 +3534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad1676d86f21584da191f0d89854457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 11400000, guid: 869de6a19cd83ec4d86c1c22ad364bca, type: 2}
-  - {fileID: 11400000, guid: 4ec2747cce8df5f4abb5f187230fdf91, type: 2}
-  - {fileID: 11400000, guid: 422655e76d58f0a4594d66a0ba57a752, type: 2}
-  - {fileID: 11400000, guid: 1c4bb0b329b2ad946a703e0af15c2b80, type: 2}
-  - {fileID: 11400000, guid: f276ebce0acc6e849993bccb5d6e34be, type: 2}
-  - {fileID: 11400000, guid: 039a1cfd1ecea7d4599ab28c959a1e57, type: 2}
-  - {fileID: 11400000, guid: 98fe68fc62414b542bcce11f06166f67, type: 2}
+  dataCenter: {fileID: 1091457045}
   iconPrefab: {fileID: 3685334297540631434, guid: 2f1e4281c278cce49b1a38ef305add21, type: 3}
   contentParent: {fileID: 1197695711}
 --- !u!1 &1383354219
@@ -3827,12 +3888,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c10283565cb72449d6016c8c9dc4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataCenter: {fileID: 1091457045}
   CharacterModelPrefab: {fileID: 3410943731210983682, guid: d1085c23fa2441145abe91e83a16cf7f, type: 3}
   followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
-  characterUIPrefab: {fileID: 0}
   characterUICanvas: {fileID: 1920360885}
+  battleSystem: {fileID: 0}
   isPlaced: 0
   AttackedPosition: {fileID: 0}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
 --- !u!1 &1469113309
 GameObject:
   m_ObjectHideFlags: 0
@@ -5030,3 +5096,4 @@ SceneRoots:
   - {fileID: 1314368956}
   - {fileID: 1402947966}
   - {fileID: 1920360886}
+  - {fileID: 1091457044}
