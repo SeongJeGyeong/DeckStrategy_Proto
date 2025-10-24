@@ -38,7 +38,7 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
-    FormationSystem formationSystem;
+    //FormationSystem formationSystem;
 
     private void Start()
     {
@@ -50,15 +50,15 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void AddSlot(int slotindex, CharacterBase characterBase)
-    {
-        friendlyTeam.characters[slotindex] = characterBase; //SetSelectedCharacter(characterBase, false);
-    }
+    //private void AddSlot(int slotindex, CharacterBase characterBase)
+    //{
+    //    friendlyTeam.characters[slotindex] = characterBase; //SetSelectedCharacter(characterBase, false);
+    //}
 
-    private void ReleaseSlot(int slotindex)
-    {
-        friendlySlots[slotindex].DeselectCharacter();
-    }
+    //private void ReleaseSlot(int slotindex)
+    //{
+    //    friendlySlots[slotindex].DeselectCharacter();
+    //}
 
 
     // ��Ʋ ���� ����
@@ -72,7 +72,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (friendlySlot.character != null)
+            if (friendlySlot.character.characterData != null && friendlySlot.isPlaced)
                 battleSequence.Add(friendlySlot.character);
         }
 
@@ -83,10 +83,8 @@ public class BattleSystem : MonoBehaviour
             battleSequence.Add(enemySlot.character);
         }
 
-        // �ӵ��� ���� (��������)
         battleSequence.Sort((a, b) => b.characterData.speed.CompareTo(a.characterData.speed));
 
-        // ���� ������ ǥ��
         foreach (var character in battleSequence)
         {
             var icon = Instantiate(iconPrefab, characterSequenceList);
@@ -132,7 +130,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (slot.character != null)
+            if (slot.character.characterData != null && slot.isPlaced)
             {
                 friendlyTeam.characters[i] = slot.characterInfo;
                 slot.ActivateBattleUI();
@@ -261,7 +259,7 @@ public class BattleSystem : MonoBehaviour
             NextTurn();
 
             // ������ ���� ������ ���
-            Character c = battleSequence[currentTurnIndex - 1]; // NextTurn���� �ε��� ������
+            Character c = battleSequence[currentTurnIndex - 1];
             if (c != null && c.AtackComp != null)
                 yield return new WaitWhile(() => c.AtackComp.isAttacking);
 

@@ -22,7 +22,7 @@ public class FormationSystem : MonoBehaviour
     public int selectedTeamIndex = 0;
     public int selectedCount = 0;
 
-    public delegate void CharacterPlacedHandler(int slotIndex, CharacterBase characterBase);
+    public delegate void CharacterPlacedHandler(int slotIndex, CharacterData characterBase);
     public delegate void CharacterReleasedHandler(int slotIndex);
 
     public CharacterPlacedHandler placedHandler;
@@ -74,7 +74,7 @@ public class FormationSystem : MonoBehaviour
             {
                 slot.SetSelectedCharacter(info, false);
                 ++selectedCount;
-                placedHandler?.Invoke(i, characterBase);
+                //placedHandler?.Invoke(i, characterBase);
                 return;
             }
         }
@@ -92,7 +92,7 @@ public class FormationSystem : MonoBehaviour
             {
                 slot.DeselectCharacter();
                 --selectedCount;
-                releaseHandler?.Invoke(i);
+                //releaseHandler?.Invoke(i);
                 return;
             }
         }
