@@ -14,50 +14,130 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teams:
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 2
+      characterModelID: 2
+      characterLevel: 5
+    - characterID: 4
+      characterModelID: 4
+      characterLevel: 3
+    - characterID: 7
+      characterModelID: 7
+      characterLevel: 8
+    - characterID: 3
+      characterModelID: 3
+      characterLevel: 10
+    - characterID: 5
+      characterModelID: 5
+      characterLevel: 7
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
   - characters:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0
+    - characterID: 0
+      characterModelID: 0
+      characterLevel: 0

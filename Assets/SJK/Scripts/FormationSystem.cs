@@ -1,8 +1,10 @@
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 using static Result_CharacterDisplay;
+using static UnityEngine.GraphicsBuffer;
 
 public class FormationSystem : MonoBehaviour
 {
@@ -109,5 +111,9 @@ public class FormationSystem : MonoBehaviour
             if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
             teamDataTable.teams[selectedTeamIndex].characters[i] = slot.characterInfo;
         }
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(teamDataTable);
+        AssetDatabase.SaveAssets();
+#endif
     }
 }
