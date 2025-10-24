@@ -246,6 +246,21 @@ public class BattleSystem : MonoBehaviour
             roundText.text = $"Round {currentRound}";
 
         if (turnText != null)
-            turnText.text = $"Turn {currentTurnIndex}";
+        {
+            if (currentTurnIndex < battleSequence.Count)
+            {
+                // 현재 턴 캐릭터 이름 표시
+                var currentChar = battleSequence[currentTurnIndex];
+                if (currentChar != null && currentChar.characterBase != null)
+                    turnText.text = $"{currentChar.characterBase.characterData.characterName} Turn";
+                else
+                    turnText.text = $"---";
+            }
+            else
+            {
+                // 모든 턴이 끝난 경우
+                turnText.text = $"0 Turn";
+            }
+        }
     }
 }
