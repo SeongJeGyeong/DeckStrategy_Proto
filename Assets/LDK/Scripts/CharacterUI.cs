@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Character;
@@ -110,8 +111,11 @@ public class CharacterUI : MonoBehaviour
     }
     private void OnEffectAdded(StatusEffect effect)
     {
-        //if (activeIcons.ContainsKey(effect.Name))
-        //    return;
+        if (activeIcons.TryGetValue(effect.Name,out Image image))
+        {
+            image.GetComponentInChildren<TextMeshProUGUI>().text = $"Stack : {effect.Stack}";
+            return;
+        }
 
         GameObject go = new GameObject("StatusIcon", typeof(Image));
         Image icon = go.GetComponent<Image>();
@@ -120,6 +124,35 @@ public class CharacterUI : MonoBehaviour
         icon.transform.SetParent(Panel, false);
         icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
+
+        //GameObject Text = new GameObject("StackText", typeof(RectTransform), typeof(TextMeshProUGUI));
+        //Text text = Text.GetComponent<Text>();
+
+        //text.transform.SetParent(icon.rectTransform, false);
+        //text.fontSize = 36;
+        //text.alignment = TextAnchor.MiddleCenter;
+        //text.minWidth = 200;
+        //text.minHeight = 50;
+
+        var textGO = new GameObject("Text (TMP)", typeof(RectTransform), typeof(TextMeshProUGUI));
+        textGO.transform.SetParent(icon.transform, false);
+
+        var rt = (RectTransform)textGO.transform;
+        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(200f, 64f);
+        rt.anchoredPosition = new Vector2(0f, 32f);
+
+        var label = textGO.GetComponent<TextMeshProUGUI>();
+        label.text = $"Stack : {effect.Stack}";
+        label.fontSize = 36;
+        label.alignment = TextAlignmentOptions.Midline;
+        label.overflowMode = TextOverflowModes.Overflow;
+        label.raycastTarget = false;
+        label.color = Color.red;
+
+        // 3) 아이콘 사전에 등록(라벨 업데이트용 접근 경로 확보)
+        activeIcons.TryAdd(effect.Name, icon);
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
         {

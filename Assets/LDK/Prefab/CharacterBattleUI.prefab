@@ -467,6 +467,8 @@ MonoBehaviour:
   spritePairs:
   - Name: Burn
     Sprite: {fileID: 21300000, guid: c7f9169d3f6486d4db06d01c66192d65, type: 3}
+  - Name: Poison
+    Sprite: {fileID: 21300000, guid: b8744436a6a5ec347bd455ec406b450c, type: 3}
   offset: {x: 0, y: 2, z: 0}
 --- !u!1 &3352556232695127271
 GameObject:

@@ -23,7 +23,7 @@ public class CharactersList : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        if (dataCenter.ownedCharacterTable == null) return;
+        if (dataCenter.ownedCharacterTable == null) return; 
 
         foreach (OwnedCharacterInfo character in dataCenter.ownedCharacterTable.ownedCharacterList)
         {
