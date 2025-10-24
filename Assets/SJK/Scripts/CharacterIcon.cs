@@ -14,11 +14,11 @@ public class CharacterIcon : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI level;
 
-    public CharacterBase characterBase { get; private set; }
-
     public SelectedButton selectedButton;
 
     private FormationSystem formationSystem;
+
+    public OwnedCharacterInfo characterInfo;
 
     private void Awake()
     {
@@ -26,18 +26,17 @@ public class CharacterIcon : MonoBehaviour
         selectedButton.button.onClick.AddListener(OnButtonClicked);
     }
 
-    public void SetData(CharacterBase charBase)
+    public void SetData(CharacterData statusData, CharacterModelData modelData, int characterLevel)
     {
-        characterBase = charBase;
+        level.text = "Lv." + characterLevel.ToString();
 
-        level.text = "Lv." + characterBase.Level.ToString();
-        portrait.color = characterBase.characterModelData.material.color;
+        portrait.color = modelData.material.color;
 
-        if(characterBase.characterData.type == AttributeType.ROCK)
+        if(statusData.type == AttributeType.ROCK)
         {
             attributeIcon.color = Color.red;
         }
-        else if(characterBase.characterData.type == AttributeType.SCISSORS)
+        else if(statusData.type == AttributeType.SCISSORS)
         {
             attributeIcon.color = Color.green;
         }
@@ -45,6 +44,10 @@ public class CharacterIcon : MonoBehaviour
         {
             attributeIcon.color = Color.blue;
         }
+
+        characterInfo.characterID = statusData.ID;
+        characterInfo.characterModelID = modelData.ID;
+        characterInfo.characterLevel = characterLevel;
     }
 
     private void OnButtonClicked()
@@ -53,13 +56,13 @@ public class CharacterIcon : MonoBehaviour
         {
             if(formationSystem.selectedCount > 0)
             {
-                formationSystem.ReleaseCharacter(characterBase.characterData.ID);
+                formationSystem.ReleaseCharacter(characterInfo.characterID);
                 selectedButton.ButtonClicked();
             }
         }
         else if(formationSystem.selectedCount < 5)
         {
-            formationSystem.PlaceCharacter(characterBase);
+            formationSystem.PlaceCharacter(characterInfo);
             selectedButton.ButtonClicked();
         }
     }

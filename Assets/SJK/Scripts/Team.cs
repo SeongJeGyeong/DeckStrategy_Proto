@@ -5,6 +5,6 @@ namespace UserData
     {
         private const int maxSize = 5;
 
-        public CharacterBase[] characters = new CharacterBase[maxSize];
+        public OwnedCharacterInfo[] characters = new OwnedCharacterInfo[maxSize];
     }
 }

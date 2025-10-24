@@ -16,7 +16,6 @@ public class Character : MonoBehaviour
         public int RemainsTurn; // 이전부여된 라운드 수 < 이번에부여된 라운드 수 일 경우 이번에부여된 라운드 수로 덮어씌운다.
     }
 
-    public CharacterBase characterBase;
     [SerializeField] private HealthComponent healthComp;
     [SerializeField] private StatusComponent statusComp;
     [SerializeField] private AttackComponent attackComp;
@@ -25,6 +24,8 @@ public class Character : MonoBehaviour
     public StatusComponent StatusComp => statusComp;
     public AttackComponent AtackComp => attackComp;
 
+    public CharacterData characterData;
+    public CharacterModelData characterModelData;
     public float maxSkillGauge { get; private set; }
     private int sequenceNumber;
 

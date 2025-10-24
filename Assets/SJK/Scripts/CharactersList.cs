@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class CharactersList : MonoBehaviour
 {
-    public CharacterBase[] characters;
+    [SerializeField]
+    private DataCenter dataCenter;
+
     [SerializeField]
     private GameObject iconPrefab;
     [SerializeField]
@@ -21,11 +23,17 @@ public class CharactersList : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach(var character in characters)
+        if (dataCenter.ownedCharacterTable == null) return;
+
+        foreach (OwnedCharacterInfo character in dataCenter.ownedCharacterTable.ownedCharacterList)
         {
             var itemUI = Instantiate(iconPrefab, contentParent.transform);
             var slot = itemUI.GetComponent<CharacterIcon>(); // 프리팹에 붙은 UI 스크립트
-            slot.SetData(character);
+
+            var statusData = dataCenter.characterDataTable.FindCharacterData(character.characterID);
+            var modelData = dataCenter.characterModelDataTable.FindCharacterModel(character.characterModelID);
+
+            slot.SetData(statusData, modelData, character.characterLevel);
         }
     }
 }

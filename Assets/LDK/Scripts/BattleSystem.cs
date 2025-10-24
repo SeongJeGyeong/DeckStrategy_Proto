@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+
 
 public class BattleSystem : MonoBehaviour
 {
@@ -13,25 +12,32 @@ public class BattleSystem : MonoBehaviour
 
     [SerializeField]
     private UserData.Team enemyTeam;
-
+    [SerializeField]
     public GameObject[] friendlySlots = new GameObject[5];
     public GameObject[] enemySlots = new GameObject[5];
 
-    [SerializeField] private RectTransform characterSequenceList;
-    private List<Character> battleSequence = new List<Character>();
-    private List<GameObject> sequenceImage = new List<GameObject>();
-
+    [SerializeField]
+    private RectTransform characterSequenceList;
     [SerializeField]
     private GameObject iconPrefab;
-
     [SerializeField]
     private GameObject battleCanvas;
     [SerializeField]
     private GameObject formationCanvas;
 
-    Coroutine battleRoutin;
+    [SerializeField]
+    private TextMeshProUGUI roundText;
+    [SerializeField]
+    private TextMeshProUGUI turnText;
 
-    public bool isBattleStart = false;
+    private List<Character> battleSequence = new List<Character>();
+    private List<GameObject> sequenceImage = new List<GameObject>();
+
+    private int currentTurnIndex = 0;
+    private int currentRound = 1;
+
+    private bool isBattleStart = false;
+
 
     private void Start()
     {
@@ -39,112 +45,225 @@ public class BattleSystem : MonoBehaviour
         {
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
             if (enemyTeam.characters[i] == null) continue;
-            CharacterBase enemyBase = enemyTeam.characters[i];
-            enemySlot.SetSelectedCharacter(enemyBase, true);
+            enemySlot.SetSelectedCharacter(enemyTeam.characters[i], true);
         }
     }
 
+    // 배틀 순서 정렬
     private void SortBattleSequence()
     {
+        battleSequence.Clear();
+        sequenceImage.ForEach(Destroy);
+        sequenceImage.Clear();
+
+        // 아군 등록
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            CharacterBase freindlyBase = friendlyTeam.characters[i];
-            battleSequence.Add(friendlySlot.model);
+            if (friendlySlot.character != null)
+                battleSequence.Add(friendlySlot.character);
         }
 
         for (int i = 0; i < enemySlots.Length; i++)
         {
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
             if (enemyTeam.characters[i] == null) continue;
-            CharacterBase enemyBase = enemyTeam.characters[i];
-            battleSequence.Add(enemySlot.model);
+            battleSequence.Add(enemySlot.character);
         }
 
-        for (int i = 0; i < battleSequence.Count; i++)
+        // 속도순 정렬 (내림차순)
+        battleSequence.Sort((a, b) => b.characterData.speed.CompareTo(a.characterData.speed));
+
+        // 순서 아이콘 표시
+        foreach (var character in battleSequence)
         {
-            var Icon = Instantiate(iconPrefab, characterSequenceList);
-            var portrait = Icon.transform.Find("Portrait")?.GetComponent<UnityEngine.UI.Image>();
-            var color = battleSequence[i].characterBase.characterModelData.material.GetColor("_BaseColor");
-            portrait.color = color;
-            sequenceImage.Add(Icon);
+            var icon = Instantiate(iconPrefab, characterSequenceList);
+            var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
+            if (portrait != null)
+            {
+                Color c = character.characterModelData.material.GetColor("_BaseColor");
+                portrait.color = c;
+            }
+            sequenceImage.Add(icon);
         }
     }
 
     public void Resort()
     {
-        for(int i = 0; i < sequenceImage.Count; i++)
-        {
-            Destroy(sequenceImage[i]);
-        }
+        // 기존 아이콘 제거
+        foreach (var icon in sequenceImage)
+            Destroy(icon);
+        sequenceImage.Clear();
 
-        battleSequence.Sort((x, y) => x.characterBase.characterData.speed.CompareTo(y.characterBase.characterData.speed));
-        battleSequence.Reverse();
+        // 속도순 재정렬
+        battleSequence.Sort((x, y) => y.characterData.speed.CompareTo(x.characterData.speed));
 
-        for (int i = 0; i < battleSequence.Count; i++)
+        // 재생성
+        foreach (var character in battleSequence)
         {
-            var Icon = Instantiate(iconPrefab, characterSequenceList);
-            var portrait = Icon.transform.Find("Portrait")?.GetComponent<UnityEngine.UI.Image>();
-            var color = battleSequence[i].characterBase.characterModelData.material.GetColor("_BaseColor");
-            portrait.color = color;
-            sequenceImage.Add(Icon);
+            var icon = Instantiate(iconPrefab, characterSequenceList);
+            var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
+            if (portrait != null)
+            {
+                var color = character.characterModelData.material.GetColor("_BaseColor");
+                portrait.color = color;
+            }
+            sequenceImage.Add(icon);
         }
     }
+
     public void BattleStart()
     {
         isBattleStart = true;
+
+        // 팀 정보 저장
         for (int i = 0; i < friendlySlots.Length; i++)
         {
-            LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            friendlyTeam.characters[i] = friendlySlot.model.characterBase;
-            friendlySlot.ActivateBattleUI();
+            var slot = friendlySlots[i].GetComponent<LineupSlot>();
+            if (slot.character != null)
+            {
+                friendlyTeam.characters[i] = slot.characterInfo;
+                slot.ActivateBattleUI();
+            }
         }
+
         for (int i = 0; i < enemySlots.Length; i++)
         {
-            LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
-            enemyTeam.characters[i] = enemySlot.model.characterBase;
-            enemySlot.ActivateBattleUI();
+            var slot = enemySlots[i].GetComponent<LineupSlot>();
+            if (slot.characterInfo != null)
+            {
+                enemyTeam.characters[i] = slot.characterInfo;
+                slot.ActivateBattleUI();
+            }
         }
 
         formationCanvas.SetActive(false);
         battleCanvas.SetActive(true);
-    }
-
-    public void StartBattleSequence()
-    {
-        if (battleRoutin != null)
-            StopCoroutine(battleRoutin);
 
         SortBattleSequence();
-        battleRoutin = StartCoroutine(CoBattle());
+
+        currentTurnIndex = 0;
+        currentRound = 1;
+        UpdateUI();
     }
 
-    IEnumerator CoBattle()
+    // 턴 진행 버튼
+    public void NextTurn()
     {
-        for (int i = 0; i < battleSequence.Count; i++)
+        if (!isBattleStart || battleSequence.Count == 0)
+            return;
+
+        // 한 라운드가 끝났다면 새 라운드로
+        if (currentTurnIndex >= battleSequence.Count)
         {
-            Character character = battleSequence[i];
-            if (battleSequence[i].isEnemy)
+            currentRound++;
+            // 라운드 넘어가자마자 재정렬 및 UI 재생성
+            Resort();
+            // 다시 첫 번째 캐릭터부터 시작
+            currentTurnIndex = 0;
+
+            UpdateUI();
+            return;
+        }
+
+        Character currentChar = battleSequence[currentTurnIndex];
+        if (currentChar == null || currentChar.AtackComp == null)
+        {
+            currentTurnIndex++;
+            return;
+        }
+        if (turnText != null)
+            turnText.text = $"{currentChar.characterData.characterName} Turn";
+        // 공격 타겟 설정
+        if (currentChar.isEnemy)
+        {
+            int targetIndex = Random.Range(0, friendlySlots.Length);
+            currentChar.AtackComp.targetIndex = targetIndex;
+        }
+        else
+        {
+            int targetIndex = Random.Range(0, enemySlots.Length);
+            currentChar.AtackComp.targetIndex = targetIndex;
+        }
+
+        // 행동 실행
+        currentChar.AtackComp.Attack();
+
+        //  이번 턴 캐릭터 아이콘 제거
+        if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
+        {
+            sequenceImage[currentTurnIndex].SetActive(false);
+        }
+
+        StartCoroutine(WaitForAttackEnd(currentChar));
+    }
+    private void UpdateUI()
+    {
+        if (roundText != null)
+            roundText.text = $"Round {currentRound}";
+
+        if (turnText != null)
+        {
+            if (currentTurnIndex < battleSequence.Count)
             {
-                int random = UnityEngine.Random.Range(0, friendlySlots.Length - 1);
-                character.AtackComp.targetIndex = random;
+                // 현재 턴 캐릭터 이름 표시
+                var currentChar = battleSequence[currentTurnIndex];
+                if (currentChar != null && currentChar.characterData != null)
+                    turnText.text = $"{currentChar.characterData.characterName} Turn";
+                else
+                    turnText.text = $"---";
             }
             else
             {
-                int random = UnityEngine.Random.Range(0, enemySlots.Length - 1);
-                character.AtackComp.targetIndex = random;
-            }
-            character.AtackComp.Attack();
-
-            yield return new WaitWhile(() => character.AtackComp != null && character.AtackComp.isAttacking);
-
-            if (characterSequenceList.childCount > 0)
-            {
-                Transform first = characterSequenceList.GetChild(0);
-                Destroy(first.gameObject);
+                // 모든 턴이 끝난 경우
+                turnText.text = $"";
             }
         }
-        battleSequence.Clear();
-        battleRoutin = null;
+    }
+
+    private IEnumerator WaitForAttackEnd(Character currentChar)
+    {
+        yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
+
+        currentTurnIndex++;
+        UpdateUI();
+    }
+    public void NextRound()
+    {
+        if (!isBattleStart || battleSequence.Count == 0)
+            return;
+
+        StartCoroutine(CoNextRound());
+    }
+
+    private IEnumerator CoNextRound()
+    {
+        Debug.Log($" Round {currentRound} 시작!");
+
+        Resort(); // 속도순 정렬
+        currentTurnIndex = 0;
+
+        // 턴 순서대로 NextTurn 호출
+        while (currentTurnIndex < battleSequence.Count)
+        {
+            NextTurn();
+
+            // 공격이 끝날 때까지 대기
+            Character c = battleSequence[currentTurnIndex - 1]; // NextTurn에서 인덱스 증가함
+            if (c != null && c.AtackComp != null)
+                yield return new WaitWhile(() => c.AtackComp.isAttacking);
+
+            // 턴 사이 텀 (연출용)
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        // 라운드 종료 처리
+        currentRound++;
+        currentTurnIndex = 0;
+        UpdateUI();
+
+        Resort();
+
+        Debug.Log($" Round {currentRound - 1} 종료");
     }
 }

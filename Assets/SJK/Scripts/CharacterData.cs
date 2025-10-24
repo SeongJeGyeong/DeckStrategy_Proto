@@ -1,8 +1,7 @@
-using UnityEngine;
 using Utils.Enums;
 
-[CreateAssetMenu(fileName = "Character Data", menuName = "Scriptable/Character Data", order = int.MaxValue)]
-public class CharacterData : ScriptableObject
+[System.Serializable]
+public class CharacterData
 {
     public int ID;
 

@@ -47,8 +47,8 @@ public class CharacterUI : MonoBehaviour
         owner = character.GetComponent<Character>();
 
         activeIcons = new Dictionary<string, Image>();
-        healthSlider.maxValue = owner.characterBase.characterData.maxHp;
-        healthSlider.value = owner.characterBase.characterData.maxHp;
+        healthSlider.maxValue = owner.characterData.maxHp;
+        healthSlider.value = owner.characterData.maxHp;
 
         gaugeSlider.maxValue = owner.maxSkillGauge;
         gaugeSlider.value = owner.maxSkillGauge;
