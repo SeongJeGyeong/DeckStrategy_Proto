@@ -59,7 +59,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (friendlySlot.model != null)
+            if (friendlySlot.model != null && friendlySlot.isPlaced)
                 battleSequence.Add(friendlySlot.model);
         }
 
@@ -67,7 +67,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < enemySlots.Length; i++)
         {
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
-            if (enemySlot.model != null)
+            if (enemySlot.model != null && enemySlot.isPlaced)
                 battleSequence.Add(enemySlot.model);
         }
 
@@ -88,7 +88,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void Resort() // 이 함수가 이제 필요할까..
+    public void Resort()
     {
         // 기존 아이콘 제거
         foreach (var icon in sequenceImage)
@@ -120,7 +120,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (slot.model != null)
+            if (slot.model.characterBase != null) //model 말고 characterBase를 null 체크해야함
             {
                 friendlyTeam.characters[i] = slot.model.characterBase;
                 slot.ActivateBattleUI();
@@ -130,7 +130,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < enemySlots.Length; i++)
         {
             var slot = enemySlots[i].GetComponent<LineupSlot>();
-            if (slot.model != null)
+            if (slot.model.characterBase != null)
             {
                 enemyTeam.characters[i] = slot.model.characterBase;
                 slot.ActivateBattleUI();

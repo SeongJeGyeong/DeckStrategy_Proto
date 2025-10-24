@@ -50,7 +50,7 @@ public class StatusComponent : MonoBehaviour
         }
 
         effect.statusEffect.Apply(owner);
-        OnEffectAdded?.Invoke(effect);
+        OnEffectAdded?.Invoke(_effects[effect.Name]);
     }
     public void TurnAll()
     {
