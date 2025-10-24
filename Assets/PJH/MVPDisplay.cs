@@ -6,7 +6,7 @@ public class MVPDisplay : MonoBehaviour
 {
     [Header("씬의 MVP1 오브젝트")]
     [SerializeField] private GameObject mvp1Object; // MVP1 오브젝트
-
+    //전투에 참여했던 데이터 조회 및 출력
     void Start()
     {
         StartCoroutine(UpdateFromMVP1NextFrame());

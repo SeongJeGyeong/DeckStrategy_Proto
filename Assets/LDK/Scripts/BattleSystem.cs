@@ -38,6 +38,7 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
+    //FormationSystem formationSystem;
 
     private void Start()
     {
@@ -49,18 +50,26 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    // 배틀 순서 정렬
+    //private void AddSlot(int slotindex, CharacterBase characterBase)
+    //{
+    //    friendlyTeam.characters[slotindex] = characterBase; //SetSelectedCharacter(characterBase, false);
+    //}
+
+    //private void ReleaseSlot(int slotindex)
+    //{
+    //    friendlySlots[slotindex].DeselectCharacter();
+    //}
+
     private void SortBattleSequence()
     {
         battleSequence.Clear();
         sequenceImage.ForEach(Destroy);
         sequenceImage.Clear();
 
-        // 아군 등록
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (friendlySlot.character != null)
+            if (friendlySlot.character.characterData != null && friendlySlot.isPlaced)
                 battleSequence.Add(friendlySlot.character);
         }
 
@@ -71,10 +80,8 @@ public class BattleSystem : MonoBehaviour
             battleSequence.Add(enemySlot.character);
         }
 
-        // 속도순 정렬 (내림차순)
         battleSequence.Sort((a, b) => b.characterData.speed.CompareTo(a.characterData.speed));
 
-        // 순서 아이콘 표시
         foreach (var character in battleSequence)
         {
             var icon = Instantiate(iconPrefab, characterSequenceList);
@@ -90,15 +97,12 @@ public class BattleSystem : MonoBehaviour
 
     public void Resort()
     {
-        // 기존 아이콘 제거
         foreach (var icon in sequenceImage)
             Destroy(icon);
         sequenceImage.Clear();
 
-        // 속도순 재정렬
         battleSequence.Sort((x, y) => y.characterData.speed.CompareTo(x.characterData.speed));
 
-        // 재생성
         foreach (var character in battleSequence)
         {
             var icon = Instantiate(iconPrefab, characterSequenceList);
@@ -116,11 +120,10 @@ public class BattleSystem : MonoBehaviour
     {
         isBattleStart = true;
 
-        // 팀 정보 저장
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (slot.character != null)
+            if (slot.character.characterData != null && slot.isPlaced)
             {
                 friendlyTeam.characters[i] = slot.characterInfo;
                 slot.ActivateBattleUI();
@@ -147,19 +150,15 @@ public class BattleSystem : MonoBehaviour
         UpdateUI();
     }
 
-    // 턴 진행 버튼
     public void NextTurn()
     {
         if (!isBattleStart || battleSequence.Count == 0)
             return;
 
-        // 한 라운드가 끝났다면 새 라운드로
         if (currentTurnIndex >= battleSequence.Count)
         {
             currentRound++;
-            // 라운드 넘어가자마자 재정렬 및 UI 재생성
             Resort();
-            // 다시 첫 번째 캐릭터부터 시작
             currentTurnIndex = 0;
 
             UpdateUI();
@@ -174,7 +173,7 @@ public class BattleSystem : MonoBehaviour
         }
         if (turnText != null)
             turnText.text = $"{currentChar.characterData.characterName} Turn";
-        // 공격 타겟 설정
+
         if (currentChar.isEnemy)
         {
             int targetIndex = Random.Range(0, friendlySlots.Length);
@@ -186,7 +185,6 @@ public class BattleSystem : MonoBehaviour
             currentChar.AtackComp.targetIndex = targetIndex;
         }
 
-        // 행동 실행
         currentChar.AtackComp.Attack();
 
         //  이번 턴 캐릭터 아이콘 제거
@@ -194,7 +192,7 @@ public class BattleSystem : MonoBehaviour
         {
             sequenceImage[currentTurnIndex].SetActive(false);
         }
-
+        
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
     private void UpdateUI()
@@ -206,7 +204,6 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentTurnIndex < battleSequence.Count)
             {
-                // 현재 턴 캐릭터 이름 표시
                 var currentChar = battleSequence[currentTurnIndex];
                 if (currentChar != null && currentChar.characterData != null)
                     turnText.text = $"{currentChar.characterData.characterName} Turn";
@@ -215,7 +212,6 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                // 모든 턴이 끝난 경우
                 turnText.text = $"";
             }
         }
@@ -225,8 +221,11 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
 
+        Debug.Log("WaitForAttackEnd");
         currentTurnIndex++;
         UpdateUI();
+
+        
     }
     public void NextRound()
     {
@@ -238,32 +237,28 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator CoNextRound()
     {
-        Debug.Log($" Round {currentRound} 시작!");
+        Debug.Log($" Round {currentRound} 占쏙옙占쏙옙!");
 
-        Resort(); // 속도순 정렬
+        Resort();
         currentTurnIndex = 0;
 
-        // 턴 순서대로 NextTurn 호출
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
 
-            // 공격이 끝날 때까지 대기
-            Character c = battleSequence[currentTurnIndex - 1]; // NextTurn에서 인덱스 증가함
-            if (c != null && c.AtackComp != null)
-                yield return new WaitWhile(() => c.AtackComp.isAttacking);
-
-            // 턴 사이 텀 (연출용)
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(2.5f);
         }
 
-        // 라운드 종료 처리
         currentRound++;
         currentTurnIndex = 0;
         UpdateUI();
 
+        Debug.Log($" Round {currentRound - 1} 종료");
+
+        //라운드가 끝나면 아이콘 재생성 (SequenceList 복원)
         Resort();
 
-        Debug.Log($" Round {currentRound - 1} 종료");
+        Debug.Log($" Round {currentRound} 준비 완료");
     }
+
 }

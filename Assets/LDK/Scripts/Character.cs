@@ -29,8 +29,6 @@ public class Character : MonoBehaviour
     public float maxSkillGauge { get; private set; }
     private int sequenceNumber;
 
-    StatusEffect testeffect;
-
     public bool isEnemy = false;
 
     public void Start()
@@ -40,6 +38,11 @@ public class Character : MonoBehaviour
 
     public void Update()
     {
-        StatusComp.TurnAll();
+        //StatusComp.TurnAll(); // 보여주기 용
+    }
+
+    public void EndTurn()
+    {
+        statusComp.TurnAll();
     }
 }

@@ -4,4 +4,5 @@ public interface IBattleable
 {
     void TakeDamage(float amount);
     void Die();
+    void AddEffect(StatusEffect effect);
 }

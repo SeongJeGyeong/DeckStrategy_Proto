@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -17,11 +18,17 @@ public class FormationSystem : MonoBehaviour
     public GameObject[] slots = new GameObject[5];
     //private UserData.Team[] teams = new UserData.Team[8];
 
+    [SerializeField]
+    private Transform characterListContent;
+
     public int selectedTeamIndex = 0;
     public int selectedCount = 0;
 
-    [SerializeField]
-    private Transform characterListContent;
+    public delegate void CharacterPlacedHandler(int slotIndex, CharacterData characterBase);
+    public delegate void CharacterReleasedHandler(int slotIndex);
+
+    public CharacterPlacedHandler placedHandler;
+    public CharacterReleasedHandler releaseHandler;
 
     void Start()
     {
@@ -69,6 +76,7 @@ public class FormationSystem : MonoBehaviour
             {
                 slot.SetSelectedCharacter(info, false);
                 ++selectedCount;
+                //placedHandler?.Invoke(i, characterBase);
                 return;
             }
         }
@@ -86,6 +94,7 @@ public class FormationSystem : MonoBehaviour
             {
                 slot.DeselectCharacter();
                 --selectedCount;
+                //releaseHandler?.Invoke(i);
                 return;
             }
         }

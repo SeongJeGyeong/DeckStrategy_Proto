@@ -14,8 +14,15 @@ public interface IStatusEffect
 public class BurnEffect : IStatusEffect
 {
     public void Apply(Character C) => Debug.Log("화상 시작");
-    public void Turn(Character C) => C.HealthComp.TakeDamage(5);
+    public void Turn(Character C) => C.HealthComp.TakeDamage(1);
     public void Remove(Character C) => Debug.Log("화상 끝");
+}
+
+public class PoisonEffect : IStatusEffect
+{
+    public void Apply(Character C) => Debug.Log("독 시작");
+    public void Turn(Character C) => C.HealthComp.TakeDamage(1);
+    public void Remove(Character C) => Debug.Log("독 끝");
 }
 public class StatusComponent : MonoBehaviour
 {
@@ -43,7 +50,7 @@ public class StatusComponent : MonoBehaviour
         }
 
         effect.statusEffect.Apply(owner);
-        OnEffectAdded?.Invoke(effect);
+        OnEffectAdded?.Invoke(_effects[effect.Name]);
     }
     public void TurnAll()
     {
