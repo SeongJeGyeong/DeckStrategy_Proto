@@ -88,7 +88,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void Resort()
+    public void Resort() // 이 함수가 이제 필요할까..
     {
         // 기존 아이콘 제거
         foreach (var icon in sequenceImage)

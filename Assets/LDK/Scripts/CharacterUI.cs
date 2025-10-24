@@ -110,8 +110,8 @@ public class CharacterUI : MonoBehaviour
     }
     private void OnEffectAdded(StatusEffect effect)
     {
-        //if (activeIcons.ContainsKey(effect.Name))
-        //    return;
+        if (activeIcons.ContainsKey(effect.Name))
+            return;
 
         GameObject go = new GameObject("StatusIcon", typeof(Image));
         Image icon = go.GetComponent<Image>();
@@ -120,6 +120,15 @@ public class CharacterUI : MonoBehaviour
         icon.transform.SetParent(Panel, false);
         icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
+
+        GameObject Text = new GameObject("Stack", typeof(Text));
+        Text text = Text.GetComponent<Text>();
+
+        text.transform.SetParent(icon.rectTransform, false);
+        text.fontSize = 36;
+        text.alignment = TextAnchor.MiddleCenter;
+        //text.minWidth = 200;
+        //text.minHeight = 50;
 
         if (statusSprites.TryGetValue(effect.Name, out Sprite sprite))
         {
