@@ -7,17 +7,4 @@ using static OwnedCharacterTable;
 public class CharacterModelDataTable : ScriptableObject
 {
     public List<CharacterModelData> characterModelDataList = new List<CharacterModelData>();
-
-    public CharacterModelData FindCharacterModel(int ID)
-    {
-        foreach (CharacterModelData modelData in characterModelDataList)
-        {
-            if (modelData.ID == ID)
-            {
-                return modelData;
-            }
-        }
-
-        return null;
-    }
 }

@@ -89,7 +89,7 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             // 캐릭터가 편성되지 않은 슬롯은 넘김
-            if (slot.character == null) continue;
+            if (slot.character == null || slot.character.characterData == null) continue;
             if (slot.character.characterData.ID == characterID)
             {
                 slot.DeselectCharacter();

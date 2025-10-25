@@ -26,6 +26,8 @@ public class AttackComponent : MonoBehaviour
     private float impactRadius = 0.15f;
     private bool impactApplied = false;
 
+    BattleSystem battleSystem;
+
     void Start()
     {
         owner = GetComponent<Character>();

@@ -23,6 +23,10 @@ public class CharacterIcon : MonoBehaviour
     private void Awake()
     {
         formationSystem = FindAnyObjectByType<FormationSystem>();
+    }
+
+    private void Start()
+    {
         selectedButton.button.onClick.AddListener(OnButtonClicked);
     }
 

@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharactersList : MonoBehaviour
@@ -23,15 +24,17 @@ public class CharactersList : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        if (dataCenter.ownedCharacterTable == null) return; 
+        List<OwnedCharacterInfo> characterList = dataCenter.GetOwnedCharacterList();
 
-        foreach (OwnedCharacterInfo character in dataCenter.ownedCharacterTable.ownedCharacterList)
+        if (characterList == null) return; 
+
+        foreach (OwnedCharacterInfo character in characterList)
         {
             var itemUI = Instantiate(iconPrefab, contentParent.transform);
             var slot = itemUI.GetComponent<CharacterIcon>(); // 프리팹에 붙은 UI 스크립트
 
-            var statusData = dataCenter.characterDataTable.FindCharacterData(character.characterID);
-            var modelData = dataCenter.characterModelDataTable.FindCharacterModel(character.characterModelID);
+            var statusData = dataCenter.FindCharacterData(character.characterID);
+            var modelData = dataCenter.FindCharacterModel(character.characterModelID);
 
             slot.SetData(statusData, modelData, character.characterLevel);
         }
