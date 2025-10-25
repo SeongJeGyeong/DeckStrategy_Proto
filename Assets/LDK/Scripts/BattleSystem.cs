@@ -192,6 +192,7 @@ public class BattleSystem : MonoBehaviour
             currentChar.AtackComp.targetIndex = targetIndex;
         }
 
+
         currentChar.AtackComp.Attack();
 
         

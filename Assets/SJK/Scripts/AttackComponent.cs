@@ -20,6 +20,8 @@ public class AttackComponent : MonoBehaviour
     GameObject bullet;
     float bulletSpeed = 0.8f;
 
+    private BattleSystem battleSystem;
+
     [SerializeField] 
     private float impactRadius = 0.15f;
     private bool impactApplied = false;
@@ -27,6 +29,7 @@ public class AttackComponent : MonoBehaviour
     void Start()
     {
         owner = GetComponent<Character>();
+        battleSystem = FindAnyObjectByType<BattleSystem>();
         originPosition = owner.gameObject.transform.position;
     }
 
@@ -89,19 +92,24 @@ public class AttackComponent : MonoBehaviour
         }
     }
 
-    public void Attack(LineupSlot slot)
+    public void Attack()
     {
         if (isAttacking) return;
-        if (slot == null) return;
 
-        targetSlot = slot;
+        if (owner.isEnemy)
+        {
+            targetSlot = battleSystem.friendlySlots[targetIndex].GetComponent<LineupSlot>();
+        }
+        else
+        {
+            targetSlot = battleSystem.enemySlots[targetIndex].GetComponent<LineupSlot>();
+        }
         targetPosition = targetSlot.AttackedPosition.position;
-        if(owner.characterData.rangeType == RangeType.Range)
+        if (owner.characterData.rangeType == RangeType.Range)
         {
             bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }
 
-        impactApplied = false;
         isAttacking = true;
     }
 
