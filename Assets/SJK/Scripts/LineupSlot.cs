@@ -21,13 +21,12 @@ public class LineupSlot : MonoBehaviour
     Transform slotTransform;
     public bool isPlaced = false;
 
-    public Character character { get; private set; } // LDK : BattleSystem에서 접근해서 사용하고싶어서 public으로 수정함
-    //GameObject model 원본 GmaeObject -> Character
+    public Character character { get; private set; }
+
     ObjectFollowUI characterFollowUI;
     CharacterUI chracterBattleUI;
 
     public Transform AttackedPosition;
-
     public OwnedCharacterInfo characterInfo;
 
     void Awake()

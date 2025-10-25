@@ -38,6 +38,9 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
+    private readonly int[] front = { 4, 5 };
+    private readonly int[] back = { 1, 2, 3 };
+
     //FormationSystem formationSystem;
 
     private void Start()
@@ -174,24 +177,7 @@ public class BattleSystem : MonoBehaviour
         if (turnText != null)
             turnText.text = $"{currentChar.characterData.characterName} Turn";
 
-        if (currentChar.isEnemy)
-        {
-            int targetIndex = Random.Range(0, friendlySlots.Length);
-            currentChar.AtackComp.targetIndex = targetIndex;
-        }
-        else
-        {
-            int targetIndex = Random.Range(0, enemySlots.Length);
-            currentChar.AtackComp.targetIndex = targetIndex;
-        }
-
-        currentChar.AtackComp.Attack();
-
-        //  ÀÌ¹ø ÅÏ Ä³¸¯ÅÍ ¾ÆÀÌÄÜ Á¦°Å
-        if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
-        {
-            sequenceImage[currentTurnIndex].SetActive(false);
-        }
+       //°ø°Ý·ÎÁ÷
         
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
@@ -221,6 +207,11 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
 
+        if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
+        {
+            sequenceImage[currentTurnIndex].SetActive(false);
+        }
+
         Debug.Log("WaitForAttackEnd");
         currentTurnIndex++;
         UpdateUI();
@@ -237,7 +228,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator CoNextRound()
     {
-        Debug.Log($" Round {currentRound} ï¿½ï¿½ï¿½ï¿½!");
+        Debug.Log($" Round {currentRound} !");
 
         Resort();
         currentTurnIndex = 0;

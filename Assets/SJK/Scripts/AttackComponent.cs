@@ -6,7 +6,6 @@ using static UnityEngine.UI.GridLayoutGroup;
 public class AttackComponent : MonoBehaviour
 {
     private Character owner;
-    private BattleSystem battleSystem;
 
     public int targetIndex = 0;
     public bool isAttacking = false;
@@ -23,7 +22,6 @@ public class AttackComponent : MonoBehaviour
     void Start()
     {
         owner = GetComponent<Character>();
-        battleSystem = FindAnyObjectByType<BattleSystem>();
         originPosition = owner.gameObject.transform.position;
     }
 
@@ -64,18 +62,12 @@ public class AttackComponent : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void Attack(LineupSlot slot)
     {
         if (isAttacking) return;
+        if (slot == null) return;
 
-        if (owner.isEnemy)
-        {
-            targetSlot = battleSystem.friendlySlots[targetIndex].GetComponent<LineupSlot>();
-        }
-        else
-        {
-            targetSlot = battleSystem.enemySlots[targetIndex].GetComponent<LineupSlot>();
-        }
+        targetSlot = slot;
         targetPosition = targetSlot.AttackedPosition.position;
         if(owner.characterData.rangeType == RangeType.Range)
         {
