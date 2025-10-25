@@ -53,8 +53,8 @@ public class LineupSlot : MonoBehaviour
         isPlaced = true;
         character.isEnemy = isEnemy;
 
-        CharacterData data = dataCenter.characterDataTable.FindCharacterData(info.characterID);
-        CharacterModelData modelData = dataCenter.characterModelDataTable.FindCharacterModel(info.characterModelID);
+        CharacterData data = dataCenter.FindCharacterData(info.characterID);
+        CharacterModelData modelData = dataCenter.FindCharacterModel(info.characterModelID);
         if (data == null || modelData == null) return;
 
         characterInfo = info;

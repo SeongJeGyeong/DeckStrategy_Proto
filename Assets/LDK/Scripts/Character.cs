@@ -19,15 +19,15 @@ public class Character : MonoBehaviour
     [SerializeField] private HealthComponent healthComp;
     [SerializeField] private StatusComponent statusComp;
     [SerializeField] private AttackComponent attackComp;
-
+    [SerializeField] private CharStatusComponent charStatusComp;
     public HealthComponent HealthComp => healthComp;
     public StatusComponent StatusComp => statusComp;
     public AttackComponent AtackComp => attackComp;
+    public CharStatusComponent CharStatusComp => charStatusComp;
 
     public CharacterData characterData;
     public CharacterModelData characterModelData;
     public float maxSkillGauge { get; private set; }
-    private int sequenceNumber;
 
     public bool isEnemy = false;
 

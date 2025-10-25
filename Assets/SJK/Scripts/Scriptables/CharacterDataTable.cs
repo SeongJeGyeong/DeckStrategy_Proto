@@ -6,17 +6,4 @@ using UnityEngine;
 public class CharacterDataTable : ScriptableObject
 {
     public List<CharacterData> characterDataList = new List<CharacterData>();
-
-    public CharacterData FindCharacterData(int ID)
-    {
-        foreach (CharacterData data in characterDataList)
-        {
-            if (data.ID == ID)
-            {
-                return data;
-            }
-        }
-
-        return null;
-    }
 }

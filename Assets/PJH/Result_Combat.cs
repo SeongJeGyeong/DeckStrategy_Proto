@@ -22,8 +22,8 @@ public class Result_Combat : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            CharacterData data = dataCenter.characterDataTable.FindCharacterData(mvpCharacters[i].characterID);
-            CharacterModelData modelData = dataCenter.characterModelDataTable.FindCharacterModel(mvpCharacters[i].characterModelID);
+            CharacterData data = dataCenter.FindCharacterData(mvpCharacters[i].characterID);
+            CharacterModelData modelData = dataCenter.FindCharacterModel(mvpCharacters[i].characterModelID);
 
             if (mvpSlots[i] != null)
                 mvpSlots[i].SetData(data, modelData);

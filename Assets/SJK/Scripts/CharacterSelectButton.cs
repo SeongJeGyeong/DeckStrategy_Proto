@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class SelectedButton : MonoBehaviour
 {
-    public Button button;
+    public Button button { get; private set; }
     [SerializeField]
     private CanvasGroup canvasGroup;
 
@@ -12,6 +12,7 @@ public class SelectedButton : MonoBehaviour
 
     private void Awake()
     {
+        button = GetComponent<Button>();
         canvasGroup.alpha = 0f;
     }
 
