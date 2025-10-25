@@ -14,7 +14,7 @@ public class ObjectFollowUI : MonoBehaviour
 
     private Transform target;
     [SerializeField]
-    private Vector3 offset = new Vector3(0, 2f, 0);
+    private Vector3 offset = new Vector3(0, 2.0f, 0);
 
     private Camera mainCamera;
     private RectTransform rectTransform;

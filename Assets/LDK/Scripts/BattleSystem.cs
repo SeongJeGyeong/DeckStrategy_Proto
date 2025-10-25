@@ -38,6 +38,9 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
+    private readonly int[] front = { 4, 5 };
+    private readonly int[] back = { 1, 2, 3 };
+
     //FormationSystem formationSystem;
 
     private void Start()
@@ -221,7 +224,6 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
 
-        //  이번 턴 캐릭터 아이콘 제거
         if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
         {
             sequenceImage[currentTurnIndex].SetActive(false);
@@ -242,7 +244,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator CoNextRound()
     {
-        Debug.Log($" Round {currentRound} ????!");
+        Debug.Log($" Round {currentRound} !");
 
         Resort();
         currentTurnIndex = 0;
