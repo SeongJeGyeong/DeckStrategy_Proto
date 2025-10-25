@@ -6,7 +6,6 @@ using static UnityEngine.UI.GridLayoutGroup;
 public class AttackComponent : MonoBehaviour
 {
     private Character owner;
-    private BattleSystem battleSystem;
 
     public int targetIndex = 0;
     public bool isAttacking = false;
@@ -19,7 +18,14 @@ public class AttackComponent : MonoBehaviour
     GameObject bulletPrefab;
 
     GameObject bullet;
-    float remainTime = 1.0f;
+    float bulletSpeed = 0.8f;
+
+    [SerializeField] 
+    private float impactRadius = 0.15f;
+    private bool impactApplied = false;
+
+    BattleSystem battleSystem;
+
     void Start()
     {
         owner = GetComponent<Character>();
@@ -42,6 +48,11 @@ public class AttackComponent : MonoBehaviour
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.5f);
                 if(transform.position == targetSlot.AttackedPosition.position)
                 {
+                    if (!impactApplied)
+                    {
+                        ApplyDamageOnce();
+                        impactApplied = true;
+                    }
                     targetPosition = originPosition;
                 }
                 else if(transform.position == originPosition)
@@ -51,14 +62,31 @@ public class AttackComponent : MonoBehaviour
             }
             else
             {
-                Vector3 dir = targetPosition - originPosition;
+                Vector3 dir = targetPosition - bullet.transform.position;
                 bullet.transform.Translate(dir.normalized * 1f);
-                remainTime -= Time.deltaTime;
-                if(remainTime <= 0f)
+                if (dir.magnitude <= bulletSpeed)
                 {
+                    bullet.transform.position = targetPosition; 
+                }
+                else
+                {
+                    bullet.transform.position += dir.normalized * bulletSpeed;
+                }
+                if (dir.magnitude <= impactRadius)
+                {
+                    if (!impactApplied)
+                    {
+                        ApplyDamageOnce();
+                        impactApplied = true;
+                    }
+
                     isAttacking = false;
-                    remainTime = 1.0f;
-                    Destroy(bullet);
+
+                    if (bullet != null)
+                    {
+                        Destroy(bullet);
+                        bullet = null;
+                    }
                 }
             }
         }
@@ -77,11 +105,26 @@ public class AttackComponent : MonoBehaviour
             targetSlot = battleSystem.enemySlots[targetIndex].GetComponent<LineupSlot>();
         }
         targetPosition = targetSlot.AttackedPosition.position;
-        if(owner.characterData.rangeType == RangeType.Range)
+        if (owner.characterData.rangeType == RangeType.Range)
         {
             bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }
 
         isAttacking = true;
     }
+
+    private void ApplyDamageOnce()
+    {
+        if (targetSlot == null)
+            return;
+
+        var targetChar = targetSlot.character;
+
+        if (targetSlot == null || targetSlot.character == null || targetSlot.character.HealthComp == null)
+            return;
+
+        float damage = owner.characterData.attack;
+        targetChar.HealthComp.TakeDamage(damage);
+    }
+
 }

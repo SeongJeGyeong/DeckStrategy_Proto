@@ -24,7 +24,7 @@ public class PoisonEffect : IStatusEffect
     public void Turn(Character C) => C.HealthComp.TakeDamage(1);
     public void Remove(Character C) => Debug.Log("µ¶ ³¡");
 }
-public class StatusComponent : MonoBehaviour
+public class StatusEffectComponent : MonoBehaviour
 {
     Character owner;
 

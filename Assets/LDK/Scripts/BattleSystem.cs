@@ -38,6 +38,9 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
+    private readonly int[] front = { 4, 5 };
+    private readonly int[] back = { 1, 2, 3 };
+
     //FormationSystem formationSystem;
 
     private void Start()
@@ -59,6 +62,7 @@ public class BattleSystem : MonoBehaviour
     //{
     //    friendlySlots[slotindex].DeselectCharacter();
     //}
+
 
     private void SortBattleSequence()
     {
@@ -155,10 +159,13 @@ public class BattleSystem : MonoBehaviour
         if (!isBattleStart || battleSequence.Count == 0)
             return;
 
+
         if (currentTurnIndex >= battleSequence.Count)
         {
             currentRound++;
+
             Resort();
+
             currentTurnIndex = 0;
 
             UpdateUI();
@@ -187,11 +194,7 @@ public class BattleSystem : MonoBehaviour
 
         currentChar.AtackComp.Attack();
 
-        //  이번 턴 캐릭터 아이콘 제거
-        if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
-        {
-            sequenceImage[currentTurnIndex].SetActive(false);
-        }
+        
         
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
@@ -221,11 +224,15 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
 
+        if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
+        {
+            sequenceImage[currentTurnIndex].SetActive(false);
+        }
+
         Debug.Log("WaitForAttackEnd");
         currentTurnIndex++;
         UpdateUI();
 
-        
     }
     public void NextRound()
     {
@@ -237,7 +244,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator CoNextRound()
     {
-        Debug.Log($" Round {currentRound} 占쏙옙占쏙옙!");
+        Debug.Log($" Round {currentRound} !");
 
         Resort();
         currentTurnIndex = 0;
@@ -246,6 +253,7 @@ public class BattleSystem : MonoBehaviour
         {
             NextTurn();
 
+            // 턴 사이 텀 (연출용)
             yield return new WaitForSeconds(2.5f);
         }
 
@@ -258,7 +266,7 @@ public class BattleSystem : MonoBehaviour
         //라운드가 끝나면 아이콘 재생성 (SequenceList 복원)
         Resort();
 
-        Debug.Log($" Round {currentRound} 준비 완료");
+        Debug.Log($" Round {currentRound - 1} 종료");
     }
 
 }

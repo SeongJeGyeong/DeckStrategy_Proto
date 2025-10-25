@@ -17,11 +17,11 @@ public class Character : MonoBehaviour
     }
 
     [SerializeField] private HealthComponent healthComp;
-    [SerializeField] private StatusComponent statusComp;
+    [SerializeField] private StatusEffectComponent statusComp;
     [SerializeField] private AttackComponent attackComp;
     [SerializeField] private CharStatusComponent charStatusComp;
     public HealthComponent HealthComp => healthComp;
-    public StatusComponent StatusComp => statusComp;
+    public StatusEffectComponent StatusComp => statusComp;
     public AttackComponent AtackComp => attackComp;
     public CharStatusComponent CharStatusComp => charStatusComp;
 

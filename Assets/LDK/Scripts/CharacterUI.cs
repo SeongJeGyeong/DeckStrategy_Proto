@@ -37,7 +37,7 @@ public class CharacterUI : MonoBehaviour
     private Transform target;
 
     [SerializeField]
-    private Vector3 offset = new Vector3(0, 2f, 0);
+    private Vector3 offset = new Vector3(0, 1.5f, 0);
 
 
     public void Init(Character character)
@@ -72,23 +72,7 @@ public class CharacterUI : MonoBehaviour
     }
     private void Start()
     {
-        //if (!damageButton)
-        //    damageButton = GetComponentInChildren<Button>(true); // 자식에서 버튼 찾기
 
-        if (damageButton)
-        {
-            damageButton.onClick.RemoveAllListeners();
-            damageButton.onClick.AddListener(OnClick_Damage);
-        }
-
-        //if (!effectButton)
-        //    effectButton = GetComponentInChildren<Button>(true);
-
-        if (effectButton)
-        {
-            effectButton.onClick.RemoveAllListeners();
-            effectButton.onClick.AddListener(OnClick_Effect);
-        }
     }
 
     private void HealthUpdate(float CurrHp)
@@ -114,15 +98,6 @@ public class CharacterUI : MonoBehaviour
         icon.transform.SetParent(Panel, false);
         icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
-
-        //GameObject Text = new GameObject("StackText", typeof(RectTransform), typeof(TextMeshProUGUI));
-        //Text text = Text.GetComponent<Text>();
-
-        //text.transform.SetParent(icon.rectTransform, false);
-        //text.fontSize = 36;
-        //text.alignment = TextAnchor.MiddleCenter;
-        //text.minWidth = 200;
-        //text.minHeight = 50;
 
         var textGO = new GameObject("Text (TMP)", typeof(RectTransform), typeof(TextMeshProUGUI));
         textGO.transform.SetParent(icon.transform, false);
@@ -160,24 +135,6 @@ public class CharacterUI : MonoBehaviour
 
         Destroy(icon.gameObject);
         activeIcons.Remove(effect.Name);
-    }
-    public void OnClick_Damage()
-    {
-        owner.HealthComp.TakeDamage(5);
-    }
-    public void OnClick_Effect()
-    {
-        StatusEffect effect = new StatusEffect();
-        effect.Name = "Burn";
-        effect.Stack = 3;
-        effect.RemainsTurn = 3;
-        effect.statusEffect = new BurnEffect();
-
-        owner.StatusComp.AddEffect(effect);
-    }
-    public void OnClick_Attack()
-    {
-        owner.AtackComp.Attack();
     }
 
     private void LateUpdate()
