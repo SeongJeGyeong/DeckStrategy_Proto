@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
     public float maxSkillGauge { get; private set; }
 
     public bool isEnemy = false;
+    public bool isAlive = true;
 
     public void Start()
     {
@@ -38,7 +39,7 @@ public class Character : MonoBehaviour
 
     public void Update()
     {
-        //StatusComp.TurnAll(); // 보여주기 용
+
     }
 
     public void EndTurn()

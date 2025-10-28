@@ -38,9 +38,6 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
-    private readonly int[] front = { 4, 5 };
-    private readonly int[] back = { 1, 2, 3 };
-
     //FormationSystem formationSystem;
 
     private void Start()
