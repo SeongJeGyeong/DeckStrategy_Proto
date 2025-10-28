@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.Enums;
 
 
 public class BattleSystem : MonoBehaviour
@@ -191,6 +192,7 @@ public class BattleSystem : MonoBehaviour
             currentChar.AtackComp.targetIndex = targetIndex;
         }
 
+
         currentChar.AtackComp.Attack();
 
         
@@ -251,18 +253,22 @@ public class BattleSystem : MonoBehaviour
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
+            var currentChar = battleSequence[currentTurnIndex];
 
-            // 턴 사이 텀 (연출용)
-            yield return new WaitForSeconds(2.5f);
+            if (currentChar.characterData.rangeType == RangeType.Melee)
+            {
+                yield return new WaitForSeconds(1.5f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
         }
 
         currentRound++;
         currentTurnIndex = 0;
         UpdateUI();
 
-        Debug.Log($" Round {currentRound - 1} 종료");
-
-        //라운드가 끝나면 아이콘 재생성 (SequenceList 복원)
         Resort();
 
         Debug.Log($" Round {currentRound - 1} 종료");
