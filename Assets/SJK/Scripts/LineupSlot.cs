@@ -29,6 +29,8 @@ public class LineupSlot : MonoBehaviour
     public Transform AttackedPosition;
     public OwnedCharacterInfo characterInfo;
 
+    public event System.Action OnCPUpdated;
+
     void Awake()
     {
         // 토글 버튼의 start가 LineupSlot의 Start보다 먼저 실행되어 모델을 생성하지 못할 수도 있기에 Awake에서 호출
@@ -69,6 +71,9 @@ public class LineupSlot : MonoBehaviour
         if(chracterBattleUI != null)
         {
         }
+
+        character.UpdateCombatPower();
+        OnCPUpdated?.Invoke();
     }
 
     public void DeselectCharacter()
@@ -81,6 +86,9 @@ public class LineupSlot : MonoBehaviour
         {
             characterFollowUI.gameObject.SetActive(false);
         }
+
+        character.UpdateCombatPower();
+        OnCPUpdated?.Invoke();
     }
 
     public void ActivateBattleUI()

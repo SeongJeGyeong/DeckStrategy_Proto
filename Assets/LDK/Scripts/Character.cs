@@ -30,6 +30,8 @@ public class Character : MonoBehaviour
     public float maxSkillGauge { get; private set; }
 
     public bool isEnemy = false;
+    public float combatPower { get; private set; }
+
 
     public void Start()
     {
@@ -44,5 +46,17 @@ public class Character : MonoBehaviour
     public void EndTurn()
     {
         statusComp.TurnAll();
+    }
+
+    public void UpdateCombatPower()
+    {
+        if(characterData == null)
+        {
+            combatPower = 0;
+        }
+        else
+        {
+            combatPower = characterData.maxHp + characterData.attack + characterData.defense + characterData.speed;
+        }
     }
 }

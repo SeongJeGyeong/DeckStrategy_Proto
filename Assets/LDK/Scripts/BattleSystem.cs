@@ -41,28 +41,27 @@ public class BattleSystem : MonoBehaviour
     private readonly int[] front = { 4, 5 };
     private readonly int[] back = { 1, 2, 3 };
 
-    //FormationSystem formationSystem;
+    [SerializeField]
+    private TextMeshProUGUI playerCP;
+    [SerializeField]
+    private TextMeshProUGUI enemyCP;
 
     private void Start()
     {
         for (int i = 0; i < enemySlots.Length; i++)
         {
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
+            enemySlot.OnCPUpdated += UpdateEnemyCP;
             if (enemyTeam.characters[i] == null) continue;
             enemySlot.SetSelectedCharacter(enemyTeam.characters[i], true);
         }
+
+        for (int i = 0; i < friendlySlots.Length; i++)
+        {
+            LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
+            friendlySlot.OnCPUpdated += UpdatePlayerCP;
+        }
     }
-
-    //private void AddSlot(int slotindex, CharacterBase characterBase)
-    //{
-    //    friendlyTeam.characters[slotindex] = characterBase; //SetSelectedCharacter(characterBase, false);
-    //}
-
-    //private void ReleaseSlot(int slotindex)
-    //{
-    //    friendlySlots[slotindex].DeselectCharacter();
-    //}
-
 
     private void SortBattleSequence()
     {
@@ -269,4 +268,35 @@ public class BattleSystem : MonoBehaviour
         Debug.Log($" Round {currentRound - 1} Á¾·á");
     }
 
+    void UpdatePlayerCP()
+    {
+        float cp = 0;
+        for (int i = 0; i < friendlySlots.Length; i++)
+        {
+            LineupSlot slot = friendlySlots[i].GetComponent<LineupSlot>();
+            if (slot.character == null || slot.character.characterData == null) continue;
+            cp += slot.character.characterData.maxHp +
+                slot.character.characterData.attack +
+                slot.character.characterData.defense +
+                slot.character.characterData.speed;
+        }
+
+        playerCP.text = cp.ToString();
+    }
+
+    void UpdateEnemyCP()
+    {
+        float cp = 0;
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            LineupSlot slot = enemySlots[i].GetComponent<LineupSlot>();
+            if (slot.character == null || slot.character.characterData == null) continue;
+            cp += slot.character.characterData.maxHp +
+                slot.character.characterData.attack +
+                slot.character.characterData.defense +
+                slot.character.characterData.speed;
+        }
+
+        enemyCP.text = cp.ToString();
+    }
 }
