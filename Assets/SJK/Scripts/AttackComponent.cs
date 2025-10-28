@@ -23,10 +23,9 @@ public class AttackComponent : MonoBehaviour
     private BattleSystem battleSystem;
 
     [SerializeField] 
-    private float impactRadius = 0.15f;
     private bool impactApplied = false;
 
-    BattleSystem battleSystem;
+    
 
     void Start()
     {
@@ -64,18 +63,16 @@ public class AttackComponent : MonoBehaviour
             }
             else
             {
+                if (bullet == null) return;
+
                 Vector3 dir = targetPosition - bullet.transform.position;
-                bullet.transform.Translate(dir.normalized * 1f);
-                if (dir.magnitude <= bulletSpeed)
+                float distanceToTarget = dir.magnitude;
+                float moveDistance = bulletSpeed;
+
+                if (distanceToTarget <= moveDistance)
                 {
-                    bullet.transform.position = targetPosition; 
-                }
-                else
-                {
-                    bullet.transform.position += dir.normalized * bulletSpeed;
-                }
-                if (dir.magnitude <= impactRadius)
-                {
+                    bullet.transform.position = targetPosition;
+
                     if (!impactApplied)
                     {
                         ApplyDamageOnce();
@@ -84,12 +81,11 @@ public class AttackComponent : MonoBehaviour
 
                     isAttacking = false;
 
-                    if (bullet != null)
-                    {
-                        Destroy(bullet);
-                        bullet = null;
-                    }
+                    Destroy(bullet);
+                    bullet = null;
+                    return;
                 }
+                bullet.transform.position += dir.normalized * moveDistance;
             }
         }
     }
