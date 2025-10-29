@@ -5,10 +5,9 @@ public class DataCenter : MonoBehaviour
 {
     [SerializeField]
     private OwnedCharacterTable ownedCharacterTable;
-    [SerializeField]
     public CharacterDataTable characterDataTable;
-    [SerializeField]
     public CharacterModelDataTable characterModelDataTable;
+    public TeamMVPData mvpData;
 
     public CharacterData FindCharacterData(int ID)
     {

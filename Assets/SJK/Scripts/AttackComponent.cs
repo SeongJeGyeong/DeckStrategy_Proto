@@ -123,6 +123,7 @@ public class AttackComponent : MonoBehaviour
 
         float damage = owner.characterData.attack;
         targetChar.HealthComp.TakeDamage(damage);
+        owner.StatusComp.UpdateDamageDealt(damage);
     }
 
 }

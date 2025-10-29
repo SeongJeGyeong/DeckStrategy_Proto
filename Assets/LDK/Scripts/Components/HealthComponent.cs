@@ -42,7 +42,7 @@ public class HealthComponent : MonoBehaviour, IBattleable
         currHp -= amount;
         print($"{name} 데미지 받음");
         OnDamaged?.Invoke(currHp);
-
+        owner.StatusComp.UpdateDamageTaken(amount);
         TriggerKnockback();
     }
     public virtual void Die()
@@ -52,7 +52,7 @@ public class HealthComponent : MonoBehaviour, IBattleable
 
     public virtual void AddEffect(StatusEffect effect) // IBattleable 인터페이스에 AddEffect를 추가해서 공격자가 상태도 부여할 수 있게 함
     {
-        owner.StatusComp.AddEffect(effect);
+        owner.StatusEffectComp.AddEffect(effect);
     }
 
     private void TriggerKnockback()

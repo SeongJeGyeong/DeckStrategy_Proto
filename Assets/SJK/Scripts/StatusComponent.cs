@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharStatusComponent : MonoBehaviour
+public class StatusComponent : MonoBehaviour
 {
     private Character owner;
 

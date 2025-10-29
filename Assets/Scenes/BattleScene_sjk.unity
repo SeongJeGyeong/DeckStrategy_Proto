@@ -4155,6 +4155,7 @@ MonoBehaviour:
   ownedCharacterTable: {fileID: 11400000, guid: 1a11f21ae57c3d34aa6847a855019259, type: 2}
   characterDataTable: {fileID: 11400000, guid: ed07d8c7ee4d90840a2dafe10f2ca495, type: 2}
   characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
+  mvpData: {fileID: 11400000, guid: b5420738ed619244288d3ed612d3f9fe, type: 2}
 --- !u!4 &1074448247
 Transform:
   m_ObjectHideFlags: 0

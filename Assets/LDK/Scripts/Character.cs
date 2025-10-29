@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Enums;
+using static Character;
 
 public class Character : MonoBehaviour
 {
@@ -17,13 +18,13 @@ public class Character : MonoBehaviour
     }
 
     [SerializeField] private HealthComponent healthComp;
-    [SerializeField] private StatusEffectComponent statusComp;
+    [SerializeField] private StatusEffectComponent statusEffectComp;
     [SerializeField] private AttackComponent attackComp;
-    [SerializeField] private CharStatusComponent charStatusComp;
+    [SerializeField] private StatusComponent statusComp;
     public HealthComponent HealthComp => healthComp;
-    public StatusEffectComponent StatusComp => statusComp;
+    public StatusEffectComponent StatusEffectComp => statusEffectComp;
     public AttackComponent AtackComp => attackComp;
-    public CharStatusComponent CharStatusComp => charStatusComp;
+    public StatusComponent StatusComp => statusComp;
 
     public CharacterData characterData;
     public CharacterModelData characterModelData;
@@ -45,7 +46,7 @@ public class Character : MonoBehaviour
 
     public void EndTurn()
     {
-        statusComp.TurnAll();
+        statusEffectComp.TurnAll();
     }
 
     public void UpdateCombatPower()
