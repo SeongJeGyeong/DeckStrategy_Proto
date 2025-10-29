@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Utils.Enums
 {
-    public enum AttributeType
+    public enum EAttributeType
     {
         ROCK, PAPER, SCISSORS
     }

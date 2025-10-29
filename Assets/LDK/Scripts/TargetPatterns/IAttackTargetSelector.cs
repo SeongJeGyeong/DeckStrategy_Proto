@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IAttackTargetSelector
 {
-    public LineupSlot SelectTarget(bool isEnemy);
+    public LineupSlot SelectTarget(Character Attacker);
 }

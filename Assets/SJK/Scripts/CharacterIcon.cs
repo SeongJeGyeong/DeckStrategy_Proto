@@ -36,11 +36,11 @@ public class CharacterIcon : MonoBehaviour
 
         portrait.color = modelData.material.color;
 
-        if(statusData.type == AttributeType.ROCK)
+        if(statusData.type == EAttributeType.ROCK)
         {
             attributeIcon.color = Color.red;
         }
-        else if(statusData.type == AttributeType.SCISSORS)
+        else if(statusData.type == EAttributeType.SCISSORS)
         {
             attributeIcon.color = Color.green;
         }

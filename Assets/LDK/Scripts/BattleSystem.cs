@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,21 +32,20 @@ public class BattleSystem : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI turnText;
 
+    [SerializeField]
+    private TextMeshProUGUI playerCP;
+    [SerializeField]
+    private TextMeshProUGUI enemyCP;
+
     private List<Character> battleSequence = new List<Character>();
     private List<GameObject> sequenceImage = new List<GameObject>();
+
+    private IAttackTargetSelector targetSelector;
 
     private int currentTurnIndex = 0;
     private int currentRound = 1;
 
     private bool isBattleStart = false;
-
-    private readonly int[] front = { 4, 5 };
-    private readonly int[] back = { 1, 2, 3 };
-
-    [SerializeField]
-    private TextMeshProUGUI playerCP;
-    [SerializeField]
-    private TextMeshProUGUI enemyCP;
 
     private void Start()
     {
@@ -62,6 +62,11 @@ public class BattleSystem : MonoBehaviour
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
             friendlySlot.OnCPUpdated += UpdatePlayerCP;
         }
+
+        targetSelector = new ChainedTargetSelector(
+           new PickWeakTarget(this),
+           new PickRandomTarget(this)
+       );
     }
 
     private void SortBattleSequence()
@@ -181,22 +186,9 @@ public class BattleSystem : MonoBehaviour
         if (turnText != null)
             turnText.text = $"{currentChar.characterData.characterName} Turn";
 
-        if (currentChar.isEnemy)
-        {
-            int targetIndex = Random.Range(0, friendlySlots.Length);
-            currentChar.AtackComp.targetIndex = targetIndex;
-        }
-        else
-        {
-            int targetIndex = Random.Range(0, enemySlots.Length);
-            currentChar.AtackComp.targetIndex = targetIndex;
-        }
+        LineupSlot targetslot = targetSelector.SelectTarget(currentChar);
+        currentChar.AtackComp.Attack(targetslot);
 
-
-        currentChar.AtackComp.Attack();
-
-        
-        
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
     private void UpdateUI()

@@ -59,4 +59,8 @@ public class Character : MonoBehaviour
             combatPower = characterData.maxHp + characterData.attack + characterData.defense + characterData.speed;
         }
     }
+    public EAttributeType GetAttributeType()
+    {
+        return characterData.type;
+    }
 }

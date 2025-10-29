@@ -47,16 +47,16 @@ public class ObjectFollowUI : MonoBehaviour
         target = null;
     }
 
-    public void SetCharacterInfo(AttributeType attribute, int level)
+    public void SetCharacterInfo(EAttributeType attribute, int level)
     {
         StringBuilder sb = new StringBuilder("LV." + level.ToString());
         levelText.text = sb.ToString();
 
-        if (attribute == AttributeType.ROCK)
+        if (attribute == EAttributeType.ROCK)
         {
             attributeIcon.color = Color.red;
         }
-        else if (attribute == AttributeType.SCISSORS)
+        else if (attribute == EAttributeType.SCISSORS)
         {
             attributeIcon.color = Color.green;
         }
