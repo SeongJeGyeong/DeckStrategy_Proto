@@ -31,7 +31,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.SCISSORS)
+                            if (slots[i].character.characterData.type== EAttributeType.SCISSORS)
                             {
                                 return slots[i];
                             }
@@ -42,7 +42,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.ROCK)
+                            if (slots[i].character.characterData.type == EAttributeType.ROCK)
                             {
                                 return slots[i];
                             }
@@ -53,7 +53,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.PAPER)
+                            if (slots[i].character.characterData.type == EAttributeType.PAPER)
                             {
                                 return slots[i];
                             }
@@ -80,7 +80,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.SCISSORS)
+                            if (slots[i].character.characterData.type == EAttributeType.SCISSORS)
                             {
                                 return slots[i];
                             }
@@ -91,7 +91,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.ROCK)
+                            if (slots[i].character.characterData.type == EAttributeType.ROCK)
                             {
                                 return slots[i];
                             }
@@ -102,7 +102,7 @@ public class PickWeakTarget : IAttackTargetSelector
                     {
                         for (int i = slots.Length - 1; i >= 0; i--)
                         {
-                            if (slots[i].character.GetAttributeType() == EAttributeType.PAPER)
+                            if (slots[i].character.characterData.type == EAttributeType.PAPER)
                             {
                                 return slots[i];
                             }

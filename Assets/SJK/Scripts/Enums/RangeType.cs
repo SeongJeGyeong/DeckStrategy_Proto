@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Utils.Enums
 {
-    public enum RangeType
+    public enum ERangeType
     {
         Range,
         Melee

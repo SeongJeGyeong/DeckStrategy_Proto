@@ -10,6 +10,9 @@ using Utils.Enums;
 
 public class BattleSystem : MonoBehaviour
 {
+    [SerializeField]
+    private DataCenter dataCenter;
+
     private UserData.Team friendlyTeam = new UserData.Team();
 
     [SerializeField]
@@ -54,6 +57,7 @@ public class BattleSystem : MonoBehaviour
             LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
             enemySlot.OnCPUpdated += UpdateEnemyCP;
             if (enemyTeam.characters[i] == null) continue;
+
             enemySlot.SetSelectedCharacter(enemyTeam.characters[i], true);
         }
 
@@ -78,7 +82,7 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             LineupSlot friendlySlot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (friendlySlot.character.characterData != null && friendlySlot.isPlaced)
+            if (friendlySlot.character != null && friendlySlot.isPlaced)
                 battleSequence.Add(friendlySlot.character);
         }
 
@@ -132,9 +136,9 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < friendlySlots.Length; i++)
         {
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
-            if (slot.character.characterData != null && slot.isPlaced)
+            if (slot.character != null && slot.isPlaced)
             {
-                friendlyTeam.characters[i] = slot.characterInfo;
+                friendlyTeam.characters[i] = slot.character.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -142,9 +146,9 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < enemySlots.Length; i++)
         {
             var slot = enemySlots[i].GetComponent<LineupSlot>();
-            if (slot.characterInfo != null)
+            if (slot.character.characterInfo != null)
             {
-                enemyTeam.characters[i] = slot.characterInfo;
+                enemyTeam.characters[i] = slot.character.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -247,7 +251,7 @@ public class BattleSystem : MonoBehaviour
             NextTurn();
             var currentChar = battleSequence[currentTurnIndex];
 
-            if (currentChar.characterData.rangeType == RangeType.Melee)
+            if (currentChar.characterData.rangeType == ERangeType.Melee)
             {
                 yield return new WaitForSeconds(1.5f);
             }
