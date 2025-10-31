@@ -39,6 +39,9 @@ public class StatusEffectComponent : MonoBehaviour
     }
     public void AddEffect(StatusEffect effect)
     {
+        if (!owner.HealthComp.isAlive)
+            return;
+
         if (_effects.TryGetValue(effect.Name, out StatusEffect getEffect))
         {
             getEffect.Stack += effect.Stack;  // 내부 값 수정
@@ -61,5 +64,11 @@ public class StatusEffectComponent : MonoBehaviour
         _effects.Remove(effect.Name);
         effect.statusEffect.Remove(owner);
         OnEffectRemoved?.Invoke(effect);
+    }
+
+    void OnDisable()
+    {
+        OnEffectAdded = null; // 모든 구독자 제거
+        OnEffectRemoved = null;
     }
 }

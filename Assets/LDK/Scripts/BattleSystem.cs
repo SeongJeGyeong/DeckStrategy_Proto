@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utils.Enums;
 
@@ -67,10 +69,7 @@ public class BattleSystem : MonoBehaviour
             friendlySlot.OnCPUpdated += UpdatePlayerCP;
         }
 
-        targetSelector = new ChainedTargetSelector(
-           new PickWeakTarget(this),
-           new PickRandomTarget(this)
-       );
+        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),new PickRandomTarget(this));
     }
 
     private void SortBattleSequence()
@@ -101,8 +100,8 @@ public class BattleSystem : MonoBehaviour
             var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
             if (portrait != null)
             {
-                Color c = character.characterModelData.material.GetColor("_BaseColor");
-                portrait.color = c;
+                Color color = character.characterModelData.material.GetColor("_BaseColor");
+                portrait.color = color;
             }
             sequenceImage.Add(icon);
         }
@@ -127,6 +126,31 @@ public class BattleSystem : MonoBehaviour
             }
             sequenceImage.Add(icon);
         }
+    }
+
+    public void InitSequence()
+    {
+        currentRound++;
+
+        for (int i = 0; i < battleSequence.Count;)
+        {
+            if (!battleSequence[i].HealthComp.isAlive)
+            {
+                Character character = battleSequence[i];
+                battleSequence.Remove(character);
+                Destroy(character.gameObject);
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        Resort();
+
+        currentTurnIndex = 0;
+
+        UpdateUI();
     }
 
     public void BattleStart()
@@ -171,18 +195,12 @@ public class BattleSystem : MonoBehaviour
 
         if (currentTurnIndex >= battleSequence.Count)
         {
-            currentRound++;
-
-            Resort();
-
-            currentTurnIndex = 0;
-
-            UpdateUI();
+            InitSequence();
             return;
         }
 
         Character currentChar = battleSequence[currentTurnIndex];
-        if (currentChar == null || currentChar.AtackComp == null)
+        if (currentChar == null || currentChar.AtackComp == null || !currentChar.HealthComp.isAlive)
         {
             currentTurnIndex++;
             return;
@@ -195,6 +213,81 @@ public class BattleSystem : MonoBehaviour
 
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
+
+    public void EndBattle()
+    {
+        if (dataCenter == null)
+        {
+            dataCenter = FindFirstObjectByType<DataCenter>();
+            if (dataCenter == null)
+            {
+                return;
+            }
+        }
+
+        if (dataCenter.mvpData == null)
+        {
+            return;
+        }
+
+        var mvp = dataCenter.mvpData;
+
+        // MVP 점수 초기화
+        mvp.char1Score = mvp.char2Score = mvp.char3Score = mvp.char4Score = mvp.char5Score = 0;
+
+        // 모든 아군 캐릭터 가져오기
+        var friendlyChars = new List<Character>();
+        foreach (var slotObj in friendlySlots)
+        {
+            var slot = slotObj.GetComponent<LineupSlot>();
+            if (slot != null && slot.character != null)
+                friendlyChars.Add(slot.character);
+        }
+
+        var ranked = friendlyChars
+            .Where(c => c != null && c.ScoreComp != null)
+            .Select(c => new
+            {
+                Char = c,
+                Score = c.ScoreComp.CalculateMVPScore()
+            })
+            .OrderByDescending(x => x.Score)
+            .ToList();
+
+        if (ranked.Count == 0)
+        {
+            return;
+        }
+
+        if (ranked.Count > 0) ApplyMVP(mvp, 1, ranked[0].Char, ranked[0].Score);
+        if (ranked.Count > 1) ApplyMVP(mvp, 2, ranked[1].Char, ranked[1].Score);
+        if (ranked.Count > 2) ApplyMVP(mvp, 3, ranked[2].Char, ranked[2].Score);
+        if (ranked.Count > 3) ApplyMVP(mvp, 4, ranked[3].Char, ranked[3].Score);
+        if (ranked.Count > 4) ApplyMVP(mvp, 5, ranked[4].Char, ranked[4].Score);
+
+        DontDestroyOnLoad(dataCenter.gameObject);
+
+        SceneManager.LoadScene("ResultScene");
+    }
+
+    private void ApplyMVP(TeamMVPData data, int index, Character character, float score)
+    {
+        if (character == null) return;
+
+        var color = character.characterModelData.material.GetColor("_BaseColor");
+        var name = character.characterData.characterName;
+
+        switch (index)
+        {
+            case 1: data.char1Name = name; data.char1Color = color; data.char1Score = score; break;
+            case 2: data.char2Name = name; data.char2Color = color; data.char2Score = score; break;
+            case 3: data.char3Name = name; data.char3Color = color; data.char3Score = score; break;
+            case 4: data.char4Name = name; data.char4Color = color; data.char4Score = score; break;
+            case 5: data.char5Name = name; data.char5Color = color; data.char5Score = score; break;
+        }
+    }
+
+
     private void UpdateUI()
     {
         if (roundText != null)
@@ -261,12 +354,7 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        currentRound++;
-        currentTurnIndex = 0;
-        UpdateUI();
-
-        Resort();
-
+        InitSequence();
         Debug.Log($" Round {currentRound - 1} 종료");
     }
 

@@ -16,7 +16,7 @@ public struct StatusSpritePair
     public Sprite Sprite;
 }
 
-public class CharacterUI : MonoBehaviour
+public class CharacterBattleUI : MonoBehaviour
 {
     private Character owner;
     //[SerializeField] private Canvas canvas;
@@ -45,6 +45,7 @@ public class CharacterUI : MonoBehaviour
         Debug.Log("Init");
 
         owner = character.GetComponent<Character>();
+        if (owner.characterData == null) return;
 
         activeIcons = new Dictionary<string, Image>();
         healthSlider.maxValue = owner.characterData.maxHp;
@@ -57,6 +58,14 @@ public class CharacterUI : MonoBehaviour
 
         owner.StatusEffectComp.OnEffectAdded += OnEffectAdded;
         owner.StatusEffectComp.OnEffectRemoved += OnEffectRemoved; 
+    }
+
+    private void OnDisable()
+    {
+        owner.HealthComp.OnDamaged -= HealthUpdate;
+
+        owner.StatusEffectComp.OnEffectAdded -= OnEffectAdded;
+        owner.StatusEffectComp.OnEffectRemoved -= OnEffectRemoved;
     }
     private void Awake()
     {

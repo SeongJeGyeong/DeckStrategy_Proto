@@ -1,33 +1,45 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
-public class Result_CharacterDisplay : MonoBehaviour
+public class ResultCharacterDisplay : MonoBehaviour
 {
-    [SerializeField] private Transform characterParent; // 캐릭터 오브젝트를 생성할 부모 (Empty)
-    [SerializeField] private GameObject capsulePrefab;  // 임시 Capsule Prefab
-    [SerializeField] private float spacing = 2f;        // 캐릭터 간 간격
+    private TeamMVPData mvpData;
 
-    [System.Serializable]
-    public class CharacterData
+    void Start()
     {
-        public string name;
-        public int contribution;
+        mvpData = Resources.Load<TeamMVPData>("TeamMVPData");
+        if (mvpData == null)
+        {
+            Debug.LogError("TeamMVPData.asset 을 찾을 수 없습니다! (Assets/Resources/TeamMVPData.asset)");
+            return;
+        }
+
+        // 각 슬롯 자동 세팅
+        SetSlot("MVP1", mvpData.char1Name, mvpData.char1Color);
+        SetSlot("MVP2", mvpData.char2Name, mvpData.char2Color);
+        SetSlot("MVP3", mvpData.char3Name, mvpData.char3Color);
+        SetSlot("MVP4", mvpData.char4Name, mvpData.char4Color);
+        SetSlot("MVP5", mvpData.char5Name, mvpData.char5Color);
     }
 
-    public CharacterData[] characters;
-
-    public void DisplayCharacters()
+    private void SetSlot(string slotName, string charName, Color color)
     {
-        // 기존에 있던 Capsule 제거 (다시 표시할 경우 대비)
-        foreach (Transform child in characterParent)
-            Destroy(child.gameObject);
+        Transform slot = transform.Find($"CharacterList_test/{slotName}");
+        if (slot == null) return;
 
-        // 캐릭터 수만큼 Capsule 생성
-        for (int i = 0; i < characters.Length; i++)
+        Image image = slot.Find("Image1")?.GetComponent<Image>();
+        TMP_Text text = slot.Find("Text_Name1")?.GetComponent<TMP_Text>();
+
+        if (image != null)
         {
-            GameObject cap = Instantiate(capsulePrefab, characterParent);
-            cap.name = characters[i].name;
-            cap.transform.localPosition = new Vector3(i * spacing, 0, 0);
+            image.color = color; // 캐릭터 색상 표시
+        }
+
+        if (text != null)
+        {
+            text.text = string.IsNullOrEmpty(charName) ? "-" : charName;
         }
     }
 }

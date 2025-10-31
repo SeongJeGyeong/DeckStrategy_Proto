@@ -15,7 +15,10 @@ public class HealthComponent : MonoBehaviour, IBattleable
     private float knockbackTimer = 0f;
     private bool isKnockback = false;
 
+    public bool isAlive { get; private set; } = true;
+
     public event Action<float> OnDamaged;
+    public event Action OnDie; 
     private void Start()
     {
         owner = GetComponent<Character>();
@@ -45,22 +48,26 @@ public class HealthComponent : MonoBehaviour, IBattleable
 
     public virtual void TakeDamage(float amount)
     {
+        if (!isAlive)
+            return;
+
         currHp -= amount;
-        print($"{name} 데미지 받음");
+        //print($"{name} 데미지 받음");
         OnDamaged?.Invoke(currHp);
         owner.ScoreComp.UpdateDamageTaken(amount);
         TriggerKnockback();
+
+        if(currHp <= 0)
+        {
+            currHp = 0;
+            Die();
+        }
     }
     public virtual void Die()
     {
-
+        isAlive = false;
+        OnDie?.Invoke();
     }
-
-    public virtual void AddEffect(StatusEffect effect) // IBattleable 인터페이스에 AddEffect를 추가해서 공격자가 상태도 부여할 수 있게 함
-    {
-        owner.StatusEffectComp.AddEffect(effect);
-    }
-
     private void TriggerKnockback()
     {
         if (isKnockback) return;
@@ -72,5 +79,11 @@ public class HealthComponent : MonoBehaviour, IBattleable
 
         knockbackTimer = 0f;
         isKnockback = true;
+    }
+
+    void OnDisable()
+    {
+        OnDamaged = null; // 모든 구독자 제거
+        OnDie = null;
     }
 }

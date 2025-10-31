@@ -23,6 +23,11 @@ public class LineupSlot : MonoBehaviour
         character.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        character.HealthComp.OnDie += DeselectCharacter;
+    }
+
     public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)
     {
         isPlaced = true;

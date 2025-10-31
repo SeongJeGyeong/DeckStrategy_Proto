@@ -127,29 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73e0bcd169fd3f489290c9d5debd3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthComp: {fileID: 3463669732968689085}
-  statusEffectComp: {fileID: 8506069675099762843}
-  attackComp: {fileID: 5740405112984361880}
-  scoreComp: {fileID: 2008841880047365390}
   characterInfo:
     characterID: 0
     characterModelID: 0
     characterLevel: 0
-  characterData:
-    ID: 0
-    maxHp: 0
-    characterName: 
-    type: 0
-    rangeType: 0
-    attack: 0
-    defense: 0
-    speed: 0
-  characterModelData:
-    ID: 0
-    material: {fileID: 0}
   isEnemy: 0
-  isAlive: 1
-  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
+  characterUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
 --- !u!114 &8506069675099762843
 MonoBehaviour:
   m_ObjectHideFlags: 0

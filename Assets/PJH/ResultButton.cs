@@ -1,11 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ResultButton : MonoBehaviour
 {
-    // UI 버튼의 OnClick 이벤트에 연결
+    [SerializeField] private BattleSystem battleSystem;
+
     public void OnExitButtonClicked()
     {
-        SceneManager.LoadScene("ResultScene");
+        if (battleSystem == null)
+            battleSystem = FindFirstObjectByType<BattleSystem>();
+
+        if (battleSystem != null)
+        {
+            battleSystem.EndBattle();
+        }
     }
 }

@@ -36,14 +36,13 @@ public class Character : MonoBehaviour
     public float maxSkillGauge { get; private set; }
 
     public bool isEnemy = false;
-    public bool isAlive = true;
     public float combatPower { get; private set; }
 
     [SerializeField]
     GameObject characterUIPrefab;
 
     CharacterInfoUI characterFollowUI;
-    CharacterUI chracterBattleUI;
+    CharacterBattleUI chracterBattleUI;
 
     private void Awake()
     {
@@ -62,7 +61,7 @@ public class Character : MonoBehaviour
                 characterFollowUI.SetTarget(transform);
                 characterFollowUI.gameObject.SetActive(false);
 
-                chracterBattleUI = ui.GetComponentInChildren<CharacterUI>();
+                chracterBattleUI = ui.GetComponentInChildren<CharacterBattleUI>();
                 chracterBattleUI.Init(this);
                 chracterBattleUI.SetTarget(transform);
                 chracterBattleUI.gameObject.SetActive(false);
@@ -136,5 +135,10 @@ public class Character : MonoBehaviour
         chracterBattleUI.Init(this);
         chracterBattleUI.gameObject.SetActive(true);
         characterFollowUI.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        
     }
 }

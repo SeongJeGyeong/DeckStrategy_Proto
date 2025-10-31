@@ -88,6 +88,9 @@ public class AttackComponent : MonoBehaviour
     {
         if (isAttacking) return;
 
+        if (target == null)
+            return;
+
         targetSlot = target;
         targetPosition = targetSlot.AttackedPosition.position;
         if (owner.characterData.rangeType == ERangeType.Range)
