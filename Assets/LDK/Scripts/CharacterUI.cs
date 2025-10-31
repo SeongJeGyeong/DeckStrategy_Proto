@@ -58,6 +58,14 @@ public class CharacterUI : MonoBehaviour
         owner.StatusEffectComp.OnEffectAdded += OnEffectAdded;
         owner.StatusEffectComp.OnEffectRemoved += OnEffectRemoved; 
     }
+
+    private void OnDisable()
+    {
+        owner.HealthComp.OnDamaged -= HealthUpdate;
+
+        owner.StatusEffectComp.OnEffectAdded -= OnEffectAdded;
+        owner.StatusEffectComp.OnEffectRemoved -= OnEffectRemoved;
+    }
     private void Awake()
     {
         statusSprites = new Dictionary<string, Sprite>();

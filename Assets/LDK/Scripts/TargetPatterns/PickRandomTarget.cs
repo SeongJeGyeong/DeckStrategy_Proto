@@ -1,28 +1,20 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class PickRandomTarget : IAttackTargetSelector
+public class PickRandomTarget : AttackTargetSelectorBase
 {
-    private readonly BattleSystem battleSystem;
-    public PickRandomTarget(BattleSystem system) => battleSystem = system;
-    public virtual LineupSlot SelectTarget(Character Attacker)
+    public PickRandomTarget(BattleSystem battle) : base(battle) { }
+    public override LineupSlot SelectTarget(Character Attacker)
     {
-        if (battleSystem == null)
+        if (battle == null || Attacker == null)
             return null;
 
-        bool isEnemy = Attacker.isEnemy;
-        if (isEnemy)
-        {
-            int Target = UnityEngine.Random.Range(0, battleSystem.friendlySlots.Length);
-            LineupSlot targetslot = battleSystem.friendlySlots[Target].GetComponent<LineupSlot>();
+        List<LineupSlot> alive = GetAliveTargetList(Attacker);
+        if (alive.Count <= 0)
+            return null;
 
-            return targetslot;
-        }
-        else
-        {
-            int Target = UnityEngine.Random.Range(0, battleSystem.enemySlots.Length);
-            LineupSlot targetslot = battleSystem.enemySlots[Target].GetComponent<LineupSlot>();
-
-            return targetslot;
-        }
+        int Target = UnityEngine.Random.Range(0, alive.Count);
+        return alive[Target].GetComponent<LineupSlot>();
     }
 }

@@ -3511,11 +3511,11 @@ MonoBehaviour:
       characterModelID: 10
       characterLevel: 12
   friendlySlots:
+  - {fileID: 636051258}
+  - {fileID: 1072193027}
+  - {fileID: 40700518}
   - {fileID: 1462758778}
   - {fileID: 895510914}
-  - {fileID: 40700518}
-  - {fileID: 1072193027}
-  - {fileID: 636051258}
   enemySlots:
   - {fileID: 589298277}
   - {fileID: 1372342690}

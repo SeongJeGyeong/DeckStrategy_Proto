@@ -68,10 +68,7 @@ public class BattleSystem : MonoBehaviour
             friendlySlot.OnCPUpdated += UpdatePlayerCP;
         }
 
-        targetSelector = new ChainedTargetSelector(
-           new PickWeakTarget(this),
-           new PickRandomTarget(this)
-       );
+        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),new PickRandomTarget(this));
     }
 
     private void SortBattleSequence()
@@ -130,6 +127,31 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    public void InitSequence()
+    {
+        currentRound++;
+
+        for (int i = 0; i < battleSequence.Count;)
+        {
+            if (!battleSequence[i].HealthComp.isAlive)
+            {
+                Character character = battleSequence[i];
+                battleSequence.Remove(character);
+                Destroy(character.gameObject);
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        Resort();
+
+        currentTurnIndex = 0;
+
+        UpdateUI();
+    }
+
     public void BattleStart()
     {
         isBattleStart = true;
@@ -172,18 +194,12 @@ public class BattleSystem : MonoBehaviour
 
         if (currentTurnIndex >= battleSequence.Count)
         {
-            currentRound++;
-
-            Resort();
-
-            currentTurnIndex = 0;
-
-            UpdateUI();
+            InitSequence();
             return;
         }
 
         Character currentChar = battleSequence[currentTurnIndex];
-        if (currentChar == null || currentChar.AtackComp == null)
+        if (currentChar == null || currentChar.AtackComp == null || !currentChar.HealthComp.isAlive)
         {
             currentTurnIndex++;
             return;
@@ -337,12 +353,7 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        currentRound++;
-        currentTurnIndex = 0;
-        UpdateUI();
-
-        Resort();
-
+        InitSequence();
         Debug.Log($" Round {currentRound - 1} Á¾·á");
     }
 

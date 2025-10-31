@@ -47,6 +47,8 @@ public class LineupSlot : MonoBehaviour
         chracterBattleUI.Init(character);
         chracterBattleUI.SetTarget(character.transform);
         chracterBattleUI.gameObject.SetActive(false);
+
+        character.HealthComp.OnDie += DeselectCharacter;
     }
 
     public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)
@@ -82,9 +84,14 @@ public class LineupSlot : MonoBehaviour
         character.characterData = null;
         character.characterModelData = null;
         character.gameObject.SetActive(false);
+
         if (characterFollowUI != null)
         {
             characterFollowUI.gameObject.SetActive(false);
+        }
+        if (chracterBattleUI != null)
+        {
+            chracterBattleUI.gameObject.SetActive(false);
         }
 
         character.UpdateCombatPower();
