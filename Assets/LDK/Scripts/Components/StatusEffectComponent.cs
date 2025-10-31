@@ -39,6 +39,9 @@ public class StatusEffectComponent : MonoBehaviour
     }
     public void AddEffect(StatusEffect effect)
     {
+        if (!owner.HealthComp.isAlive)
+            return;
+
         if (_effects.TryGetValue(effect.Name, out StatusEffect getEffect))
         {
             getEffect.Stack += effect.Stack;  // 내부 값 수정

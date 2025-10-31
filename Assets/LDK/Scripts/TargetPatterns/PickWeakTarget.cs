@@ -17,7 +17,6 @@ public class PickWeakTarget : IAttackTargetSelector
         {
             Utils.Enums.EAttributeType type = Attacker.characterData.type; //공격자가 적이라면 
             int length = battleSystem.friendlySlots.Length;
-
             LineupSlot[] slots = new LineupSlot[length];
 
             for (int i = 0; i < length; i++)

@@ -47,6 +47,8 @@ public class LineupSlot : MonoBehaviour
         chracterBattleUI.Init(character);
         chracterBattleUI.SetTarget(character.transform);
         chracterBattleUI.gameObject.SetActive(false);
+
+        character.HealthComp.OnDie += DeselectCharacter;
     }
 
     public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)

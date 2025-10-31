@@ -31,7 +31,6 @@ public class Character : MonoBehaviour
     public float maxSkillGauge { get; private set; }
 
     public bool isEnemy = false;
-    public bool isAlive = true;
     public float combatPower { get; private set; }
 
     public void Start()
