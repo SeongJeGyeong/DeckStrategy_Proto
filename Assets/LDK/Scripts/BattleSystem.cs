@@ -18,7 +18,7 @@ public class BattleSystem : MonoBehaviour
     private UserData.Team friendlyTeam = new UserData.Team();
 
     [SerializeField]
-    private UserData.Team enemyTeam;
+    private UserData.Team enemyTeam = new UserData.Team();
     [SerializeField]
     public GameObject[] friendlySlots = new GameObject[5];
     public GameObject[] enemySlots = new GameObject[5];
@@ -69,7 +69,9 @@ public class BattleSystem : MonoBehaviour
             friendlySlot.OnCPUpdated += UpdatePlayerCP;
         }
 
-        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),new PickRandomTarget(this));
+        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),
+            new PickHighestHpTarget(this),
+            new PickRandomTarget(this));
     }
 
     private void SortBattleSequence()
@@ -202,6 +204,10 @@ public class BattleSystem : MonoBehaviour
         Character currentChar = battleSequence[currentTurnIndex];
         if (currentChar == null || currentChar.AtackComp == null || !currentChar.HealthComp.isAlive)
         {
+            if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
+            {
+                sequenceImage[currentTurnIndex].SetActive(false);
+            }
             currentTurnIndex++;
             return;
         }
@@ -212,6 +218,7 @@ public class BattleSystem : MonoBehaviour
         currentChar.AtackComp.Attack(targetslot);
 
         StartCoroutine(WaitForAttackEnd(currentChar));
+        return;
     }
 
     public void EndBattle()
@@ -342,6 +349,8 @@ public class BattleSystem : MonoBehaviour
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
+            if (currentTurnIndex >= battleSequence.Count) break;
+
             var currentChar = battleSequence[currentTurnIndex];
 
             if (currentChar.characterData.rangeType == ERangeType.Melee)

@@ -13,7 +13,7 @@ public class ChainedTargetSelector : IAttackTargetSelector
 
             if (slot != null)
             {
-                Debug.Log($"Pattern : {chain[i]}");
+                //Debug.Log($"Pattern : {chain[i]}");
                 return slot;
             }
 

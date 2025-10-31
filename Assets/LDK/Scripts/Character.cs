@@ -99,7 +99,7 @@ public class Character : MonoBehaviour
         if (data == null || modelData == null) return;
 
         characterInfo = info;
-        HealthComp.SetHp(data.maxHp);
+        HealthComp.currHp = data.maxHp;
 
         characterData = data;
         characterModelData = modelData;
@@ -126,6 +126,10 @@ public class Character : MonoBehaviour
         {
             characterFollowUI.gameObject.SetActive(false);
         }
+        if (chracterBattleUI != null)
+        {
+            chracterBattleUI.gameObject.SetActive(false);
+        }
 
         UpdateCombatPower();
     }
@@ -137,8 +141,4 @@ public class Character : MonoBehaviour
         characterFollowUI.gameObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        
-    }
 }
