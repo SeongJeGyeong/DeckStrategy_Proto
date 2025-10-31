@@ -22,8 +22,6 @@ public class AttackComponent : MonoBehaviour
     [SerializeField] 
     private bool impactApplied = false;
 
-    
-
     void Start()
     {
         owner = GetComponent<Character>();
@@ -89,6 +87,9 @@ public class AttackComponent : MonoBehaviour
     public void Attack(LineupSlot target)
     {
         if (isAttacking) return;
+
+        if (target == null)
+            return;
 
         targetSlot = target;
         targetPosition = targetSlot.AttackedPosition.position;

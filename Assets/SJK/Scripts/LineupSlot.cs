@@ -84,9 +84,14 @@ public class LineupSlot : MonoBehaviour
         character.characterData = null;
         character.characterModelData = null;
         character.gameObject.SetActive(false);
+
         if (characterFollowUI != null)
         {
             characterFollowUI.gameObject.SetActive(false);
+        }
+        if (chracterBattleUI != null)
+        {
+            chracterBattleUI.gameObject.SetActive(false);
         }
 
         character.UpdateCombatPower();

@@ -63,4 +63,9 @@ public class Character : MonoBehaviour
     {
         return characterData.type;
     }
+
+    private void OnEnable()
+    {
+        
+    }
 }

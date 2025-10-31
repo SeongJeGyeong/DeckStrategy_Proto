@@ -65,4 +65,10 @@ public class StatusEffectComponent : MonoBehaviour
         effect.statusEffect.Remove(owner);
         OnEffectRemoved?.Invoke(effect);
     }
+
+    void OnDisable()
+    {
+        OnEffectAdded = null; // 모든 구독자 제거
+        OnEffectRemoved = null;
+    }
 }

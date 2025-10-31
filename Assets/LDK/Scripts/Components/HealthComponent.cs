@@ -46,17 +46,22 @@ public class HealthComponent : MonoBehaviour, IBattleable
             return;
 
         currHp -= amount;
-        print($"{name} 데미지 받음");
+        //print($"{name} 데미지 받음");
         OnDamaged?.Invoke(currHp);
         owner.StatusComp.UpdateDamageTaken(amount);
         TriggerKnockback();
+
+        if(currHp <= 0)
+        {
+            currHp = 0;
+            Die();
+        }
     }
     public virtual void Die()
     {
+        isAlive = false;
         OnDie?.Invoke();
-        isAlive = true;
     }
-
     private void TriggerKnockback()
     {
         if (isKnockback) return;
@@ -68,5 +73,11 @@ public class HealthComponent : MonoBehaviour, IBattleable
 
         knockbackTimer = 0f;
         isKnockback = true;
+    }
+
+    void OnDisable()
+    {
+        OnDamaged = null; // 모든 구독자 제거
+        OnDie = null;
     }
 }
