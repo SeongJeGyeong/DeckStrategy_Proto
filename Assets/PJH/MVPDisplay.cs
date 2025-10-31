@@ -1,43 +1,82 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class MVPDisplay : MonoBehaviour
 {
-    [Header("씬의 MVP1 오브젝트")]
-    [SerializeField] private GameObject mvp1Object; // MVP1 오브젝트
-    //전투에 참여했던 데이터 조회 및 출력
+    private DataCenter dataCenter;
+
     void Start()
     {
-        StartCoroutine(UpdateFromMVP1NextFrame());
+        dataCenter = FindFirstObjectByType<DataCenter>();
+        if (dataCenter == null || dataCenter.mvpData == null)
+            return;
+
+        var mvp = dataCenter.mvpData;
+
+        SetSlot("MVP1", "Image", "Text_Name", "Score", "Text_Score", mvp.char1Name, mvp.char1Color, mvp.char1Score, mvp.char1Score);
+        SetSlot("MVP2", "Image", "Text_Name", "Score", "Text_Score", mvp.char2Name, mvp.char2Color, mvp.char2Score, mvp.char1Score);
+        SetSlot("MVP3", "Image", "Text_Name", "Score", "Text_Score", mvp.char3Name, mvp.char3Color, mvp.char3Score, mvp.char1Score);
+        SetSlot("MVP4", "Image", "Text_Name", "Score", "Text_Score", mvp.char4Name, mvp.char4Color, mvp.char4Score, mvp.char1Score);
+        SetSlot("MVP5", "Image", "Text_Name", "Score", "Text_Score", mvp.char5Name, mvp.char5Color, mvp.char5Score, mvp.char1Score);
+
+        SetMainMVP("MVP", "Image", "Text_Name", mvp.char1Name, mvp.char1Color);
     }
 
-    private System.Collections.IEnumerator UpdateFromMVP1NextFrame()
+    private void SetSlot(string slotName, string imageName, string textName, string sliderName, string scoreTextName, string charName
+        , Color color, float score, float maxScore)
     {
-        yield return null; // 한 프레임 대기 → MVP1 SetData가 끝난 뒤
-
-        if (mvp1Object == null)
+        Transform slot = transform.Find(slotName);
+        if (slot == null)
         {
-            Debug.LogWarning("MVP1 오브젝트가 지정되지 않았습니다!");
-            yield break;
+            return;
         }
 
-        // MVP1의 Image 가져오기
-        Image mvpImage = mvp1Object.GetComponentInChildren<Image>();
-        if (mvpImage != null)
+        Image charcterImage = slot.Find(imageName)?.GetComponent<Image>();
+        TMP_Text characterName = slot.Find(textName)?.GetComponent<TMP_Text>();
+        Slider characterScore = slot.Find(sliderName)?.GetComponent<Slider>();
+        TMP_Text scoreText = slot.Find(scoreTextName)?.GetComponent<TMP_Text>();
+
+        if (charcterImage != null)
         {
-            var displayImage = GetComponentInChildren<Image>();
-            if (displayImage != null)
-                displayImage.material = mvpImage.material;
+            charcterImage.color = color;
+        }
+        if (characterName != null)
+        {
+            characterName.text = string.IsNullOrEmpty(charName) ? "-" : charName;
+        }
+        float ratio = (maxScore > 0) ? (score / maxScore) : 0;
+        if (characterScore != null)
+        {
+            characterScore.value = ratio;
         }
 
-        // MVP1의 이름 Text 가져오기
-        TMP_Text mvpName = mvp1Object.GetComponentInChildren<TMP_Text>();
-        if (mvpName != null)
+        if (scoreText != null)
         {
-            var displayName = GetComponentInChildren<TMP_Text>();
-            if (displayName != null)
-                displayName.text = mvpName.text;
+            scoreText.text = $"{score:F0}";
+        }
+            
+    }
+
+    private void SetMainMVP(string slotName, string imageName, string textName, string charName, Color color)
+    {
+        Transform slot = transform.Find(slotName);
+        if (slot == null)
+        {
+            return;
+        }
+
+        Image charcterImage = slot.Find(imageName)?.GetComponent<Image>();
+        TMP_Text characterName = slot.Find(textName)?.GetComponent<TMP_Text>();
+
+        if (charcterImage != null)
+        {
+            charcterImage.color = color;
+        }
+        if (characterName != null)
+        {
+            characterName.text = string.IsNullOrEmpty(charName) ? "-" : charName;
         }
     }
 }
+
