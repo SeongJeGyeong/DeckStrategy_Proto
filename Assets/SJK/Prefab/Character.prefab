@@ -130,7 +130,11 @@ MonoBehaviour:
   healthComp: {fileID: 3463669732968689085}
   statusEffectComp: {fileID: 8506069675099762843}
   attackComp: {fileID: 5740405112984361880}
-  statusComp: {fileID: 2008841880047365390}
+  scoreComp: {fileID: 2008841880047365390}
+  characterInfo:
+    characterID: 0
+    characterModelID: 0
+    characterLevel: 0
   characterData:
     ID: 0
     maxHp: 0
@@ -145,6 +149,7 @@ MonoBehaviour:
     material: {fileID: 0}
   isEnemy: 0
   isAlive: 1
+  followUIPrefab: {fileID: 2879139995223357689, guid: d947c9b7fcf7dab45b738fe9fc92abfa, type: 3}
 --- !u!114 &8506069675099762843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b173466a9505043b657b54aa5cf85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetIndex: 0
   isAttacking: 0
   bulletPrefab: {fileID: 1159801650698535097, guid: e6e6cd0df923f974286ea66ff9cba1e8, type: 3}
   impactApplied: 0

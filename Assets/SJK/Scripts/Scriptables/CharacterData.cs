@@ -8,7 +8,7 @@ public class CharacterData
     public float maxHp;
     public string characterName;
     public EAttributeType type;
-    public RangeType rangeType;
+    public ERangeType rangeType;
     public float attack;
     public float defense;
     public float speed;

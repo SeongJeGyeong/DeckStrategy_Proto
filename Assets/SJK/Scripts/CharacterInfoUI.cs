@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils.Enums;
 
-public class ObjectFollowUI : MonoBehaviour
+public class CharacterInfoUI : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI levelText;

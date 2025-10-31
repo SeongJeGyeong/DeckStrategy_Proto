@@ -1,11 +1,6 @@
 using System;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
-using static Result_CharacterDisplay;
-using static UnityEngine.GraphicsBuffer;
 
 public class FormationSystem : MonoBehaviour
 {
@@ -16,7 +11,6 @@ public class FormationSystem : MonoBehaviour
     private TeamDataTable teamDataTable;
 
     public GameObject[] slots = new GameObject[5];
-    //private UserData.Team[] teams = new UserData.Team[8];
 
     [SerializeField]
     private Transform characterListContent;
@@ -31,6 +25,14 @@ public class FormationSystem : MonoBehaviour
     public CharacterReleasedHandler releaseHandler;
 
     void Start()
+    {
+        //for(int i = 0; i < slots.Length; ++i)
+        //{
+        //    CreateSlot(i);
+        //}
+    }
+
+    private void CreateSlot(int index)
     {
 
     }
@@ -53,6 +55,7 @@ public class FormationSystem : MonoBehaviour
         {
             if (characters[i].characterID == 0) return;
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
+
             slot.SetSelectedCharacter(characters[i], false);
             ++selectedCount;
             CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
@@ -118,7 +121,7 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
-            teamDataTable.teams[selectedTeamIndex].characters[i] = slot.characterInfo;
+            teamDataTable.teams[selectedTeamIndex].characters[i] = slot.character.characterInfo;
         }
 #if UNITY_EDITOR
         EditorUtility.SetDirty(teamDataTable);

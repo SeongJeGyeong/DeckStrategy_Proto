@@ -6,6 +6,7 @@ using static Character;
 public class HealthComponent : MonoBehaviour, IBattleable
 {
     private Character owner;
+
     private float currHp;
     private Vector3 originalPosition;
     private Vector3 knockbackTarget;
@@ -21,7 +22,6 @@ public class HealthComponent : MonoBehaviour, IBattleable
     private void Start()
     {
         owner = GetComponent<Character>();
-        currHp = owner.characterData.maxHp;
     }
 
     private void Update()
@@ -40,6 +40,12 @@ public class HealthComponent : MonoBehaviour, IBattleable
             }
         }
     }
+
+    public void SetHp(float hp)
+    {
+        currHp = hp;
+    }
+
     public virtual void TakeDamage(float amount)
     {
         if (!isAlive)
@@ -48,7 +54,7 @@ public class HealthComponent : MonoBehaviour, IBattleable
         currHp -= amount;
         //print($"{name} 데미지 받음");
         OnDamaged?.Invoke(currHp);
-        owner.StatusComp.UpdateDamageTaken(amount);
+        owner.ScoreComp.UpdateDamageTaken(amount);
         TriggerKnockback();
 
         if(currHp <= 0)

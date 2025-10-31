@@ -38,7 +38,7 @@ public class AttackComponent : MonoBehaviour
     {
         if(isAttacking)
         {
-            if (owner.characterData.rangeType == RangeType.Melee)
+            if (owner.characterData.rangeType == ERangeType.Melee)
             {
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.5f);
                 if(transform.position == targetSlot.AttackedPosition.position)
@@ -93,7 +93,7 @@ public class AttackComponent : MonoBehaviour
 
         targetSlot = target;
         targetPosition = targetSlot.AttackedPosition.position;
-        if (owner.characterData.rangeType == RangeType.Range)
+        if (owner.characterData.rangeType == ERangeType.Range)
         {
             bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }
@@ -113,7 +113,7 @@ public class AttackComponent : MonoBehaviour
 
         float damage = owner.characterData.attack;
         targetChar.HealthComp.TakeDamage(damage);
-        owner.StatusComp.UpdateDamageDealt(damage);
+        owner.ScoreComp.UpdateDamageDealt(damage);
     }
 
 }
