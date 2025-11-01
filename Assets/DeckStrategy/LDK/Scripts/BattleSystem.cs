@@ -337,9 +337,9 @@ public class BattleSystem : MonoBehaviour
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
-            if (currentTurnIndex >= battleSequence.Count) break;
-
             var currentChar = battleSequence[currentTurnIndex];
+
+            if (currentChar == null || !currentChar.BattleComp.isAlive) continue;
 
             if (currentChar.characterData.rangeType == ERangeType.Melee)
             {

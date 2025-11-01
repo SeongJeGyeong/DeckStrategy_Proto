@@ -19,7 +19,7 @@ public struct StatusSpritePair
 
 public class CharacterBattleUI : MonoBehaviour
 {
-    [SerializeField] private RectTransform Panel;
+    [SerializeField] private RectTransform panel;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
