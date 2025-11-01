@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
@@ -16,13 +17,16 @@ public class CharacterIcon : MonoBehaviour
 
     public SelectedButton selectedButton;
 
-    private FormationSystem formationSystem;
-
     public OwnedCharacterInfo characterInfo;
+
+    private event Action<OwnedCharacterInfo, SelectedButton> OnSelected;
+    private event Action<int, SelectedButton> OnDeselected;
 
     private void Awake()
     {
-        formationSystem = FindAnyObjectByType<FormationSystem>();
+        FormationSystem formationSystem = FindAnyObjectByType<FormationSystem>();
+        OnSelected = formationSystem.PlaceCharacter;
+        OnDeselected = formationSystem.ReleaseCharacter;
     }
 
     private void Start()
@@ -54,20 +58,15 @@ public class CharacterIcon : MonoBehaviour
         characterInfo.characterLevel = characterLevel;
     }
 
-    private void OnButtonClicked()
+    public void OnButtonClicked()
     {
         if (selectedButton.isSelected)
         {
-            if(formationSystem.selectedCount > 0)
-            {
-                formationSystem.ReleaseCharacter(characterInfo.characterID);
-                selectedButton.ButtonClicked();
-            }
+            OnDeselected?.Invoke(characterInfo.characterID, selectedButton);
         }
-        else if(formationSystem.selectedCount < 5)
+        else
         {
-            formationSystem.PlaceCharacter(characterInfo);
-            selectedButton.ButtonClicked();
+            OnSelected?.Invoke(characterInfo, selectedButton);
         }
     }
 }

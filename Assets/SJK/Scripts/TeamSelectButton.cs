@@ -15,7 +15,6 @@ public class TeamSelectButton : MonoBehaviour
     public int teamIndex;
     void Start()
     {
-        formationSystem = FindAnyObjectByType<FormationSystem>();
         toggle.onValueChanged.AddListener(OnToggleChanged);
         if(teamIndex == 0)
         {
@@ -27,7 +26,6 @@ public class TeamSelectButton : MonoBehaviour
     {
         toggle.isOn = isOn;
         toggle.image.color = isOn ? Color.gray : Color.white;
-        Debug.Log("toggled");
 
         if (isOn)
         {

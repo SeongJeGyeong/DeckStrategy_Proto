@@ -25,7 +25,7 @@ public class LineupSlot : MonoBehaviour
 
     private void Start()
     {
-        character.HealthComp.OnDie += DeselectCharacter;
+        character.BattleComp.OnDie += DeselectCharacter;
     }
 
     public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)

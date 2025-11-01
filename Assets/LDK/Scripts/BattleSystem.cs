@@ -12,14 +12,11 @@ using Utils.Enums;
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField]
-    private DataCenter dataCenter;
-
-    private UserData.Team friendlyTeam = new UserData.Team();
+    //private UserData.Team friendlyTeam = new UserData.Team();
 
     [SerializeField]
     private UserData.Team enemyTeam;
-    [SerializeField]
+
     public GameObject[] friendlySlots = new GameObject[5];
     public GameObject[] enemySlots = new GameObject[5];
 
@@ -134,7 +131,7 @@ public class BattleSystem : MonoBehaviour
 
         for (int i = 0; i < battleSequence.Count;)
         {
-            if (!battleSequence[i].HealthComp.isAlive)
+            if (!battleSequence[i].BattleComp.isAlive)
             {
                 Character character = battleSequence[i];
                 battleSequence.Remove(character);
@@ -162,7 +159,6 @@ public class BattleSystem : MonoBehaviour
             var slot = friendlySlots[i].GetComponent<LineupSlot>();
             if (slot.character != null && slot.isPlaced)
             {
-                friendlyTeam.characters[i] = slot.character.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -170,9 +166,8 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < enemySlots.Length; i++)
         {
             var slot = enemySlots[i].GetComponent<LineupSlot>();
-            if (slot.character.characterInfo != null)
+            if (slot.character != null)
             {
-                enemyTeam.characters[i] = slot.character.characterInfo;
                 slot.ActivateBattleUI();
             }
         }
@@ -200,7 +195,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         Character currentChar = battleSequence[currentTurnIndex];
-        if (currentChar == null || currentChar.AtackComp == null || !currentChar.HealthComp.isAlive)
+        if (currentChar == null || currentChar.BattleComp == null || !currentChar.BattleComp.isAlive)
         {
             currentTurnIndex++;
             return;
@@ -209,23 +204,16 @@ public class BattleSystem : MonoBehaviour
             turnText.text = $"{currentChar.characterData.characterName} Turn";
 
         LineupSlot targetslot = targetSelector.SelectTarget(currentChar);
-        currentChar.AtackComp.Attack(targetslot);
+        currentChar.BattleComp.Attack(targetslot);
 
         StartCoroutine(WaitForAttackEnd(currentChar));
     }
 
     public void EndBattle()
     {
-        if (dataCenter == null)
-        {
-            dataCenter = FindFirstObjectByType<DataCenter>();
-            if (dataCenter == null)
-            {
-                return;
-            }
-        }
+        DataCenter dataCenter = FindFirstObjectByType<DataCenter>();
 
-        if (dataCenter.mvpData == null)
+        if (dataCenter == null || dataCenter.mvpData == null)
         {
             return;
         }
@@ -312,7 +300,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator WaitForAttackEnd(Character currentChar)
     {
-        yield return new WaitWhile(() => currentChar.AtackComp.isAttacking);
+        yield return new WaitWhile(() => currentChar.BattleComp.isAttacking);
 
         if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
         {

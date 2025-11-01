@@ -14,22 +14,22 @@ public interface IStatusEffect
 public class BurnEffect : IStatusEffect
 {
     public void Apply(Character C) => Debug.Log("화상 시작");
-    public void Turn(Character C) => C.HealthComp.TakeDamage(1);
+    public void Turn(Character C) => C.BattleComp.TakeDamage(1);
     public void Remove(Character C) => Debug.Log("화상 끝");
 }
 
 public class PoisonEffect : IStatusEffect
 {
     public void Apply(Character C) => Debug.Log("독 시작");
-    public void Turn(Character C) => C.HealthComp.TakeDamage(1);
+    public void Turn(Character C) => C.BattleComp.TakeDamage(1);
     public void Remove(Character C) => Debug.Log("독 끝");
 }
 public class StatusEffectComponent : MonoBehaviour
 {
     Character owner;
 
-    public event Action<StatusEffect> OnEffectAdded;
-    public event Action<StatusEffect> OnEffectRemoved;
+    public Action<StatusEffect> OnEffectAdded;
+    public Action<StatusEffect> OnEffectRemoved;
 
     private readonly Dictionary<string,StatusEffect> _effects = new();
 
@@ -39,7 +39,7 @@ public class StatusEffectComponent : MonoBehaviour
     }
     public void AddEffect(StatusEffect effect)
     {
-        if (!owner.HealthComp.isAlive)
+        if (!owner.BattleComp.isAlive)
             return;
 
         if (_effects.TryGetValue(effect.Name, out StatusEffect getEffect))

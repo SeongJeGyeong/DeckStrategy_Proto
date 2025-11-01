@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +10,8 @@ public class FormationSystem : MonoBehaviour
     private TeamDataTable teamDataTable;
 
     public GameObject[] slots = new GameObject[5];
+
+    public UserData.Team selectedTeam { get; private set; }
 
     [SerializeField]
     private Transform characterListContent;
@@ -48,46 +49,53 @@ public class FormationSystem : MonoBehaviour
             slot.DeselectCharacter();
         }
         selectedCount = 0;
-        if (teamDataTable.teams[teamIndex] == null) return;
+        if (teamDataTable.teams[selectedTeamIndex] == null) return;
 
-        OwnedCharacterInfo[] characters = teamDataTable.teams[teamIndex].characters;
+        selectedTeam = teamDataTable.teams[selectedTeamIndex];
+
         for (int i = 0; i < slots.Length; ++i)
         {
-            if (characters[i].characterID == 0) return;
+            if (selectedTeam.characters[i].characterID == 0) return;
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
 
-            slot.SetSelectedCharacter(characters[i], false);
-            ++selectedCount;
+            //slot.SetSelectedCharacter(selectedTeam.characters[i], false);
+            //++selectedCount;
             CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
             foreach (var icon in icons)
             {
-                if (icon.characterInfo.characterID == characters[i].characterID)
+                if (icon.characterInfo.characterID == selectedTeam.characters[i].characterID)
                 {
-                    icon.selectedButton.ButtonClicked();
+                    icon.OnButtonClicked();
+                    //icon.selectedButton.ButtonClicked();
                     break;
                 }
             }
         }
     }
 
-    public void PlaceCharacter(OwnedCharacterInfo info)
+    public void PlaceCharacter(OwnedCharacterInfo info, SelectedButton button)
     {
+        if (selectedCount >= 5) return;
+
         for (int i = 0; i < slots.Length; ++i)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (!slot.isPlaced)
             {
                 slot.SetSelectedCharacter(info, false);
+                selectedTeam.characters[i] = info;
                 ++selectedCount;
-                //placedHandler?.Invoke(i, characterBase);
+                button.ButtonClicked();
                 return;
             }
         }
     }
 
     // 이미 선택된 캐릭터를 해제할 때
-    public void ReleaseCharacter(int characterID)
+    public void ReleaseCharacter(int characterID, SelectedButton button)
     {
+        if (selectedCount <= 0) return;
+
         for (int i = 0; i < slots.Length; ++i)
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
@@ -96,8 +104,10 @@ public class FormationSystem : MonoBehaviour
             if (slot.character.characterData.ID == characterID)
             {
                 slot.DeselectCharacter();
+                selectedTeam.characters[i] = null;
+
                 --selectedCount;
-                //releaseHandler?.Invoke(i);
+                button.ButtonClicked();
                 return;
             }
         }
@@ -121,7 +131,7 @@ public class FormationSystem : MonoBehaviour
         {
             LineupSlot slot = slots[i].GetComponent<LineupSlot>();
             if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
-            teamDataTable.teams[selectedTeamIndex].characters[i] = slot.character.characterInfo;
+            teamDataTable.teams[selectedTeamIndex] = selectedTeam;
         }
 #if UNITY_EDITOR
         EditorUtility.SetDirty(teamDataTable);

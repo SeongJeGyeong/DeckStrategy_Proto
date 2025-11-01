@@ -1,13 +1,5 @@
-using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
-using Utils.Enums;
-using static Character;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Character : MonoBehaviour
 {
@@ -19,16 +11,15 @@ public class Character : MonoBehaviour
         public int RemainsTurn; // 이전부여된 라운드 수 < 이번에부여된 라운드 수 일 경우 이번에부여된 라운드 수로 덮어씌운다.
     }
 
-    private HealthComponent healthComp;
     private StatusEffectComponent statusEffectComp;
-    private AttackComponent attackComp;
+    private BattleComponent battleComp;
     private ScoreComponent scoreComp;
-    public HealthComponent HealthComp => healthComp;
+
     public StatusEffectComponent StatusEffectComp => statusEffectComp;
-    public AttackComponent AtackComp => attackComp;
+    public BattleComponent BattleComp => battleComp;
     public ScoreComponent ScoreComp => scoreComp;
 
-    public OwnedCharacterInfo characterInfo;
+    //public OwnedCharacterInfo characterInfo;
 
     public CharacterData characterData { get; private set; }
     public CharacterModelData characterModelData { get; private set; }
@@ -39,16 +30,16 @@ public class Character : MonoBehaviour
     public float combatPower { get; private set; }
 
     [SerializeField]
-    GameObject characterUIPrefab;
+    private GameObject characterUIPrefab;
 
-    CharacterInfoUI characterFollowUI;
-    CharacterBattleUI chracterBattleUI;
+    private CharacterInfoUI characterInfoUI;
+    private CharacterBattleUI chracterBattleUI;
 
     private void Awake()
     {
-        healthComp = GetComponent<HealthComponent>();
+        //healthComp = GetComponent<HealthComponent>();
         statusEffectComp = GetComponent<StatusEffectComponent>();
-        attackComp = GetComponent<AttackComponent>();
+        battleComp = GetComponent<BattleComponent>();
         scoreComp = GetComponent<ScoreComponent>();
 
         Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
@@ -57,9 +48,9 @@ public class Character : MonoBehaviour
             if (canvas.CompareTag("CharacterUI"))
             {
                 GameObject ui = Instantiate(characterUIPrefab, canvas.transform);
-                characterFollowUI = ui.GetComponentInChildren<CharacterInfoUI>();
-                characterFollowUI.SetTarget(transform);
-                characterFollowUI.gameObject.SetActive(false);
+                characterInfoUI = ui.GetComponentInChildren<CharacterInfoUI>();
+                characterInfoUI.SetTarget(transform);
+                characterInfoUI.gameObject.SetActive(false);
 
                 chracterBattleUI = ui.GetComponentInChildren<CharacterBattleUI>();
                 chracterBattleUI.Init(this);
@@ -98,20 +89,17 @@ public class Character : MonoBehaviour
 
         if (data == null || modelData == null) return;
 
-        characterInfo = info;
-        HealthComp.SetHp(data.maxHp);
+        //characterInfo = info;
+        battleComp.SetHp(data.maxHp);
 
         characterData = data;
         characterModelData = modelData;
         GetComponent<MeshRenderer>().material.color = modelData.material.color;
         gameObject.SetActive(true);
-        if (characterFollowUI != null)
+        if (characterInfoUI != null)
         {
-            characterFollowUI.SetCharacterInfo(data.type, info.characterLevel);
-            characterFollowUI.gameObject.SetActive(true);
-        }
-        if (chracterBattleUI != null)
-        {
+            characterInfoUI.SetCharacterInfo(data.type, info.characterLevel);
+            characterInfoUI.gameObject.SetActive(true);
         }
 
         UpdateCombatPower();
@@ -122,9 +110,9 @@ public class Character : MonoBehaviour
         characterData = null;
         characterModelData = null;
         gameObject.SetActive(false);
-        if (characterFollowUI != null)
+        if (characterInfoUI != null)
         {
-            characterFollowUI.gameObject.SetActive(false);
+            characterInfoUI.gameObject.SetActive(false);
         }
 
         UpdateCombatPower();
@@ -133,12 +121,8 @@ public class Character : MonoBehaviour
     public void ActiveBattleUI()
     {
         chracterBattleUI.Init(this);
-        chracterBattleUI.gameObject.SetActive(true);
-        characterFollowUI.gameObject.SetActive(false);
-    }
 
-    private void OnEnable()
-    {
-        
+        chracterBattleUI.gameObject.SetActive(true);
+        characterInfoUI.gameObject.SetActive(false);
     }
 }

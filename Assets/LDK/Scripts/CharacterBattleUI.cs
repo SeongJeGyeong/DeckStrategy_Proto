@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using static Character;
 using static UnityEngine.GraphicsBuffer;
@@ -18,8 +19,6 @@ public struct StatusSpritePair
 
 public class CharacterBattleUI : MonoBehaviour
 {
-    private Character owner;
-    //[SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform Panel;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
@@ -44,28 +43,29 @@ public class CharacterBattleUI : MonoBehaviour
     {
         Debug.Log("Init");
 
-        owner = character.GetComponent<Character>();
-        if (owner.characterData == null) return;
+        if (character == null || character.characterData == null) return;
 
         activeIcons = new Dictionary<string, Image>();
-        healthSlider.maxValue = owner.characterData.maxHp;
-        healthSlider.value = owner.characterData.maxHp;
+        healthSlider.maxValue = character.characterData.maxHp;
+        healthSlider.value = character.characterData.maxHp;
 
-        gaugeSlider.maxValue = owner.maxSkillGauge;
-        gaugeSlider.value = owner.maxSkillGauge;
+        gaugeSlider.maxValue = character.maxSkillGauge;
+        gaugeSlider.value = character.maxSkillGauge;
 
-        owner.HealthComp.OnDamaged += HealthUpdate;
+        character.BattleComp.OnDamaged = HealthUpdate;
 
-        owner.StatusEffectComp.OnEffectAdded += OnEffectAdded;
-        owner.StatusEffectComp.OnEffectRemoved += OnEffectRemoved; 
+        character.StatusEffectComp.OnEffectAdded = OnEffectAdded;
+        character.StatusEffectComp.OnEffectRemoved = OnEffectRemoved; 
     }
 
     private void OnDisable()
     {
-        owner.HealthComp.OnDamaged -= HealthUpdate;
+        //if (owner == null || owner.characterData == null) return;
 
-        owner.StatusEffectComp.OnEffectAdded -= OnEffectAdded;
-        owner.StatusEffectComp.OnEffectRemoved -= OnEffectRemoved;
+        //owner.BattleComp.OnDamaged -= HealthUpdate;
+
+        //owner.StatusEffectComp.OnEffectAdded -= OnEffectAdded;
+        //owner.StatusEffectComp.OnEffectRemoved -= OnEffectRemoved;
     }
     private void Awake()
     {

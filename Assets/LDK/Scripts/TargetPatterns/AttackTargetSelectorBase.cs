@@ -46,7 +46,7 @@ public abstract class AttackTargetSelectorBase : IAttackTargetSelector
     protected bool IsAlive(Character character)
     {
         return character != null &&
-    character.HealthComp != null &&
-    character.HealthComp.isAlive;
+               character.BattleComp != null &&
+               character.BattleComp.isAlive;
     }
 }
