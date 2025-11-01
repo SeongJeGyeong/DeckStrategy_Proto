@@ -50,9 +50,10 @@ public class AttackComponent : MonoBehaviour
                     }
                     targetPosition = originPosition;
                 }
-                else if(transform.position == originPosition)
+                else if (transform.position == originPosition)
                 {
                     isAttacking = false;
+                    impactApplied = false;
                 }
             }
             else
@@ -74,7 +75,7 @@ public class AttackComponent : MonoBehaviour
                     }
 
                     isAttacking = false;
-
+                    impactApplied = false;
                     Destroy(bullet);
                     bullet = null;
                     return;

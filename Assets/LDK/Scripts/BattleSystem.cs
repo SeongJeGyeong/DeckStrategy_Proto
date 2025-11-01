@@ -52,9 +52,6 @@ public class BattleSystem : MonoBehaviour
 
     private bool isBattleStart = false;
 
-    [SerializeField] 
-    private DataCenter dataCenter;
-
     private void Start()
     {
         for (int i = 0; i < enemySlots.Length; i++)
@@ -194,8 +191,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (!isBattleStart || battleSequence.Count == 0)
             return;
-
-
+        
         if (currentTurnIndex >= battleSequence.Count)
         {
             InitSequence();
@@ -235,10 +231,8 @@ public class BattleSystem : MonoBehaviour
 
         var mvp = dataCenter.mvpData;
 
-        // MVP 점수 초기화
         mvp.char1Score = mvp.char2Score = mvp.char3Score = mvp.char4Score = mvp.char5Score = 0;
 
-        // 모든 아군 캐릭터 가져오기
         var friendlyChars = new List<Character>();
         foreach (var slotObj in friendlySlots)
         {
@@ -248,11 +242,11 @@ public class BattleSystem : MonoBehaviour
         }
 
         var ranked = friendlyChars
-            .Where(c => c != null && c.StatusComp != null)
-            .Select(c => new
+            .Where(fchar => fchar != null && fchar.ScoreComp != null)
+            .Select(fchar => new
             {
-                Char = c,
-                Score = c.StatusComp.CalculateMVPScore()
+                Char = fchar,
+                Score = fchar.ScoreComp.CalculateMVPScore()
             })
             .OrderByDescending(x => x.Score)
             .ToList();
