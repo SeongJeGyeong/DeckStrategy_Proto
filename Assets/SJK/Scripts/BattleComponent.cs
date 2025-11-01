@@ -8,7 +8,7 @@ public class BattleComponent : MonoBehaviour
 {
     private Character owner;
 
-    private float currHp;
+    public float currHp;
 
     public bool isAttacking = false;
 
@@ -55,6 +55,11 @@ public class BattleComponent : MonoBehaviour
             {
                 isKnockback = false;
                 transform.position = originPosition;
+
+                if (!isAlive)
+                {
+                    owner.ClearCharacterInfo(); // 공격받은 모션 끝나면 Clear
+                }
             }
         }
     }
