@@ -101,7 +101,7 @@ public class CharacterBattleUI : MonoBehaviour
         Image icon = go.GetComponent<Image>();
 
         icon.gameObject.SetActive(true);
-        icon.transform.SetParent(panel, false);
+        icon.transform.SetParent(Panel, false);
         icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
 

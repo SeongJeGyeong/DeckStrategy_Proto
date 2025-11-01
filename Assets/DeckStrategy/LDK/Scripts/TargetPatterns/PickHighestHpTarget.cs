@@ -10,7 +10,7 @@ public class PickHighestHpTarget : AttackTargetSelectorBase
         if (Slot.Count <= 0)
             return null;
 
-        Slot.Sort((x, y) => y.character.HealthComp.currHp.CompareTo(x.character.HealthComp.currHp));
+        Slot.Sort((x, y) => y.character.BattleComp.currHp.CompareTo(x.character.BattleComp.currHp));
 
         return Slot[0];
     }

@@ -8,7 +8,7 @@ public class BattleComponent : MonoBehaviour
 {
     private Character owner;
 
-    private float currHp;
+    public float currHp;
 
     public bool isAttacking = false;
 
