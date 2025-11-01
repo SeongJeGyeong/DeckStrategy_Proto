@@ -114,6 +114,10 @@ public class Character : MonoBehaviour
         {
             characterInfoUI.gameObject.SetActive(false);
         }
+        if (chracterBattleUI != null)
+        {
+            chracterBattleUI.gameObject.SetActive(false);
+        }
 
         UpdateCombatPower();
     }

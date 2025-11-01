@@ -5,7 +5,7 @@ using UnityEngine.TextCore.Text;
 public class LineupSlot : MonoBehaviour
 {
     [SerializeField]
-    Character CharacterModelPrefab; // LDK : Character·Î ¼öÁ¤
+    Character CharacterModelPrefab;
 
     Transform slotTransform;
     public bool isPlaced = false;
@@ -21,11 +21,6 @@ public class LineupSlot : MonoBehaviour
         slotTransform = this.transform;
         character = Instantiate(CharacterModelPrefab, slotTransform);
         character.gameObject.SetActive(false);
-    }
-
-    private void Start()
-    {
-        character.BattleComp.OnDie += DeselectCharacter;
     }
 
     public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)

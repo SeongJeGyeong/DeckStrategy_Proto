@@ -66,7 +66,9 @@ public class BattleSystem : MonoBehaviour
             friendlySlot.OnCPUpdated += UpdatePlayerCP;
         }
 
-        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),new PickRandomTarget(this));
+        targetSelector = new ChainedTargetSelector(new PickWeakTarget(this),
+            new PickHighestHpTarget(this),
+            new PickRandomTarget(this));
     }
 
     private void SortBattleSequence()
@@ -197,6 +199,10 @@ public class BattleSystem : MonoBehaviour
         Character currentChar = battleSequence[currentTurnIndex];
         if (currentChar == null || currentChar.BattleComp == null || !currentChar.BattleComp.isAlive)
         {
+            if (currentTurnIndex < sequenceImage.Count && sequenceImage[currentTurnIndex] != null)
+            {
+                sequenceImage[currentTurnIndex].SetActive(false);
+            }
             currentTurnIndex++;
             return;
         }
@@ -207,6 +213,7 @@ public class BattleSystem : MonoBehaviour
         currentChar.BattleComp.Attack(targetslot);
 
         StartCoroutine(WaitForAttackEnd(currentChar));
+        return;
     }
 
     public void EndBattle()
@@ -330,6 +337,8 @@ public class BattleSystem : MonoBehaviour
         while (currentTurnIndex < battleSequence.Count)
         {
             NextTurn();
+            if (currentTurnIndex >= battleSequence.Count) break;
+
             var currentChar = battleSequence[currentTurnIndex];
 
             if (currentChar.characterData.rangeType == ERangeType.Melee)

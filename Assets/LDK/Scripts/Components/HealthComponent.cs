@@ -7,7 +7,7 @@ public class HealthComponent : MonoBehaviour, IBattleable
 {
     private Character owner;
 
-    private float currHp;
+    public float currHp;
     private Vector3 originalPosition;
     private Vector3 knockbackTarget;
     private float knockbackDistance = 0.4f;
@@ -37,13 +37,13 @@ public class HealthComponent : MonoBehaviour, IBattleable
             {
                 isKnockback = false;
                 transform.position = originalPosition;
+
+                if(!isAlive)
+                {
+                    owner.ClearCharacterInfo(); // 공격받은 모션 끝나면 Clear
+                }
             }
         }
-    }
-
-    public void SetHp(float hp)
-    {
-        currHp = hp;
     }
 
     public virtual void TakeDamage(float amount)

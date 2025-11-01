@@ -23,9 +23,6 @@ public class CharacterBattleUI : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider gaugeSlider;
 
-    [SerializeField] private Button damageButton;
-    [SerializeField] private Button effectButton;
-
     [SerializeField] private List<StatusSpritePair> spritePairs;
 
     private Dictionary<string, Sprite> statusSprites;
@@ -41,7 +38,7 @@ public class CharacterBattleUI : MonoBehaviour
 
     public void Init(Character character)
     {
-        Debug.Log("Init");
+        //Debug.Log("Init");
 
         if (character == null || character.characterData == null) return;
 
@@ -104,7 +101,7 @@ public class CharacterBattleUI : MonoBehaviour
         Image icon = go.GetComponent<Image>();
 
         icon.gameObject.SetActive(true);
-        icon.transform.SetParent(Panel, false);
+        icon.transform.SetParent(panel, false);
         icon.rectTransform.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         icon.color = Color.white;
 
